@@ -36,9 +36,6 @@ public:
 
 private:
 
-
-private:
-
 	/// <summary>
 	/// ƒ‚ƒfƒ‹•`‰æ—p•Ï”
 	/// </summary>
