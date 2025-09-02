@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 class TransForm;
 class Actor : public IGameObject
@@ -6,30 +6,30 @@ class Actor : public IGameObject
 public:
 
 	/// <summary>
-	/// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	/// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	/// </summary>
 	Actor();
 
 	/// <summary>
-	/// ƒfƒXƒgƒ‰ƒNƒ^
+	/// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	/// </summary>
 	~Actor();
 
 public:
 
 	/// <summary>
-	/// ƒIƒuƒWƒFƒNƒg¶¬‚Éˆê“x‚¾‚¯Às‚³‚ê‚éŠÖ”
+	/// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆæ™‚ã«ä¸€åº¦ã ã‘å®Ÿè¡Œã•ã‚Œã‚‹é–¢æ•°
 	/// </summary>
 	/// <returns></returns>
 	virtual bool Start()override = 0;
 
 	/// <summary>
-	/// –ˆƒtƒŒ[ƒ€ŒÄ‚Ño‚³‚ê‚éŠÖ”
+	/// æ¯ãƒ•ãƒ¬ãƒ¼ãƒ å‘¼ã³å‡ºã•ã‚Œã‚‹é–¢æ•°
 	/// </summary>
 	virtual void Update()override = 0;
 
 	/// <summary>
-	/// ƒ‚ƒfƒ‹‚Ì•`‰æˆ—‚ğs‚¤ŠÖ”
+	/// ãƒ¢ãƒ‡ãƒ«ã®æç”»å‡¦ç†ã‚’è¡Œã†é–¢æ•°
 	/// </summary>
 	/// <param name="rc"></param>
 	virtual void Render(RenderContext& rc)override = 0;
@@ -37,7 +37,7 @@ public:
 private:
 
 	/// <summary>
-	/// ƒ‚ƒfƒ‹•`‰æ—p•Ï”
+	/// ãƒ¢ãƒ‡ãƒ«æç”»ç”¨å¤‰æ•°
 	/// </summary>
 	ModelRender m_model;
 };

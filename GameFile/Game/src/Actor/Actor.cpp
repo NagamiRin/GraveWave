@@ -1,22 +1,22 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "src/Actor/Actor.h"
 
 /// <summary>
-/// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+/// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 /// </summary>
 Actor::Actor()
 {
 }
 
 /// <summary>
-/// ƒfƒXƒgƒ‰ƒNƒ^
+/// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 /// </summary>
 Actor::~Actor()
 {
 }
 
 /// <summary>
-/// ƒIƒuƒWƒFƒNƒg¶¬Žž‚Éˆê“x‚¾‚¯ŽÀs‚³‚ê‚éŠÖ”
+/// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆæ™‚ã«ä¸€åº¦ã ã‘å®Ÿè¡Œã•ã‚Œã‚‹é–¢æ•°
 /// </summary>
 /// <returns></returns>
 bool Actor::Start()
@@ -27,7 +27,7 @@ bool Actor::Start()
 }
 
 /// <summary>
-/// –ˆƒtƒŒ[ƒ€ŒÄ‚Ño‚³‚ê‚éŠÖ”
+/// æ¯Žãƒ•ãƒ¬ãƒ¼ãƒ å‘¼ã³å‡ºã•ã‚Œã‚‹é–¢æ•°
 /// </summary>
 void Actor::Update()
 {
@@ -35,7 +35,7 @@ void Actor::Update()
 }
 
 /// <summary>
-/// ƒ‚ƒfƒ‹‚Ì•`‰æˆ—‚ðs‚¤ŠÖ”
+/// ãƒ¢ãƒ‡ãƒ«ã®æç”»å‡¦ç†ã‚’è¡Œã†é–¢æ•°
 /// </summary>
 /// <param name="rc"></param>
 void Actor::Render(RenderContext& rc) 
