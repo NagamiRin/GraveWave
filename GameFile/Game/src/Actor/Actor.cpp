@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "src/Bases/Actor.h"
+#include "src/Actor/Actor.h"
 
 /// <summary>
 /// コンストラクタ
