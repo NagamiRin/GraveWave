@@ -1,35 +1,35 @@
 #pragma once
-#include "Actor.h"
+#include "src/Actor/Actor.h"
 
-class ICharacter :public Actor
+class CharacterBase :public Actor
 {
 public:
 
 	/// <summary>
-	/// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	/// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	/// </summary>
-	ICharacter();
+	CharacterBase();
 
 	/// <summary>
-	/// ƒfƒXƒgƒ‰ƒNƒ^
+	/// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	/// </summary>
-	~ICharacter();
+	~CharacterBase();
 
 public:
 
 	/// <summary>
-	/// ¶¬Žž‚Éˆê“x‚¾‚¯ŒÄ‚Î‚ê‚éŠÖ”
+	/// ç”Ÿæˆæ™‚ã«ä¸€åº¦ã ã‘å‘¼ã°ã‚Œã‚‹é–¢æ•°
 	/// </summary>
 	/// <returns></returns>
 	bool Start()override;
 
 	/// <summary>
-	/// –ˆƒtƒŒ[ƒ€ŒÄ‚Î‚ê‚éXVˆ—
+	/// æ¯Žãƒ•ãƒ¬ãƒ¼ãƒ å‘¼ã°ã‚Œã‚‹æ›´æ–°å‡¦ç†
 	/// </summary>
 	void Update()override;
 
 	/// <summary>
-	/// •`‰æˆ—
+	/// æç”»å‡¦ç†
 	/// </summary>
 	/// <param name="rc"></param>
 	void Render(RenderContext& rc)override;
@@ -37,12 +37,12 @@ public:
 private:
 
 	/// <summary>
-	/// ˆÚ“®•ûŒü‚Æ‘¬“x‚ð•\‚·ƒxƒNƒgƒ‹
+	/// ç§»å‹•æ–¹å‘ã¨é€Ÿåº¦ã‚’è¡¨ã™ãƒ™ã‚¯ãƒˆãƒ«
 	/// </summary>
 	Vector3 m_speed = Vector3::Zero;
 
 	/// <summary>
-	/// ƒLƒƒƒ‰ƒNƒ^[‚ÌŒü‚¢‚Ä‚¢‚é•ûŒü‚ð•\‚·ƒxƒNƒgƒ‹
+	/// ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®å‘ã„ã¦ã„ã‚‹æ–¹å‘ã‚’è¡¨ã™ãƒ™ã‚¯ãƒˆãƒ«
 	/// </summary>
 	Vector3 m_direction = Vector3::Zero;
 
