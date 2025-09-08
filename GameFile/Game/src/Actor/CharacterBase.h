@@ -33,7 +33,6 @@ public:
 	/// </summary>
 	/// <param name="rc"></param>
 	void Render(RenderContext& rc)override;
-
 private:
 
 	/// <summary>
