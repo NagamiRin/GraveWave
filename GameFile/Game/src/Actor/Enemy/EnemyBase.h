@@ -48,11 +48,6 @@ public:
 private:
 
 	/// <summary>
-	/// 体力。全損すると死亡。
-	/// </summary>
-	int m_hp = 0;
-
-	/// <summary>
 	/// 現在の行動状態。
 	/// </summary>
 	int m_currentState = 0;
