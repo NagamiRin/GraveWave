@@ -46,5 +46,4 @@ private:
 	/// </summary>
 	Vector3 m_direction = Vector3::Zero;
 
-
 };
