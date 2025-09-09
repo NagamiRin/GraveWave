@@ -20,7 +20,7 @@ namespace nsApp
 			{
 			private:
 				/** 耐久度 */
-				uint16_t m_durability = 0;
+				uint16_t m_hp = 0;
 
 
 			public:
