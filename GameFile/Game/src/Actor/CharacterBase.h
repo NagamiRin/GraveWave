@@ -1,48 +1,42 @@
+/**
+ * CharacterBase.h
+ * 
+ * キャラクターのベース
+ */
 #pragma once
 #include "src/Actor/Actor.h"
 
-class CharacterBase :public Actor
+
+namespace nsApp
 {
-public:
+	namespace nsActor
+	{
+		/**
+		 * キャラクターの基底クラス
+		 */
+		class CharacterBase :public Actor
+		{
+		private:
+			/** 移動方向と速度を表すベクトル */
+			Vector3 m_speed = Vector3::Zero;
+			/** キャラクターの向いている方向を表すベクトル */
+			Vector3 m_direction = Vector3::Zero;
 
-	/// <summary>
-	/// コンストラクタ
-	/// </summary>
-	CharacterBase();
 
-	/// <summary>
-	/// デストラクタ
-	/// </summary>
-	~CharacterBase();
+		public:
+			/** コンストラクタ */
+			CharacterBase();
+			/** デストラクタ */
+			~CharacterBase();
 
-public:
 
-	/// <summary>
-	/// 生成時に一度だけ呼ばれる関数
-	/// </summary>
-	/// <returns></returns>
-	bool Start()override;
-
-	/// <summary>
-	/// 毎フレーム呼ばれる更新処理
-	/// </summary>
-	void Update()override;
-
-	/// <summary>
-	/// 描画処理
-	/// </summary>
-	/// <param name="rc"></param>
-	void Render(RenderContext& rc)override;
-private:
-
-	/// <summary>
-	/// 移動方向と速度を表すベクトル
-	/// </summary>
-	Vector3 m_speed = Vector3::Zero;
-
-	/// <summary>
-	/// キャラクターの向いている方向を表すベクトル
-	/// </summary>
-	Vector3 m_direction = Vector3::Zero;
-
-};
+		public:
+			/** 生成時に一度だけ呼ばれる関数 */
+			bool Start()override;
+			/** 毎フレーム呼ばれる更新処理 */
+			void Update()override;
+			/** 描画処理 */
+			void Render(RenderContext& rc)override;
+		};
+	}
+}

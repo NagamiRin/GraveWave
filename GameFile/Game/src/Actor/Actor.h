@@ -1,44 +1,43 @@
-﻿#pragma once
+/**
+ * Actor.h
+ *
+ * ゲームオブジェクトのベース
+ */
+#pragma once
 
-class TransForm;
-class Actor : public IGameObject
+
+class Transform;
+
+namespace nsApp
 {
-public:
+	namespace nsActor
+	{
+		/**
+		 *ゲームオブジェクトの基底クラス
+		 */
+		class Actor : public IGameObject
+		{
+		public:
+			/** コンストラクタ */
+			Actor();
+			/** デストラクタ */
+			~Actor();
 
-	/// <summary>
-	/// コンストラクタ
-	/// </summary>
-	Actor();
 
-	/// <summary>
-	/// デストラクタ
-	/// </summary>
-	~Actor();
+		public:
+			/** オブジェクト生成時に一度だけ実行される関数 */
+			virtual bool Start()override = 0;
+			/** 毎フレーム呼び出される関数 */
+			virtual void Update()override = 0;
+			/** モデルの描画処理を行う関数 */
+			virtual void Render(RenderContext& rc)override = 0;
 
-public:
 
-	/// <summary>
-	/// オブジェクト生成時に一度だけ実行される関数
-	/// </summary>
-	/// <returns></returns>
-	virtual bool Start()override = 0;
+		private:
+			/** モデル描画用変数  */
+			ModelRender m_model;
+		};
+	}
+}
 
-	/// <summary>
-	/// 毎フレーム呼び出される関数
-	/// </summary>
-	virtual void Update()override = 0;
-
-	/// <summary>
-	/// モデルの描画処理を行う関数
-	/// </summary>
-	/// <param name="rc"></param>
-	virtual void Render(RenderContext& rc)override = 0;
-
-private:
-
-	/// <summary>
-	/// モデル描画用変数
-	/// </summary>
-	ModelRender m_model;
-};
 

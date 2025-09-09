@@ -1,42 +1,39 @@
+/**
+ * EnemyBase.cpp
+ *
+ * エネミーの基底クラス
+ */
 #include "stdafx.h"
 #include "src/Actor/Enemy/EnemyBase.h"
 
-/// <summary>
-/// コンストラクタ
-/// </summary>
-EnemyBase::EnemyBase()
+
+namespace nsApp
 {
-}
+	namespace nsActor
+	{
+		EnemyBase::EnemyBase()
+		{
+		}
 
-/// <summary>
-/// デストラクタ
-/// </summary>
-EnemyBase::~EnemyBase()
-{
-}
 
-/// <summary>
-/// 生成時に一度だけ呼ばれる関数
-/// </summary>
-/// <returns></returns>
-bool EnemyBase::Start()
-{
-	return true;
-}
+		EnemyBase::~EnemyBase()
+		{
+		}
 
-/// <summary>
-/// 毎フレーム呼ばれる更新処理
-/// </summary>
-void EnemyBase::Update()
-{
 
-}
+		bool EnemyBase::Start()
+		{
+			return true;
+		}
 
-/// <summary>
-/// 描画処理
-/// </summary>
-/// <param name="rc"></param>
-void EnemyBase::Render(RenderContext& rc)
-{
 
+		void EnemyBase::Update()
+		{
+		}
+
+
+		void EnemyBase::Render(RenderContext& rc)
+		{
+		}
+	}
 }
