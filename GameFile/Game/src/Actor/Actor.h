@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Actor.h
  *
  * ゲームオブジェクトのベース
@@ -6,17 +6,27 @@
 #pragma once
 
 
-class Transform;
-
 namespace nsApp
 {
 	namespace nsActor
 	{
+		class ActorStatus;
+
+
 		/**
 		 *ゲームオブジェクトの基底クラス
 		 */
 		class Actor : public IGameObject
 		{
+		private:
+			/** モデル描画用変数 */
+			ModelRender m_model;
+			/** トランスフォーム */
+			Transform m_transform;
+			/** ステータスのポインタ */
+			ActorStatus* m_status = nullptr;
+
+
 		public:
 			/** コンストラクタ */
 			Actor();
@@ -33,9 +43,9 @@ namespace nsApp
 			virtual void Render(RenderContext& rc)override = 0;
 
 
-		private:
-			/** モデル描画用変数  */
-			ModelRender m_model;
+		public:
+			const Vector3& GetPosition() const { return m_transform.m_position; }
+			void SetPosition(const Vector3& position) { m_transform.m_position = position; }
 		};
 	}
 }
