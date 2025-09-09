@@ -1,7 +1,7 @@
 /**
  * EnemyStatus.cpp
  *
- * アクターステータス
+ * エネミーステータス
  */
 #include "stdafx.h"
 #include "EnemyStatus.h"

@@ -1,7 +1,7 @@
 /**
  * EnemyStatus.h
  *
- * アクターステータス
+ * エネミーステータス
  */
 #pragma once
 
@@ -12,14 +12,13 @@ namespace nsApp
 	namespace nsActor
 	{
 		/**
-		 * アクターのステータスクラス
-		 * NOTE: 中身は空だが、すべてのステータスクラスの基底となる
+		 * エネミーのステータスクラス
 		 */
 		class EnemyStatus : public ActorStatus
 		{
 		private:
 			/** 体力 */
-			uint32_t m_hp = 0;
+			uint16_t m_hp = 0;
 
 
 		public:
