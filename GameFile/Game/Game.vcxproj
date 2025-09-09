@@ -225,6 +225,13 @@
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\Actor\Actor.cpp" />
+    <ClCompile Include="src\Actor\ActorStatus.cpp" />
+    <ClCompile Include="src\Actor\CharacterBase.cpp" />
+    <ClCompile Include="src\Actor\Enemy\EnemyBase.cpp" />
+    <ClCompile Include="src\Actor\Enemy\EnemyStatus.cpp" />
+    <ClCompile Include="src\Actor\Wall\WallStatus.cpp" />
+    <ClCompile Include="src\Transform.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -234,6 +241,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
+    <ClInclude Include="src\Actor\Actor.h" />
+    <ClInclude Include="src\Actor\ActorStatus.h" />
+    <ClInclude Include="src\Actor\CharacterBase.h" />
+    <ClInclude Include="src\Actor\Enemy\EnemyBase.h" />
+    <ClInclude Include="src\Actor\Enemy\EnemyStatus.h" />
+    <ClInclude Include="src\Actor\Wall\WallStatus.h" />
+    <ClInclude Include="src\Transform.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
   </ItemGroup>

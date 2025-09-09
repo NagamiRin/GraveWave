@@ -4,6 +4,9 @@
     <Filter Include="system">
       <UniqueIdentifier>{22dd8095-74f9-46df-81a1-36675a040b1f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor">
+      <UniqueIdentifier>{cfb0ffa8-58eb-417e-8659-952e0d6a921d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -12,6 +15,25 @@
       <Filter>system</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="src\Transform.cpp" />
+    <ClCompile Include="src\Actor\Actor.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\ActorStatus.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\CharacterBase.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Enemy\EnemyBase.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Enemy\EnemyStatus.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Wall\WallStatus.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -19,5 +41,24 @@
       <Filter>system</Filter>
     </ClInclude>
     <ClInclude Include="Game.h" />
+    <ClInclude Include="src\Transform.h" />
+    <ClInclude Include="src\Actor\Actor.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\ActorStatus.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\CharacterBase.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Enemy\EnemyBase.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Enemy\EnemyStatus.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Wall\WallStatus.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
