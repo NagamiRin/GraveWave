@@ -18,7 +18,7 @@ namespace nsApp
 		 */
 		class Actor : public IGameObject
 		{
-		private:
+		protected:
 			/** モデル描画用変数 */
 			ModelRender m_model;
 			/** トランスフォーム */
@@ -31,7 +31,7 @@ namespace nsApp
 			/** コンストラクタ */
 			Actor();
 			/** デストラクタ */
-			~Actor();
+			virtual ~Actor();
 
 
 		public:
@@ -46,6 +46,10 @@ namespace nsApp
 		public:
 			const Vector3& GetPosition() const { return m_transform.m_position; }
 			void SetPosition(const Vector3& position) { m_transform.m_position = position; }
+			const Quaternion& GetRotation() const { return m_transform.m_rotation; }
+			void SetRotation(const Quaternion& rotation) { m_transform.m_rotation = rotation; }	
+			const Vector3& GetScale() const { return m_transform.m_scale; }
+			void SetScale(const Vector3& scale) { m_transform.m_scale = scale; }
 		};
 	}
 }
