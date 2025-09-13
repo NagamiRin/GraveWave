@@ -32,6 +32,10 @@ namespace nsApp
 
 				/** セットアップ */
 				void Setup() override;
+
+
+			public:
+				float GetMoveSpeed() const { return m_moveSpeed; }
 			};
 		}
 	}

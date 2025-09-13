@@ -5,6 +5,7 @@
  */
 #include "stdafx.h"
 #include "src/Actor/Player/PlayerStatus.h"
+#include "src/core/ParameterManager.h"
 
 
 namespace nsApp
@@ -15,16 +16,24 @@ namespace nsApp
 		{
 			PlayerStatus::PlayerStatus()
 			{
+				ParameterManager::Get().LoadParameter<MasterPlayerStatus>("Assets/Status/Player/PlayerStatus.json", [](const nlohmann::json& j, MasterPlayerStatus& p)
+					{
+						p.m_moveSpeed = j["MoveSpeed"].get<float>();
+
+					});
 			}
 
 
 			PlayerStatus::~PlayerStatus()
 			{
+				ParameterManager::Get().UnloadParameter<MasterPlayerStatus>();
 			}
 
 
 			void PlayerStatus::Setup()
 			{
+				auto* parameter = ParameterManager::Get().GetParameter<MasterPlayerStatus>();
+				m_moveSpeed = parameter->m_moveSpeed;
 			}
 		}
 	}

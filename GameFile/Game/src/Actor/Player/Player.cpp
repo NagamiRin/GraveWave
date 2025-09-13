@@ -15,11 +15,15 @@ namespace nsApp
 		{
 			Player::Player()
 			{
+				m_status = new PlayerStatus();
+				m_status->Setup();
 			}
 
 
 			Player::~Player()
 			{
+				delete m_status;
+				m_status = nullptr;
 			}
 
 
