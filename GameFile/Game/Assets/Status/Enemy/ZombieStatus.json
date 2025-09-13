@@ -1,0 +1,10 @@
+[
+    {
+        "Commnet": "ゾンビ用のパラメータ",
+        "Status": {
+        "HP":10,
+        "AttackPower":3,
+        "moveSpeed":10.0
+        }
+    }
+]
