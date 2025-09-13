@@ -230,7 +230,11 @@
     <ClCompile Include="src\Actor\CharacterBase.cpp" />
     <ClCompile Include="src\Actor\Enemy\EnemyBase.cpp" />
     <ClCompile Include="src\Actor\Enemy\EnemyStatus.cpp" />
+    <ClCompile Include="src\Actor\Gun\GunStatus.cpp" />
+    <ClCompile Include="src\Actor\Player\Player.cpp" />
+    <ClCompile Include="src\Actor\Player\PlayerStatus.cpp" />
     <ClCompile Include="src\Actor\Wall\WallStatus.cpp" />
+    <ClCompile Include="src\Core\ParameterManager.cpp" />
     <ClCompile Include="src\Transform.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -246,8 +250,14 @@
     <ClInclude Include="src\Actor\CharacterBase.h" />
     <ClInclude Include="src\Actor\Enemy\EnemyBase.h" />
     <ClInclude Include="src\Actor\Enemy\EnemyStatus.h" />
+    <ClInclude Include="src\Actor\Gun\GunStatus.h" />
+    <ClInclude Include="src\Actor\Player\Player.h" />
+    <ClInclude Include="src\Actor\Player\PlayerStatus.h" />
     <ClInclude Include="src\Actor\Wall\WallStatus.h" />
+    <ClInclude Include="src\Core\ParameterManager.h" />
+    <ClInclude Include="src\Json\json.hpp" />
     <ClInclude Include="src\Transform.h" />
+    <ClInclude Include="src\Util\CRC32.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
   </ItemGroup>
