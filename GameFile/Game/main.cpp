@@ -4,8 +4,10 @@
 #include<InitGUID.h>
 #include<dxgidebug.h>
 
-#include "Game.h"
+#include "src/Core/Game.h"
 #include "src/Core/ParameterManager.h"
+#include "src/Sound/SoundManager.h"
+#include "src/Effect/EffectManager.h"
 
 
 void ReportLiveObjects()
@@ -33,11 +35,22 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	// ここから初期化を行うコードを記述する。
 	//////////////////////////////////////
 
-	//Gameクラスのオブジェクトを作成。
-	NewGO<Game>(0, "game");
+	//レイトレーシングをオフ
+	g_renderingEngine->DisableRaytracing();
+	//トーンマッピングをオフ
+	g_renderingEngine->DisableTonemap();
+	//アンビエントにIBLテクスチャを使用しない
+	g_renderingEngine->DisableIBLTextureForAmbient();
+
 	//パラメーターマネージャーのインスタンスを生成。
 	ParameterManager::CreateInstance();
-	
+	//サウンドマネージャのインスタンスを生成
+	nsApp::SoundManager::CreateInstance();
+	//エフェクトマネージャークラスのインスタンスを生成
+	nsApp::EffectManager::CreateInstance();
+	//Gameクラスのオブジェクトを作成。
+	NewGO<nsApp::nsCore::Game>(0, "game");
+
 
 	//////////////////////////////////////
 	// 初期化を行うコードを書くのはここまで！！！

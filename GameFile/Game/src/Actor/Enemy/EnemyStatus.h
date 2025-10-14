@@ -1,4 +1,4 @@
-/**
+﻿/**
  * EnemyStatus.h
  *
  * エネミーステータス
@@ -11,25 +11,28 @@ namespace nsApp
 {
 	namespace nsActor
 	{
-		/**
-		 * エネミーのステータスクラス
-		 */
-		class EnemyStatus : public ActorStatus
+		namespace nsEnemy
 		{
-		private:
-			/** 体力 */
-			uint16_t m_hp = 0;
+			/**
+			 * エネミーのステータスクラス
+			 */
+			class EnemyStatus : public ActorStatus
+			{
+			private:
+				/** 体力 */
+				uint16_t m_hp = 0;
 
 
-		public:
-			/** コンストラクタ */
-			EnemyStatus();
-			/** デストラクタ */
-			~EnemyStatus();
+			public:
+				/** コンストラクタ */
+				EnemyStatus();
+				/** デストラクタ */
+				~EnemyStatus();
 
 
-			/** セットアップ */
-			void Setup() override;
-		};
+				/** セットアップ */
+				void Setup() override;
+			};
+		}
 	}
 }

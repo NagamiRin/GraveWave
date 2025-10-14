@@ -1,4 +1,4 @@
-/**
+﻿/**
  * CharacterBase.cpp
  * 
  * キャラクターのベース
@@ -29,11 +29,21 @@ namespace nsApp
 		
 		void CharacterBase::Update()
 		{
+			ApplySpeed();
+
+			m_transform.UpdateTransform();
 		}
 
 		
 		void CharacterBase::Render(RenderContext& rc)
 		{
+		}
+
+
+		void CharacterBase::ApplySpeed()
+		{
+			Vector3 moveAmount = m_speed / g_gameTime->GetFrameDeltaTime();
+			m_transform.m_localPosition += moveAmount;
 		}
 	}
 }

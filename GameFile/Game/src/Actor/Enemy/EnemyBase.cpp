@@ -1,4 +1,4 @@
-/**
+﻿/**
  * EnemyBase.cpp
  *
  * エネミーの基底クラス
@@ -11,29 +11,32 @@ namespace nsApp
 {
 	namespace nsActor
 	{
-		EnemyBase::EnemyBase()
+		namespace nsEnemy
 		{
-		}
+			EnemyBase::EnemyBase()
+			{
+			}
 
 
-		EnemyBase::~EnemyBase()
-		{
-		}
+			EnemyBase::~EnemyBase()
+			{
+			}
 
 
-		bool EnemyBase::Start()
-		{
-			return true;
-		}
+			bool EnemyBase::Start()
+			{
+				return true;
+			}
 
 
-		void EnemyBase::Update()
-		{
-		}
+			void EnemyBase::Update()
+			{
+			}
 
 
-		void EnemyBase::Render(RenderContext& rc)
-		{
+			void EnemyBase::Render(RenderContext& rc)
+			{
+			}
 		}
 	}
 }

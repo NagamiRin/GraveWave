@@ -10,3 +10,6 @@ using namespace nsK2Engine;
 
 /** 汎用処理 */
 #include "src/Transform.h"
+#include "src/Util/CRC32.h"
+
+#include "Types.h"

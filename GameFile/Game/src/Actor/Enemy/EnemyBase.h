@@ -1,4 +1,4 @@
-/**
+﻿/**
  * EnemyBase.h
  * 
  * エネミーの基底クラス
@@ -11,39 +11,42 @@ namespace nsApp
 {
 	namespace nsActor
 	{
-		/** エネミーの行動状態の種類。 */
-		enum EnEnemyActionVar {
-			enStandby,		//スタンバイ。フィールド上に出現していない状態。
-			enProgress,		//進行。
-			enAttack,		//攻撃。
-			enHit,			//被弾。
-			enDead,			//死亡。
-		};
-
-
-		class EnemyBase :public CharacterBase
+		namespace nsEnemy
 		{
-		private:
-			/** 現在の行動状態。 */
-			int m_currentState = 0;
+			/** エネミーの行動状態の種類。 */
+			enum EnEnemyActionVar {
+				enStandby,		//スタンバイ。フィールド上に出現していない状態。
+				enProgress,		//進行。
+				enAttack,		//攻撃。
+				enHit,			//被弾。
+				enDead,			//死亡。
+			};
 
 
-		public:
-			/** コンストラクタ */
-			EnemyBase();
-			/** デストラクタ */
-			~EnemyBase();
+			class EnemyBase :public CharacterBase
+			{
+			protected:
+				/** 現在の行動状態。 */
+				int m_currentState = 0;
+
+				CollisionObject* m_collisionObject = nullptr;
 
 
-		public:
-			/** 生成時に一度だけ呼ばれる関数。 */
-			bool Start()override;
-			/** 毎フレーム呼ばれる更新処理。 */
-			void Update()override;
-			/** 描画処理。 */
-			void Render(RenderContext& rc)override;
-			
+			public:
+				/** コンストラクタ */
+				EnemyBase();
+				/** デストラクタ */
+				virtual ~EnemyBase();
 
-		};
+
+			public:
+				/** 生成時に一度だけ呼ばれる関数。 */
+				virtual bool Start()override;
+				/** 毎フレーム呼ばれる更新処理。 */
+				virtual void Update()override;
+				/** 描画処理。 */
+				virtual void Render(RenderContext& rc)override;
+			};
+		}
 	}
 }

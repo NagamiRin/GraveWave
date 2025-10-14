@@ -21,6 +21,7 @@ namespace nsApp
 			private:
 				/** 移動速度 */
 				float m_moveSpeed = 0.0f;
+
 			
 
 			public:

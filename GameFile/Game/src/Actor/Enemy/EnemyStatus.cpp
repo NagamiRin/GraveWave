@@ -1,4 +1,4 @@
-/**
+﻿/**
  * EnemyStatus.cpp
  *
  * エネミーステータス
@@ -11,18 +11,21 @@ namespace nsApp
 {
 	namespace nsActor
 	{
-		EnemyStatus::EnemyStatus()
+		namespace nsEnemy
 		{
-		}
+			EnemyStatus::EnemyStatus()
+			{
+			}
 
 
-		EnemyStatus::~EnemyStatus()
-		{
-		}
+			EnemyStatus::~EnemyStatus()
+			{
+			}
 
 
-		void EnemyStatus::Setup()
-		{
+			void EnemyStatus::Setup()
+			{
+			}
 		}
 	}
 }
