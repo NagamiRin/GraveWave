@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "k2EnginePreCompile.h"
 #include "Transform.h"
 

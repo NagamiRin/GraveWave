@@ -1,21 +1,21 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "Game.h"
+#include "src/Actor/Player/Player.h"
 
 
 bool Game::Start()
-{
-	m_modelRender.Init("Assets/modelData/unityChan.tkm");
-	
+{	
+	// @todo for test
+	NewGO<nsApp::nsActor::nsPlayer::Player>(0);
+
 	return true;
 }
 
 void Game::Update()
 {
 	// g_renderingEngine->DisableRaytracing();
-	m_modelRender.Update();
 }
 
 void Game::Render(RenderContext& rc)
 {
-	m_modelRender.Draw(rc);
 }

@@ -1,44 +1,57 @@
-﻿#pragma once
+﻿/**
+ * Actor.h
+ *
+ * ゲームオブジェクトのベース
+ */
+#pragma once
 
-class TransForm;
-class Actor : public IGameObject
+
+namespace nsApp
 {
-public:
+	namespace nsActor
+	{
+		class ActorStatus;
 
-	/// <summary>
-	/// コンストラクタ
-	/// </summary>
-	Actor();
 
-	/// <summary>
-	/// デストラクタ
-	/// </summary>
-	~Actor();
+		/**
+		 *ゲームオブジェクトの基底クラス
+		 */
+		class Actor : public IGameObject
+		{
+		protected:
+			/** モデル描画用変数 */
+			ModelRender m_model;
+			/** トランスフォーム */
+			Transform m_transform;
+			/** ステータスのポインタ */
+			ActorStatus* m_status = nullptr;
 
-public:
 
-	/// <summary>
-	/// オブジェクト生成時に一度だけ実行される関数
-	/// </summary>
-	/// <returns></returns>
-	virtual bool Start()override = 0;
+		public:
+			/** コンストラクタ */
+			Actor();
+			/** デストラクタ */
+			virtual ~Actor();
 
-	/// <summary>
-	/// 毎フレーム呼び出される関数
-	/// </summary>
-	virtual void Update()override = 0;
 
-	/// <summary>
-	/// モデルの描画処理を行う関数
-	/// </summary>
-	/// <param name="rc"></param>
-	virtual void Render(RenderContext& rc)override = 0;
+		public:
+			/** オブジェクト生成時に一度だけ実行される関数 */
+			virtual bool Start()override = 0;
+			/** 毎フレーム呼び出される関数 */
+			virtual void Update()override = 0;
+			/** モデルの描画処理を行う関数 */
+			virtual void Render(RenderContext& rc)override = 0;
 
-private:
 
-	/// <summary>
-	/// モデル描画用変数
-	/// </summary>
-	ModelRender m_model;
-};
+		public:
+			const Vector3& GetPosition() const { return m_transform.m_position; }
+			void SetPosition(const Vector3& position) { m_transform.m_position = position; }
+			const Quaternion& GetRotation() const { return m_transform.m_rotation; }
+			void SetRotation(const Quaternion& rotation) { m_transform.m_rotation = rotation; }	
+			const Vector3& GetScale() const { return m_transform.m_scale; }
+			void SetScale(const Vector3& scale) { m_transform.m_scale = scale; }
+		};
+	}
+}
+
 

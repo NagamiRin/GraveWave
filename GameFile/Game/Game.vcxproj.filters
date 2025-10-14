@@ -4,6 +4,18 @@
     <Filter Include="system">
       <UniqueIdentifier>{22dd8095-74f9-46df-81a1-36675a040b1f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor">
+      <UniqueIdentifier>{cfb0ffa8-58eb-417e-8659-952e0d6a921d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Util">
+      <UniqueIdentifier>{fc724af7-b971-41dd-b320-c3504cc88c94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Json">
+      <UniqueIdentifier>{b44d2ee9-909f-450b-9bfb-0ab94a066ca6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{6b799616-b66a-43da-b801-788d3d603f06}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -12,6 +24,37 @@
       <Filter>system</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="src\Transform.cpp" />
+    <ClCompile Include="src\Actor\Actor.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\ActorStatus.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\CharacterBase.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Enemy\EnemyBase.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Enemy\EnemyStatus.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Wall\WallStatus.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Gun\GunStatus.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Player\Player.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Player\PlayerStatus.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\ParameterManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -19,5 +62,42 @@
       <Filter>system</Filter>
     </ClInclude>
     <ClInclude Include="Game.h" />
+    <ClInclude Include="src\Transform.h" />
+    <ClInclude Include="src\Actor\Actor.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\ActorStatus.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\CharacterBase.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Enemy\EnemyBase.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Enemy\EnemyStatus.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Wall\WallStatus.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Gun\GunStatus.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Player\Player.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Player\PlayerStatus.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Util\CRC32.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Json\json.hpp">
+      <Filter>Json</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\ParameterManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
