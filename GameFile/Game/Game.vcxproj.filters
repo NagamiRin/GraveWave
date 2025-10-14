@@ -16,6 +16,27 @@
     <Filter Include="Core">
       <UniqueIdentifier>{6b799616-b66a-43da-b801-788d3d603f06}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor\Player">
+      <UniqueIdentifier>{b83aabec-8e14-499f-86d6-5ab412032990}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Enemy">
+      <UniqueIdentifier>{03fd526d-f039-4f4e-ad57-2a7c50df1119}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Wall">
+      <UniqueIdentifier>{d2d06759-6ee7-435d-92fd-7784211d05d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Gun">
+      <UniqueIdentifier>{e9764cf7-90e9-40a4-9e0d-b61971ccc83a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{44a9a897-7952-4966-be08-44d62342a46f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Bullet">
+      <UniqueIdentifier>{6dcb9e61-1df2-490a-80ba-4fdb05c253c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collision">
+      <UniqueIdentifier>{86991c69-d1cf-44b6-8a26-e60e8e6b8c91}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -23,71 +44,90 @@
     <ClCompile Include="system\system.cpp">
       <Filter>system</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp" />
     <ClCompile Include="src\Transform.cpp" />
     <ClCompile Include="src\Actor\Actor.cpp">
-      <Filter>Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Actor\ActorStatus.cpp">
       <Filter>Actor</Filter>
     </ClCompile>
     <ClCompile Include="src\Actor\CharacterBase.cpp">
       <Filter>Actor</Filter>
     </ClCompile>
-    <ClCompile Include="src\Actor\Enemy\EnemyBase.cpp">
-      <Filter>Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Actor\Enemy\EnemyStatus.cpp">
-      <Filter>Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Actor\Wall\WallStatus.cpp">
-      <Filter>Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Actor\Gun\GunStatus.cpp">
-      <Filter>Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Actor\Player\Player.cpp">
-      <Filter>Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Actor\Player\PlayerStatus.cpp">
-      <Filter>Actor</Filter>
-    </ClCompile>
     <ClCompile Include="src\Core\ParameterManager.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameCamera.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\StateMachine.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\IState.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Player\Player.cpp">
+      <Filter>Actor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Player\PlayerState.cpp">
+      <Filter>Actor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Player\PlayerStateMachine.cpp">
+      <Filter>Actor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Enemy\EnemyBase.cpp">
+      <Filter>Actor\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Enemy\Zombie.cpp">
+      <Filter>Actor\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Enemy\EnemyStatus.cpp">
+      <Filter>Actor\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Player\PlayerStatus.cpp">
+      <Filter>Actor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Wall\WallStatus.cpp">
+      <Filter>Actor\Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Gun\GunStatus.cpp">
+      <Filter>Actor\Gun</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\ActorStatus.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\BattleManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\Crosshair.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Gun\HandGun.cpp">
+      <Filter>Actor\Gun</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Bullet\NormalBullet.cpp">
+      <Filter>Actor\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Bullet\BulletBase.cpp">
+      <Filter>Actor\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Gun\GunBase.cpp">
+      <Filter>Actor\Gun</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Collision\CollisionManager.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sound\SoundManager.cpp" />
+    <ClCompile Include="src\Effect\EffectManager.cpp" />
+    <ClCompile Include="src\Core\Game.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h">
       <Filter>system</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h" />
     <ClInclude Include="src\Transform.h" />
     <ClInclude Include="src\Actor\Actor.h">
       <Filter>Actor</Filter>
     </ClInclude>
-    <ClInclude Include="src\Actor\ActorStatus.h">
-      <Filter>Actor</Filter>
-    </ClInclude>
     <ClInclude Include="src\Actor\CharacterBase.h">
-      <Filter>Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Actor\Enemy\EnemyBase.h">
-      <Filter>Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Actor\Enemy\EnemyStatus.h">
-      <Filter>Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Actor\Wall\WallStatus.h">
-      <Filter>Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Actor\Gun\GunStatus.h">
-      <Filter>Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Actor\Player\Player.h">
-      <Filter>Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Actor\Player\PlayerStatus.h">
       <Filter>Actor</Filter>
     </ClInclude>
     <ClInclude Include="src\Util\CRC32.h">
@@ -99,5 +139,71 @@
     <ClInclude Include="src\Core\ParameterManager.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameCamera.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\StateMachine.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\IState.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Player\Player.h">
+      <Filter>Actor\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Player\PlayerStateMachine.h">
+      <Filter>Actor\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Player\PlayerState.h">
+      <Filter>Actor\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Enemy\EnemyBase.h">
+      <Filter>Actor\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Enemy\Zombie.h">
+      <Filter>Actor\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Enemy\EnemyStatus.h">
+      <Filter>Actor\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Player\PlayerStatus.h">
+      <Filter>Actor\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Wall\WallStatus.h">
+      <Filter>Actor\Wall</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Gun\GunStatus.h">
+      <Filter>Actor\Gun</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\ActorStatus.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\BattleManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Types.h" />
+    <ClInclude Include="src\UI\Crosshair.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Gun\HandGun.h">
+      <Filter>Actor\Gun</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Bullet\NormalBullet.h">
+      <Filter>Actor\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Bullet\BulletBase.h">
+      <Filter>Actor\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Gun\GunBase.h">
+      <Filter>Actor\Gun</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Collision\CollisionManager.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Sound\SoundManager.h" />
+    <ClInclude Include="src\Sound\Types.h" />
+    <ClInclude Include="src\Effect\EffectManager.h" />
+    <ClInclude Include="src\Effect\Types.h" />
+    <ClInclude Include="src\Core\Game.h" />
   </ItemGroup>
 </Project>
