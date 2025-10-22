@@ -1,10 +1,8 @@
 [
     {
-        "Commnet": "ゾンビ用のパラメータ",
-        "Status": {
+        "Comment": "ゾンビ用のパラメータ",
+        "MoveSpeed":10.0,
         "HP":10,
-        "AttackPower":3,
-        "moveSpeed":10.0
-        }
+        "AttackPower":3
     }
 ]
