@@ -2,6 +2,7 @@
 #include "CollisionManager.h"
 #include "src/Actor/Bullet/NormalBullet.h"
 #include "src/Actor/Enemy/Zombie.h"
+#include "src/Core/BattleManager.h"
 
 
 CollisionHitManager* CollisionHitManager::m_instance = nullptr;
@@ -23,6 +24,8 @@ CollisionHitManager::~CollisionHitManager()
 
 void CollisionHitManager::Update()
 {
+	m_collisionPairList.clear();
+
 	// ヒットするオブジェクトのペアを作る
 	const uint32_t colSize = static_cast<uint32_t>(m_collisionInfoList.size());
 	for (uint32_t i = 0; i < colSize; ++i) {
@@ -58,20 +61,29 @@ void CollisionHitManager::Update()
 		}
 		// ここでなにかする
 
+
 		// ここでも何かする
 	}
+
+	m_collisionPairList.clear();
 }
 
 
-void CollisionHitManager::UnregisterCollisionObject(IGameObject* object)
+void CollisionHitManager::DeleteCollisionObject(IGameObject* object)
 {
+	CollisionObject* targetCollision = nullptr;
 	for(auto it = m_collisionInfoList.begin(); it != m_collisionInfoList.end(); ++it)
 	{
 		if(it->m_object == object)
 		{
+			targetCollision = it->m_collision;
 			m_collisionInfoList.erase(it);
 			break;
 		}
+	}
+	if (targetCollision) {
+		delete targetCollision;
+		targetCollision = nullptr;
 	}
 }
 
@@ -105,22 +117,24 @@ void CollisionHitManager::RegisterCollisionObject(const uint32_t id, IGameObject
 
 bool CollisionHitManager::UpdateHitBullet(CollisionPair& pair)
 {
-	//// 判定対象が料理スペースだった場合
-	//CoockingSpace* cookingSpace = GetTargetObject<CoockingSpace>(pair, enCollisionType_CookingSpace);
-	//Player* player = GetTargetObject<Player>(pair, enCollisionType_Player);
+	nsApp::nsActor::nsBullet::NormalBullet* normalBullet = GetTargetObject<nsApp::nsActor::nsBullet::NormalBullet>(pair, nsApp::nsActor::nsBullet::NormalBullet::ID());
+	nsApp::nsActor::nsEnemy::Zombie* zombie = GetTargetObject<nsApp::nsActor::nsEnemy::Zombie>(pair, nsApp::nsActor::nsEnemy::Zombie::ID());
 
-	//// 料理スペースじゃないなら処理しない
-	//if (cookingSpace == nullptr) {
-	//	return false;
-	//}
-	//// playerじゃないなら処理しない
-	//if (player == nullptr) {
-	//	return false;
-	//}
+	if (normalBullet == nullptr) {
+		return false;
+	}
+	if (zombie == nullptr) {
+		return false;
+	}
+	
+	DeleteGO(normalBullet);
+	//ゾンビのHPを減らす
+	zombie->ReduceHP(20);
+	//死んだなら削除要請
+	if (zombie->GetZombieStatus()->GetHP() <= 0) {
+		nsApp::nsCore::BattleManager::GetInstance()->DeleteZombie(zombie);
+	}
 
-	//// 料理スペースにプレイヤーが入ったときの処理
-	//player->GetStateMachine()->SetInCookingSpace(true);
-	//
 	return true;
 }
 

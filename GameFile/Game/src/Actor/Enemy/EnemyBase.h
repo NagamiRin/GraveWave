@@ -28,7 +28,7 @@ namespace nsApp
 			protected:
 				/** 現在の行動状態。 */
 				int m_currentState = 0;
-
+				/** コリジョンオブジェクト */
 				CollisionObject* m_collisionObject = nullptr;
 
 
