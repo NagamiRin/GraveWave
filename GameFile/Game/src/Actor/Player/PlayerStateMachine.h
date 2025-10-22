@@ -29,10 +29,8 @@ namespace nsApp
 			private:
 				/** オーナー(プレイヤー) */
 				Player* m_owner = nullptr;
-				/** Lスティックの入力方向 */
-				Vector3 m_LStickDirection = Vector3::Zero;
-				/** Lスティックの入力量 */
-				float m_inputPower = 0.0f;
+				/** LスティックのX方向の入力量 */
+				float m_InputLStickXDir = 0.0f;
 
 
 			public:
@@ -63,14 +61,10 @@ namespace nsApp
 
 
 			public:
-				/** Lスティックの入力方向を設定 */
-				inline void SetLStickDirection(const Vector3& direction) { m_LStickDirection = direction; }
-				/** Lスティックの入力方向を取得 */
-				inline const Vector3& GetLStickDirection() const { return m_LStickDirection; }
-				/** Lスティックの入力量を設定 */
-				inline void SetLStickPower(float power) { m_inputPower = power; }
-				/** Lスティックの入力量を取得 */
-				inline const float GetLStickPower() const { return m_inputPower; }
+				/** LスティックのX方向の入力量を設定 */
+				inline void SetLStickXDirAmount(const float& direction) { m_InputLStickXDir = direction; }
+				/** LスティックのX方向の入力量を取得 */
+				inline const float& GetLStickXDirAmount() const { return m_InputLStickXDir; }
 			};
 		}
 	}
