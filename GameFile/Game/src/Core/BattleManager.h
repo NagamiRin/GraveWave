@@ -17,6 +17,12 @@ namespace nsApp
 		{
 			class Player;
 		}
+
+		namespace nsEnemy 
+		{
+			class EnemySpawner;
+			class Zombie;
+		}
 	}
 }
 
@@ -40,6 +46,8 @@ namespace nsApp
 
 
 		private:
+			/** エネミーのスポナー */
+			std::unique_ptr<nsApp::nsActor::nsEnemy::EnemySpawner> m_enemySpawner;
 			/** カメラ */
 			nsApp::GameCamera* m_camera = nullptr;
 			/** プレイヤー */
@@ -56,6 +64,11 @@ namespace nsApp
 		public:
 			/** 更新処理 */
 			void Update();
+
+
+		public:
+			/** ゾンビの削除要請 */
+			void DeleteZombie(nsApp::nsActor::nsEnemy::Zombie* zombie);
 
 
 		private:
