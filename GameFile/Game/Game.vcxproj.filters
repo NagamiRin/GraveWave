@@ -117,6 +117,8 @@
     <ClCompile Include="src\Sound\SoundManager.cpp" />
     <ClCompile Include="src\Effect\EffectManager.cpp" />
     <ClCompile Include="src\Core\Game.cpp" />
+    <ClCompile Include="src\Actor\Enemy\ZombieStatus.cpp" />
+    <ClCompile Include="src\Actor\Enemy\EnemySpawner.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -205,5 +207,7 @@
     <ClInclude Include="src\Effect\EffectManager.h" />
     <ClInclude Include="src\Effect\Types.h" />
     <ClInclude Include="src\Core\Game.h" />
+    <ClInclude Include="src\Actor\Enemy\ZombieStatus.h" />
+    <ClInclude Include="src\Actor\Enemy\EnemySpawner.h" />
   </ItemGroup>
 </Project>
