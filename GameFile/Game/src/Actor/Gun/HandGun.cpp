@@ -24,8 +24,27 @@ namespace nsApp
 			}
 
 
+			bool HandGun::Start()
+			{
+				return true;
+			}
+
+
+			void HandGun::Update()
+			{
+				m_fireCoolTime -= g_gameTime->GetFrameDeltaTime();
+				if (m_fireCoolTime <= 0.0f) {
+					m_fireCoolTime = 0.0f;
+				}
+			}
+
+
 			void HandGun::OnFire()
 			{
+				if (m_fireCoolTime > 0.0f) {
+					return;
+				}
+
 				nsApp::nsActor::nsBullet::NormalBullet* m_bullet = nullptr;
 				// 弾を生成
 				m_bullet = NewGO<nsApp::nsActor::nsBullet::NormalBullet>(enGameObjectPriority_Bullet, "NormalBullet");
@@ -35,9 +54,16 @@ namespace nsApp
 				// 弾側で初速等をもとに移動させる
 				m_bullet->SetFlying(true);
 
-				// @todo for test
-				// とりあえず前に出してみる
-				m_bullet->SetDirection(Vector3::Front);
+				m_bullet->SetDirection(m_InjectionDirection);
+
+				//クールタイムをセット
+				m_fireCoolTime = 0.3f;
+			}
+
+
+			void HandGun::Render(RenderContext& rc)
+			{
+
 			}
 		}
 	}
