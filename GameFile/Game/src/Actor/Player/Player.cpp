@@ -4,7 +4,7 @@
  * プレイヤーのクラス
  */
 #include "stdafx.h"
-#include "src/Actor/Player/Player.h"
+#include "Player.h"
 #include "src/Actor/Player/PlayerStateMachine.h"
 #include "src/Actor/Gun/HandGun.h"
 #include "src/Sound/SoundManager.h"
@@ -43,6 +43,8 @@ namespace nsApp
 			{
 				//方向を設定
 				SetDirection(Vector3(0.0f, 0.0f, 1.0f));
+				//初期位置を設定
+				SetLocalPosition(Vector3(0.0f, 150.0f, 0.0f));
 
 				//ハンドガンを生成
 				m_handGun = NewGO<nsApp::nsActor::nsGun::HandGun>(enGameObjectPriority_Gun, "HandGun");
