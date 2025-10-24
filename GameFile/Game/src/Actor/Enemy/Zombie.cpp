@@ -42,11 +42,11 @@ namespace nsApp
                     // 歩き
                     {
                         auto& clip = m_animationClipList[EnAnimationVar_Walk];
-                        clip.Load("Assets/animData/Zombie/Walk.tka");
+                        clip.Load("Assets/AnimData/Zombie/Walk.tka");
                         clip.SetLoopFlag(true);
                     }
                 }
-                m_model.Init("Assets/modelData/Zombie/Default.tkm", m_animationClipList.data(), EnAnimationVar_Max);
+                m_model.Init("Assets/ModelData/Zombie/Default.tkm", m_animationClipList.data(), EnAnimationVar_Max);
                 m_model.PlayAnimation(EnAnimationVar_Walk);
 
                 return true;
