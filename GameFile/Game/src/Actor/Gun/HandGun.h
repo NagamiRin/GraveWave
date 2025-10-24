@@ -40,9 +40,9 @@ namespace nsApp
 
 
 			public:
-				virtual bool Start()override { return true; }
-				virtual void Update()override {}
-				virtual void Render(RenderContext& rc)override {}
+				virtual bool Start()override;
+				virtual void Update()override;
+				virtual void Render(RenderContext& rc)override;
 
 
 			public:

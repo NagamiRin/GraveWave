@@ -10,7 +10,6 @@ class FoodPlate;
 
 
 
-
 struct CollisionInfo
 {
 	uint32_t m_id;	// 当たり判定のID(プレイヤーと弾がヒットしたみたいな処理をするために必要。自分がだれかの判断)
@@ -60,7 +59,7 @@ public:
 
 public:
 	/** 判定処理をしたいオブジェクトを登録 */
-	void UnregisterCollisionObject(IGameObject* object);
+	void DeleteCollisionObject(IGameObject* object);
 
 	CollisionObject* CreateCollisionObject(const uint32_t id, IGameObject* gameObject, const Vector3& position, const Quaternion& rotation, const float radisu, const float height);
 	CollisionObject* CreateCollisionObject(const uint32_t id, IGameObject* gameObject, const Vector3& position, const Quaternion& rotation, const float radisu);

@@ -230,8 +230,10 @@
     <ClCompile Include="src\Actor\Bullet\NormalBullet.cpp" />
     <ClCompile Include="src\Actor\CharacterBase.cpp" />
     <ClCompile Include="src\Actor\Enemy\EnemyBase.cpp" />
+    <ClCompile Include="src\Actor\Enemy\EnemySpawner.cpp" />
     <ClCompile Include="src\Actor\Enemy\EnemyStatus.cpp" />
     <ClCompile Include="src\Actor\Enemy\Zombie.cpp" />
+    <ClCompile Include="src\Actor\Enemy\ZombieStatus.cpp" />
     <ClCompile Include="src\Actor\Gun\GunBase.cpp" />
     <ClCompile Include="src\Actor\Gun\GunStatus.cpp" />
     <ClCompile Include="src\Actor\Gun\HandGun.cpp" />
@@ -265,8 +267,10 @@
     <ClInclude Include="src\Actor\Bullet\NormalBullet.h" />
     <ClInclude Include="src\Actor\CharacterBase.h" />
     <ClInclude Include="src\Actor\Enemy\EnemyBase.h" />
+    <ClInclude Include="src\Actor\Enemy\EnemySpawner.h" />
     <ClInclude Include="src\Actor\Enemy\EnemyStatus.h" />
     <ClInclude Include="src\Actor\Enemy\Zombie.h" />
+    <ClInclude Include="src\Actor\Enemy\ZombieStatus.h" />
     <ClInclude Include="src\Actor\Gun\GunBase.h" />
     <ClInclude Include="src\Actor\Gun\GunStatus.h" />
     <ClInclude Include="src\Actor\Gun\HandGun.h" />

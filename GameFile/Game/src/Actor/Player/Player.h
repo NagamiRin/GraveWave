@@ -40,17 +40,17 @@ namespace nsApp
 				using SuperClass = CharacterBase;
 				/** ハンドガンのポインタ */
 				nsApp::nsActor::nsGun::HandGun* m_handGun = nullptr;
-
-
-			private:
-				/** プレイヤーステータス */
-				int m_hp = 0;
 				/** プレイヤーのステートマシンのポインタ */
 				std::unique_ptr<PlayerStateMachine> m_stateMachine;
 				/** RLスティックの入力量 */
 				Vector2 m_inputRStick = Vector2::Zero;
 				/** 右トリガーの入力情報 */
 				bool m_isInputRTrigger = false;
+
+
+			private:
+				/** プレイヤー向き更新 */
+				void PlayerDirectionUpdate();
 
 
 			public:
@@ -72,8 +72,6 @@ namespace nsApp
 			public:
 				/** Lスティックの入力量を更新 */
 				void UpdateInputLStick();
-				/** Rスティックの入力量を更新 */
-				void UpdateInputRStick();
 				/** Rトリガーの入力情報を更新 */
 				void JudgOnFire();
 

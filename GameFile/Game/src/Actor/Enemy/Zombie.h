@@ -5,7 +5,7 @@
  */
 #pragma once
 #include "src/Actor/Enemy/EnemyBase.h"
-#include "src/Actor/Enemy/EnemyStatus.h"
+#include "src/Actor/Enemy/ZombieStatus.h"
 
 
 namespace nsApp
@@ -30,7 +30,6 @@ namespace nsApp
 
 
 			private:
-				Vector3 m_targetPos = Vector3::Zero;
 				/** アニメションクリップの種類 */
 				std::array<AnimationClip, EnAnimationVar_Max> m_animationClipList;
 
@@ -49,6 +48,26 @@ namespace nsApp
 				virtual void Update()override;
 				/** モデルの描画処理を行う関数 */
 				virtual void Render(RenderContext& rc)override;
+
+
+			public:
+				/** ゾンビのステータスを再設定 */
+				void Initialize(const Vector3& initializePosition);
+				/** ゾンビを破棄する（非アクティブ状態に） */
+				void Destruction();
+				/** HPを減らす */
+				inline void ReduceHP(uint16_t reduceAmount)
+				{
+					uint16_t  currentHP = GetZombieStatus()->GetHP();
+					if (currentHP <= reduceAmount) reduceAmount = currentHP;
+					uint16_t afterHP = currentHP - reduceAmount;
+					GetZombieStatus()->SetHP(afterHP);
+				}
+
+
+			public:
+				/** ゾンビのステータスをキャスト */
+				inline ZombieStatus* GetZombieStatus() { return dynamic_cast<ZombieStatus*>(m_status); }
 			};
 		}
 	}

@@ -4,7 +4,8 @@
         "Status": {
         "Damage": 5,
         "BulletSpeed": 20.0,
-        "MaxAmmo": 15
+        "MaxAmmo": 15,
+        "FireCoolTime":0.3
         }
     }
 ]

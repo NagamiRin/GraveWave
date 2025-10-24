@@ -28,8 +28,8 @@ struct MasterEnemyStatus : public IMasterParameter
 {
     appParameter(MasterEnemyStatus);
     //
-    int m_hp;
-    int m_attackPower;
+    uint16_t m_hp;
+    uint16_t m_attackPower;
     float m_moveSpeed;
 };
 
@@ -42,6 +42,29 @@ struct MasterBulletStatus : public IMasterParameter
     int m_maxAmmo;
     float m_bulletSpeed;
     
+};
+
+
+struct MasterCameraParameter :public IMasterParameter
+{
+    appParameter(MasterCameraParameter);
+    //
+    float m_CameraNear;
+    float m_CameraFar;
+    float m_XPosLimit;
+    float m_YPosLimit;
+};
+
+
+struct MasterBattleParameter :public IMasterParameter
+{
+    appParameter(MasterBattleParameter);
+
+    uint8_t m_maxEnemyNum;
+    float m_baseSpawnTime;
+    float m_spawnPositionX;
+    float m_spawnPositionY;
+    float m_spawnPositionZ;
 };
 
 
@@ -60,6 +83,7 @@ private:
     using ParameterVector = std::vector<IMasterParameter*>;
     // 各パラメーターごとに保持する
     using ParameterMap = std::map<uint32_t, ParameterVector>;
+
 
 private:
     ParameterMap m_parameterMap;  // パラメーターを保持

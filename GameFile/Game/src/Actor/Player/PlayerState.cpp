@@ -34,16 +34,15 @@ namespace nsApp
 
 			void WalkState::Update()
 			{
-				//スティック入力を取得
+				//X方向のスティック入力量を取得
 				auto* playerStateMachine = GetOwner<PlayerStateMachine>();
-				const Vector3 direction = playerStateMachine->GetLStickDirection();
-				const float power = playerStateMachine->GetLStickPower();
+				const float InputAmount = playerStateMachine->GetLStickXDirAmount();
 
 				//プレイヤーの移動速度を設定
 				auto* player = playerStateMachine->GetOwner();
 				const auto* status = player->GetStatus();
 				const auto moveSpeed = status->GetMoveSpeed();
-				player->SetSpeed(direction * power * moveSpeed);
+				player->SetSpeed(Vector3(InputAmount * moveSpeed, 0.0f, 0.0f));
 			}
 
 

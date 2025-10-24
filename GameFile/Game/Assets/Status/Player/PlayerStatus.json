@@ -1,6 +1,6 @@
 [
     {
         "Commnet": "プレイヤー用のパラメータ",
-        "MoveSpeed":0.5
+        "MoveSpeed":0.005
     }
 ]

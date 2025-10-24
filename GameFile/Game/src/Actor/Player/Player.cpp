@@ -26,10 +26,9 @@ namespace nsApp
 				m_stateMachine->Setup(this);
 
 				//初期位置設定
-				SetPosition(Vector3(10.0f, 10.0f, -100.0f));
+				SetLocalPosition(Vector3(0.0f, 50.0f, 0.0f));
 				// 初期向き設定
-				m_direction = Vector3::Front;
-				
+				m_direction = Vector3::Front;				
 			}
 
 
@@ -42,6 +41,9 @@ namespace nsApp
 
 			bool Player::Start()
 			{
+				//方向を設定
+				SetDirection(Vector3(0.0f, 0.0f, 1.0f));
+
 				//ハンドガンを生成
 				m_handGun = NewGO<nsApp::nsActor::nsGun::HandGun>(enGameObjectPriority_Gun, "HandGun");
 
@@ -52,11 +54,15 @@ namespace nsApp
 			void Player::Update()
 			{
 				UpdateInputLStick();
-				UpdateInputRStick();
+				PlayerDirectionUpdate();
 				JudgOnFire();
 				m_stateMachine->Update();
 
 				SuperClass::Update();
+
+				//銃に弾の射出方向を教える
+				m_handGun->SetInjectionDirection(GetDirection());
+				Vector3 hoge = GetDirection();
 			}
 
 
@@ -67,27 +73,40 @@ namespace nsApp
 
 			void Player::UpdateInputLStick()
 			{
-				/** 左スティックの入力方向を取得 */
-				const Vector3 stickDirection = Vector3(g_pad[0]->GetLStickXF(), 0.0f, g_pad[0]->GetLStickYF());
-				/** 入力方向をステートマシンに渡す */
-				m_stateMachine->SetLStickDirection(stickDirection);
-				/** 左スティックの入力量を計算 */
-				const float stickPower = stickDirection.Length();
+				/** 左スティックの入力量を取得 */
+				float InputXDir = g_pad[0]->GetLStickXF();
 				/** 入力量をステートマシンに渡す */
-				m_stateMachine->SetLStickPower(stickPower);
+				m_stateMachine->SetLStickXDirAmount(InputXDir);
 			}
 
 
-			void Player::UpdateInputRStick()
+			void Player::PlayerDirectionUpdate()
 			{
-				/** 右スティックの入力量を取得 */
-				m_inputRStick = Vector2(g_pad[0]->GetRStickXF(), g_pad[0]->GetRStickYF());
+				static Vector3 dir = Vector3::Front;
+				auto* pad = g_pad[0];
+
+				const float xRot = pad->GetRStickXF();
+				{
+					Quaternion q;
+					q.SetRotation(Vector3::Up, xRot * 0.05f);
+					q.Apply(dir);
+				}
+				const float yRot = pad->GetRStickYF();
+				{
+					Vector3 vec = Vector3::Down;
+					vec.Cross(dir);
+					Quaternion q;
+					q.SetRotation(vec, yRot * 0.05f);
+					q.Apply(dir);
+				}
+
+				SetDirection(dir);
 			}
 
 
 			void Player::JudgOnFire()
 			{
-				if (g_pad[0]->IsTrigger(enButtonRB2) && m_handGun->GetFireCoolTime() <= 0.0f) {
+				if (g_pad[0]->IsTrigger(enButtonRB2)) {
 					m_handGun->SetPosition(GetPosition());
 					m_handGun->OnFire();
 					SoundManager::Get().PlaySE(enSoundKind_HandGun_Fire);

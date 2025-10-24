@@ -1,0 +1,10 @@
+[
+    {
+        "Comment": "ゲーム共通のパラメータ",
+        "MaxEnemyNum": 50,
+        "BaseSpawnTime": 2.0,
+        "SpawnPositionX": 0.0,
+        "SpawnPositionY": 0.0,
+        "SpawnPositionZ": 200.0
+    }
+]

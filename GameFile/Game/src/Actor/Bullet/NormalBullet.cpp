@@ -21,6 +21,7 @@ namespace nsApp
 
 			NormalBullet::~NormalBullet()
 			{
+				CollisionHitManager::Get().DeleteCollisionObject(this);
 			}
 
 
@@ -35,6 +36,10 @@ namespace nsApp
 			void NormalBullet::Update()
 			{
 				FlyingProcessing();
+				AutoDelete();
+
+				m_collisionObject->SetPosition(GetPosition());
+				m_collisionObject->Update();
 			}
 
 
@@ -52,9 +57,16 @@ namespace nsApp
 
 				const Vector3 moveAmount = m_flyDirection * m_initialVelocity;
 				SetPosition(GetPosition() + moveAmount);
+			}
 
-				m_collisionObject->SetPosition(GetPosition());
-				m_collisionObject->Update();
+
+			void NormalBullet::AutoDelete()
+			{
+				m_flyingTime += g_gameTime->GetFrameDeltaTime();
+
+				if (m_flyingTime >= 3.0f) {
+					DeleteGO(this);
+				}
 			}
 		}
 	}

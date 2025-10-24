@@ -50,7 +50,7 @@ namespace nsApp
 
             bool PlayerStateMachine::CanChangeToWalkState() const 
             {
-                if (fabsf(GetLStickPower()) >= FLT_EPSILON) {
+                if (fabsf(GetLStickXDirAmount()) >= FLT_EPSILON) {
                    
                     return true;
                 }

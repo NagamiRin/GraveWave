@@ -42,18 +42,23 @@ namespace nsApp
 			/** モデルの描画処理を行う関数 */
 			virtual void Render(RenderContext& rc)override = 0;
 
-
+			
 		public:
 			/** グローバル座標を取得 */
 			const Vector3& GetPosition() const { return m_transform.m_position; }
 			/** グローバル座標を設定 */
 			void SetPosition(const Vector3& position) { m_transform.m_position = position; }
+			/** ローカル座標を取得 */
+			const Vector3& GetLocalPosition() const { return m_transform.m_localPosition; }
 			/** ローカル座標を設定 */
 			void SetLocalPosition(const Vector3& localPosition) { m_transform.m_localPosition = localPosition; }
-			/** 回転を取得 */
+			/** ローカル回転を取得 */
 			const Quaternion& GetRotation() const { return m_transform.m_rotation; }
 			/** 回転を設定 */
 			void SetRotation(const Quaternion& rotation) { m_transform.m_rotation = rotation; }
+
+			void SetLocalRotation(const Quaternion& rotation) { m_transform.m_localRotation = rotation; }
+
 			/** スケールを取得 */
 			const Vector3& GetScale() const { return m_transform.m_scale; }
 			/** スケールを設定 */

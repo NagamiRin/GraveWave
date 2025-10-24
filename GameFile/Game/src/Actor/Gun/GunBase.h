@@ -21,6 +21,8 @@ namespace nsApp
 			protected:
 				/** 残りの発射クールタイム(秒) */
 				float m_fireCoolTime = 0.0f;
+				/** 弾丸の射出方向 */
+				Vector3 m_InjectionDirection = Vector3::Zero;
 
 
 			public:
@@ -36,7 +38,9 @@ namespace nsApp
 
 			public:
 				/** 発射クールタイムを取得 */
-				const float GetFireCoolTime() { return m_fireCoolTime; }
+				const inline float GetFireCoolTime() { return m_fireCoolTime; }
+				/** 射出方向を設定 */
+				const inline void SetInjectionDirection(const Vector3 dir) { m_InjectionDirection = dir; }
 			};
 		}
 	}

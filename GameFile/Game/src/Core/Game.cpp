@@ -22,7 +22,7 @@ namespace nsApp {
 			m_battleManager = nsApp::nsCore::BattleManager::GetInstance();
 
 			//当たり判定描画
-			//PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
+			PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 		}
 
 
@@ -35,13 +35,6 @@ namespace nsApp {
 
 		bool Game::Start()
 		{
-			/** @TODO: for test */
-			for (int i = 0; i < 5; ++i)
-			{
-				auto* zombie = NewGO<nsApp::nsActor::nsEnemy::Zombie>(i);
-				zombie->SetLocalPosition(Vector3(i * 20.0f, 0.0f, 0.0f));
-			}
-
 			return true;
 		}
 
