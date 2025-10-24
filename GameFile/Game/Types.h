@@ -4,10 +4,13 @@
 enum EnGameObjectPriority
 {
 	enGameObjectPriority_Default = 0,
-	enGameObjectPriority_Enemy,
+	enGameObjectPriority_BackGround,
 	enGameObjectPriority_Bullet,
-	enGameObjectPriority_Gun,
 	enGameObjectPriority_Camera,
+	enGameObjectPriority_Enemy,
+	enGameObjectPriority_Gun,
+	enGameObjectPriority_Player,
+	enGameObjectPriority_UI,
 };
 
 

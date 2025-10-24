@@ -10,19 +10,23 @@ namespace nsApp
 {
 	class GameCamera;
 
-
 	namespace nsActor
 	{
-		namespace nsPlayer
+		namespace nsBackGround
 		{
-			class Player;
+			class BackGround;
 		}
 
-		namespace nsEnemy 
+		namespace nsEnemy
 		{
 			class EnemySpawner;
 			class Zombie;
 		}
+
+		namespace nsPlayer
+		{
+			class Player;
+		}		
 	}
 }
 
@@ -46,6 +50,8 @@ namespace nsApp
 
 
 		private:
+			/** 背景 */
+			nsApp::nsActor::nsBackGround::BackGround* m_backGround = nullptr;
 			/** エネミーのスポナー */
 			std::unique_ptr<nsApp::nsActor::nsEnemy::EnemySpawner> m_enemySpawner;
 			/** カメラ */

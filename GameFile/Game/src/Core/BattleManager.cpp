@@ -5,12 +5,13 @@
  */
 #include "stdafx.h"
 #include "BattleManager.h"
-#include "src/Actor/Player/Player.h"
+#include "src/Actor/BackGround/BackGround.h"
 #include "src/Actor/Enemy/EnemySpawner.h"
-#include "src/Core/ParameterManager.h"
+#include "src/Actor/Player/Player.h"
 #include "src/Collision/CollisionManager.h"
-#include "src/UI/Crosshair.h"
+#include "src/Core/ParameterManager.h"
 #include "src/GameCamera.h"
+#include "src/UI/Crosshair.h"
 
 
 namespace nsApp
@@ -39,14 +40,16 @@ namespace nsApp
             auto* parameter = ParameterManager::Get().GetParameter<MasterBattleParameter>();
 
 
+            //背景を生成
+            m_backGround = NewGO<nsApp::nsActor::nsBackGround::BackGround>(enGameObjectPriority_BackGround, "BackGround");
             //エネミーのスポナーを生成
             m_enemySpawner = std::make_unique<nsApp::nsActor::nsEnemy::EnemySpawner>(parameter->m_maxEnemyNum, parameter->m_baseSpawnTime, Vector3(parameter->m_spawnPositionX, parameter->m_spawnPositionY, parameter->m_spawnPositionZ));
             //ゲームカメラを生成
             m_camera = NewGO<nsApp::GameCamera>(enGameObjectPriority_Camera, "GameCamera");
             //プレイヤーを生成
-            m_player = NewGO<nsApp::nsActor::nsPlayer::Player>(0, "Player");
+            m_player = NewGO<nsApp::nsActor::nsPlayer::Player>(enGameObjectPriority_Player, "Player");
 			//十字マークを生成
-			NewGO<nsApp::nsUI::Crosshair>(0, "Crosshair");
+			NewGO<nsApp::nsUI::Crosshair>(enGameObjectPriority_UI, "Crosshair");
         }
 
 
@@ -62,7 +65,7 @@ namespace nsApp
         {
             CollisionHitManager::Get().Update();
 
-            UpdateCameraForPlayer();        
+            UpdateCameraForPlayer();
 
             m_enemySpawner->Create();
             m_enemySpawner->CountTime();
