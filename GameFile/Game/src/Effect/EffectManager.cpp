@@ -16,12 +16,12 @@ namespace nsApp {
 	{
 		m_effectList.clear();
 
-		// サウンドの登録
-		/*for (int i = 0; i < ARRAYSIZE(effectInformation); ++i) {
+		// エフェクトの登録
+		for (int i = 0; i < ARRAYSIZE(effectInformation); ++i) {
 			const auto& info = effectInformation[i];
 			EffectEngine::GetInstance()->ResistEffect(i, info.assetPath);
-		}*/
-		EffectEngine::GetInstance()->ResistEffect(enEffectKind_Fire, u"Assets/Effects/Fire/Fire.efk");
+		}
+		//EffectEngine::GetInstance()->ResistEffect(enEffectKind_Fire, u"Assets/Effects/Fire/Fire.efk");
 	}
 
 
@@ -62,4 +62,32 @@ namespace nsApp {
 		}
 		effect->Stop();
 	}
+}
+
+
+/******************************************************************************/
+
+
+EffectManagerObject::EffectManagerObject()
+{
+	
+}
+
+
+EffectManagerObject::~EffectManagerObject()
+{
+	nsApp::EffectManager::DestroyInstance();
+}
+
+
+bool EffectManagerObject::Start()
+{
+	nsApp::EffectManager::CreateInstance();
+	return true;
+}
+
+
+void EffectManagerObject::Update()
+{
+	nsApp::EffectManager::Get().Update();
 }

@@ -108,3 +108,20 @@ namespace nsApp {
         static EffectManager* m_instance;
     };
 }
+
+
+/******************************************************************************/
+
+
+/** エフェクトマネージャーを管理するゲームオブジェクト */
+class EffectManagerObject :public IGameObject
+{
+public:
+    EffectManagerObject();
+    ~EffectManagerObject();
+
+
+public:
+    bool Start()override;
+    void Update()override;
+};
