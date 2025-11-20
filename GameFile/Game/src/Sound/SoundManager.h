@@ -110,4 +110,21 @@ namespace nsApp {
         /** シングルトンインスタンス */
         static SoundManager* m_instance;
     };
+
+
+    /******************************************************************************/
+
+
+    /** サウンドマネージャーを管理するためのオブジェクト */
+    class SoundManagerObject :public IGameObject
+    {
+    public:
+        SoundManagerObject();
+        ~SoundManagerObject();
+
+
+    public:
+        bool Start()override;
+        void Update()override;
+    };
 }

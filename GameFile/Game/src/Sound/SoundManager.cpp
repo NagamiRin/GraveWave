@@ -99,4 +99,32 @@ namespace nsApp {
 		}
 		se->Stop();
 	}
+
+
+	/******************************************************************************/
+
+
+	SoundManagerObject::SoundManagerObject()
+	{
+	}
+
+
+	SoundManagerObject::~SoundManagerObject()
+	{
+		SoundManager::DestroyInstance();
+	}
+
+
+	bool SoundManagerObject::Start()
+	{
+		SoundManager::CreateInstance();
+
+		return true;
+	}
+
+
+	void SoundManagerObject::Update()
+	{
+		SoundManager::Get().Update();
+	}
 }
