@@ -207,8 +207,8 @@ namespace nsApp
             SuperClass::Update();
 
             for (int i = 0; i < m_numbers.size();++i) {
-                auto* number = m_numbers[i];
-                float pos = i * -35.0f;
+                auto* number = m_numbers[i];               
+                float pos = (i - 1) * -35.0f;
                 number->SetPosition(m_transform.m_position + Vector3(pos, 0.0f, 0.0f));
                 number->SetScale(m_transform.m_scale);
                 number->SetRotation(m_transform.m_rotation);
@@ -227,9 +227,14 @@ namespace nsApp
 
         void NumberUI::Initialize(const char* assetName, const uint16_t drawNumber, const float width, const float height, const Vector3& position, const Vector3& scale, const Quaternion& rotation)
         {
+            m_transform.m_localPosition = position;
+            m_transform.m_localRotation = rotation;
+            m_transform.m_localScale = scale;
+
             m_number = drawNumber;
 
-            K2_ASSERT(drawNumber > 0, "0はありえない\n");
+            //K2_ASSERT(drawNumber > 0, "0はありえない\n");
+           
             //桁数を調べる
             uint8_t digit = 0; 
             uint16_t num = 1;
@@ -239,6 +244,9 @@ namespace nsApp
                 num *= 10;
             }
 
+            //桁数が0になっちゃってるとき
+            if (digit == 0)digit = 1;
+
             m_numbers.resize(digit);
 
             for (int i = 0; i < m_numbers.size(); ++i) {
@@ -247,7 +255,7 @@ namespace nsApp
 
                 m_numbers[i] = new SpriteRender();
                 m_numbers[i]->Init(path.c_str(), width, height);
-                m_numbers[i]->SetPosition(position + Vector3(width * digit, 0.0f, 0.0f));
+                m_numbers[i]->SetPosition(position + Vector3(width * (digit - 1), 0.0f, 0.0f));
                 m_numbers[i]->SetScale(scale);
                 m_numbers[i]->SetRotation(rotation);
             }
@@ -281,7 +289,7 @@ namespace nsApp
                 }
                 std::string path = std::string(assetName) + "/0.DDS";
                 path[path.size() - 5] = '0' + GetNumberOfDigits(drawNumber, currentDigit);
-
+                
                 currentDigit++;
 
                 number->Init(path.c_str(), width, height);
