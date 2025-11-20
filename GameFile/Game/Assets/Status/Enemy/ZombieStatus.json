@@ -1,8 +1,9 @@
 [
     {
         "Comment": "ゾンビ用のパラメータ",
-        "MoveSpeed":10.0,
+        "MoveSpeed":100.0,
         "HP":10,
-        "AttackPower":3
+        "AttackPower":3,
+        "AttackFrequency":3.0
     }
 ]
