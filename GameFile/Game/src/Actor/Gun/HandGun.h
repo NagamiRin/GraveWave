@@ -29,9 +29,6 @@ namespace nsApp
 			 */
 			class HandGun : public GunBase
 			{
-			private:
-
-
 			public:
 				/** コンストラクタ */
 				HandGun();
@@ -43,11 +40,6 @@ namespace nsApp
 				virtual bool Start()override;
 				virtual void Update()override;
 				virtual void Render(RenderContext& rc)override;
-
-
-			public:
-				/** 弾発射 */
-				void OnFire();
 			};
 		}
 	}
