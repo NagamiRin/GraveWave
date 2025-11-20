@@ -23,7 +23,7 @@ namespace nsApp
         InGameUIManager::InGameUIManager()
         {
             //クロスヘアを生成
-            m_crosshair = NewGO<Crosshair>(enGameObjectPriority_UI, "Crosshair");
+            m_crosshairUI = NewGO<Crosshair>(enGameObjectPriority_UI, "Crosshair");
             //カウントダウンUIを生成
             m_countdownUI = NewGO<CountdownUI>(enGameObjectPriority_UI, "CountdownUI");
             //残段数UIを生成
@@ -39,7 +39,7 @@ namespace nsApp
 
         InGameUIManager::~InGameUIManager()
         {
-            DeleteGO(m_crosshair);
+            DeleteGO(m_crosshairUI);
             DeleteGO(m_countdownUI);
             DeleteGO(m_remainingBulletsUI);
             DeleteGO(m_scoreUI);
@@ -54,6 +54,12 @@ namespace nsApp
             {
                 switch (notify->m_notifyType)
                 {
+                    case enNotifyType_CrossHair:
+                    {
+                        const auto* crossHairNotify= static_cast<const CrossHairNotify*>(notify);
+
+                        m_crosshairUI->SetIsHit(crossHairNotify->m_isHit);
+                    }
                     case enNotifyType_RemainingBullets:
                     {
                         const auto* remainingNotify = static_cast<const RemainingBulletsNotify*>(notify);

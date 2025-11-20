@@ -21,9 +21,11 @@ namespace nsApp
 {
 	enum EnNotifyType
 	{
+		enNotifyType_CrossHair,
 		enNotifyType_Countdown,
 		enNotifyType_RemainingBullets,
 		enNotifyType_RemainingEnemies,
+		enNotifyType_Enemies,
 		enNotifyType_Score,
 		enNotifyType_WallHP,
 		enNotifyType_None,
@@ -35,6 +37,16 @@ namespace nsApp
 		EnNotifyType m_notifyType;
 		//
 		INotify(EnNotifyType type) : m_notifyType(type) {}
+	};
+
+	struct CrossHairNotify : public INotify
+	{
+		bool m_isHit;
+		//
+		CrossHairNotify()
+			: INotify(enNotifyType_CrossHair)
+		{
+		}
 	};
 
 	struct RemainingBulletsNotify : public INotify
@@ -106,7 +118,7 @@ namespace nsApp
 		{
 		private:
 			/** クロスヘア */
-			Crosshair* m_crosshair = nullptr;
+			Crosshair* m_crosshairUI = nullptr;
 			/** カウントダウン */
 			CountdownUI* m_countdownUI = nullptr;
 			/** 残弾数 */

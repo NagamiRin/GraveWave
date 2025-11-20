@@ -119,6 +119,15 @@ namespace nsApp
 
         void BattleManager::LateUpdate()
         {
+            //クロスヘア
+            {
+                CrossHairNotify* crossHairNotify = new CrossHairNotify();
+
+                crossHairNotify->m_isHit = CollisionHitManager::Get().IsHitBullet();
+
+                nsUI::InGameUIManager::GetInstance()->AddNotify(crossHairNotify);
+            }
+
             // 弾数
             {
                 const uint8_t remainingAmmo = m_player->GetHandGun()->GetRemainingAmmo();

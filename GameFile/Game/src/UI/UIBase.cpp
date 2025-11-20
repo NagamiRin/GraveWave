@@ -35,7 +35,7 @@ namespace nsApp
 
         
         void UIBase::Render(RenderContext& rc)
-        {			
+        {
         }
 
 
@@ -44,7 +44,8 @@ namespace nsApp
 
         ImageUI::ImageUI()
         {
-
+            //最初は描画させる
+            m_isDraw = true;
         }
 
 
@@ -73,7 +74,7 @@ namespace nsApp
 
         void ImageUI::Render(RenderContext& rc)
         {
-            m_image.Draw(rc);
+            if (m_isDraw) m_image.Draw(rc);
         }
 
 
