@@ -60,12 +60,15 @@ public:
 public:
 	/** 判定処理をしたいオブジェクトを登録 */
 	void DeleteCollisionObject(IGameObject* object);
+	/** ゲームオブジェクトのコリジョンが残っているかを確認 */
+	bool CheckCollision(IGameObject* object);
 
 	CollisionObject* CreateCollisionObject(const uint32_t id, IGameObject* gameObject, const Vector3& position, const Quaternion& rotation, const float radisu, const float height);
 	CollisionObject* CreateCollisionObject(const uint32_t id, IGameObject* gameObject, const Vector3& position, const Quaternion& rotation, const float radisu);
 
 private:
 	void RegisterCollisionObject(const uint32_t id,IGameObject* gameObject, CollisionObject* collisionObject);
+	
 
 
 private:
@@ -104,10 +107,14 @@ public:
 			m_instance = new CollisionHitManager();
 		}
 	}
+
+
 	static CollisionHitManager& Get()
 	{
 		return *m_instance;
 	}
+
+
 	static void Delete()
 	{
 		if (m_instance)
