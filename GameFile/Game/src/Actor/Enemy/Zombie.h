@@ -14,12 +14,17 @@ namespace nsApp
 	{
 		namespace nsEnemy
 		{
+			class ZombieStateMachine;
+
+
 			/**
 			 *ゾンビクラス
 			 */
 			class Zombie : public EnemyBase
 			{
 				appGameObject(Zombie);
+
+				using SuperClass = EnemyBase;
 
 
 			private:
@@ -28,17 +33,17 @@ namespace nsApp
 					EnAnimationVar_Max,
 				};
 
-
-			private:
 				/** アニメションクリップの種類 */
 				std::array<AnimationClip, EnAnimationVar_Max> m_animationClipList;
+				/** ゾンビのステートマシンのポインタ */
+				std::unique_ptr<ZombieStateMachine> m_stateMachine;
 
 
 			public:
 				/** コンストラクタ */
 				Zombie();
 				/** デストラクタ */
-				virtual ~Zombie();
+				~Zombie();
 
 
 			public:

@@ -4,7 +4,8 @@
  * ゾンビ（雑魚）クラス
  */
 #include "stdafx.h"
-#include "src/Actor/Enemy/Zombie.h"
+#include "Zombie.h"
+#include "src/Actor/Enemy/ZombieStateMachine.h"
 #include "src/Collision/CollisionManager.h"
 
 
@@ -18,7 +19,10 @@ namespace nsApp
             {
                 //自身のステータスを生成
                 m_status = new ZombieStatus();
-                m_status->Setup();
+
+                //自身のステートマシンを生成
+                m_stateMachine = std::make_unique<ZombieStateMachine>();
+                m_stateMachine->Setup(this, GetZombieStatus());
             }
 
 
@@ -27,14 +31,13 @@ namespace nsApp
                 //ステータスを削除
                 delete m_status;
                 m_status = nullptr;
-
-                CollisionHitManager::Get().DeleteCollisionObject(this);
             }
 
 
             bool Zombie::Start()
             {
                 m_model.SetScale(0.3f, 0.3f, 0.3f);
+                m_transform.m_localScale = Vector3(0.3f, 0.3f, 0.3f);
                 SetDirection(Vector3(0.0f, 0.0f, -1.0f));
 
                 // アニメーションの初期化
@@ -47,7 +50,7 @@ namespace nsApp
                     }
                 }
                 m_model.Init("Assets/ModelData/Zombie/Default.tkm", m_animationClipList.data(), EnAnimationVar_Max);
-                m_model.PlayAnimation(EnAnimationVar_Walk);
+                m_model.PlayAnimation(EnAnimationVar_Walk);                
 
                 return true;
             }
@@ -55,9 +58,6 @@ namespace nsApp
 
             void Zombie::Update()
             {
-                //todo for test
-                SetLocalPosition(GetLocalPosition() + Vector3(0.0f, 0.0f, -2.0f));
-
                 m_transform.UpdateTransform();
 
                 m_collisionPosition = m_transform.m_position + Vector3(0.0f, 25.0f, 0.0f);
@@ -68,7 +68,9 @@ namespace nsApp
                 m_model.SetRotation(m_transform.m_rotation);
                 m_model.Update();
 
-                Vector3 hoge = GetDirection();
+                m_stateMachine->Update();
+
+                SuperClass::Update();
             }
 
 
@@ -81,14 +83,15 @@ namespace nsApp
             void Zombie::Initialize(const Vector3& initializePosition)
             {
                 GetZombieStatus()->ResetHP();
-                SetLocalPosition(initializePosition);
+                SetLocalPosition(initializePosition);                
+
                 m_collisionObject = CollisionHitManager::Get().CreateCollisionObject(ID(), this, m_collisionPosition, GetRotation(), 10.0f, 30.0f);
             }
 
 
             void Zombie::Destruction()
             {
-                //コリジョンの登録を解除する
+                if (!CollisionHitManager::Get().CheckCollision(this)) return;
                 CollisionHitManager::Get().DeleteCollisionObject(this);
             }
         }
