@@ -4,11 +4,7 @@
  * ゲーム全体を管理するクラス
  */
 #include "stdafx.h"
-#include "src/Core/Game.h"
-#include "src/Actor/Player/Player.h"
-#include "src/Actor/Enemy/Zombie.h"
-#include "src/GameCamera.h"
-#include "src/Core/BattleManager.h"
+#include "Game.h"
 
 
 namespace nsApp {
@@ -16,20 +12,13 @@ namespace nsApp {
 
 		Game::Game()
 		{
-			// BattleMangerの生成
-			nsApp::nsCore::BattleManager::CreateInstance();
-			// BattleMangerのインスタンス取得
-			m_battleManager = nsApp::nsCore::BattleManager::GetInstance();
-
 			//当たり判定描画
-			PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
+			//PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 		}
 
 
 		Game::~Game()
 		{
-			// BattleMangerの削除
-			nsApp::nsCore::BattleManager::DeleteInstance();
 		}
 
 
@@ -41,8 +30,6 @@ namespace nsApp {
 
 		void Game::Update()
 		{
-			// BattleManagerの更新処理
-			m_battleManager->Update();
 		}
 
 

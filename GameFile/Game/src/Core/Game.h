@@ -6,21 +6,6 @@
 #pragma once
 #include "Level3DRender/LevelRender.h"
 
-/** 前方宣言 */
-namespace nsApp {
-	namespace nsActor {
-		namespace nsPlayer {
-			class Player;
-		}
-		namespace nsEnemy {
-			class Zombie;
-		}
-	}
-	namespace nsCore {
-		class BattleManager;
-	}
-}
-
 
 namespace nsApp
 {
@@ -31,11 +16,6 @@ namespace nsApp
 		 */
 		class Game : public IGameObject
 		{
-		private:
-			/** ゲーム進行管理クラスのポインタ */
-			BattleManager* m_battleManager = nullptr;
-
-
 		public:
 			/** コンストラクタ */
 			Game();
