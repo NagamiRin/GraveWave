@@ -1,10 +1,10 @@
 ﻿/**
- * Crosshair.cpp
+ * TitleScreen.cpp
  *
- * クロスヘアの描画
+ * タイトル画面の表示
  */
 #include "stdafx.h"
-#include "Crosshair.h"
+#include "TitleScreen.h"
 #include "src/UI/UIBase.h"
 
 
@@ -12,37 +12,37 @@ namespace nsApp
 {
     namespace nsUI
     {
-        Crosshair::Crosshair()
+        TitleScreen::TitleScreen()
         {
         }
 
         
-        Crosshair::~Crosshair()
+        TitleScreen::~TitleScreen()
         {
         }
 
        
-        bool Crosshair::Start()
+        bool TitleScreen::Start()
         {
             //キャンバス生成
             m_uiCanvas = std::make_unique<UICanvas>();
             m_uiCanvas->m_transform.m_localPosition = Vector3::Zero;
 
             //クロスヘアUIを生成
-            auto* crosshair = m_uiCanvas->CreateUI<ImageUI>();
-            crosshair->Initialize("Assets/UI/Crosshair/Crosshair.DDS", 80.0f, 80.0f, Vector3::Zero, Vector3::One, Quaternion::Identity);
+            auto* titleImage = m_uiCanvas->CreateUI<ImageUI>();
+            titleImage->Initialize("Assets/Image/Title.DDS", 1920.0f, 1080.0f, Vector3::Zero, Vector3::One, Quaternion::Identity);
 
             return true;
         }
 
         
-        void Crosshair::Update()
+        void TitleScreen::Update()
         {
             m_uiCanvas->Update();
         }
 
         
-        void Crosshair::Render(RenderContext& rc)
+        void TitleScreen::Render(RenderContext& rc)
         {
             m_uiCanvas->Render(rc);
         }

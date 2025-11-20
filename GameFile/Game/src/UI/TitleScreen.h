@@ -1,7 +1,7 @@
 ﻿/**
- * Crosshair.h
+ * TitleScreen.h
  *
- * クロスヘアの描画
+ * タイトル画面の表示
  */
 #pragma once
 #include "src/UI/UIBase.h"
@@ -13,18 +13,20 @@ namespace nsApp
 		class UICanvas;
 		class ImageUI;
 
-		class Crosshair:public IGameObject
+
+		/** タイトル画面の表示 */
+		class TitleScreen :public IGameObject
 		{
 		private:
 			/** キャンバス */
-			std::unique_ptr<UICanvas>m_uiCanvas;
+			std::unique_ptr<UICanvas> m_uiCanvas;
 			
 
 		public:
 			/** コンストラクタ */
-			Crosshair();
+			TitleScreen();
 			/** デストラクタ */
-			~Crosshair();		
+			~TitleScreen();
 
 
 		private:

@@ -1,7 +1,7 @@
 ﻿/**
- * Crosshair.h
+ * LateResultScreen.h
  *
- * クロスヘアの描画
+ * 2つめのリザルト画面の表示
  */
 #pragma once
 #include "src/UI/UIBase.h"
@@ -13,18 +13,20 @@ namespace nsApp
 		class UICanvas;
 		class ImageUI;
 
-		class Crosshair:public IGameObject
+
+		/** リザルト画面の表示 */
+		class LateResultScreen :public IGameObject
 		{
 		private:
 			/** キャンバス */
-			std::unique_ptr<UICanvas>m_uiCanvas;
+			std::unique_ptr<UICanvas> m_uiCanvas;
 			
 
 		public:
 			/** コンストラクタ */
-			Crosshair();
+			LateResultScreen();
 			/** デストラクタ */
-			~Crosshair();		
+			~LateResultScreen();
 
 
 		private:
