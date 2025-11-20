@@ -1,0 +1,42 @@
+[
+    {
+        "Comment": "ゾンビ出現のウェーブ情報1",
+        "LeftCount": 2,
+        "CenterCount": 15,
+        "RightCount": 3,
+        "BossCount": 0,
+        "SpawnInterval": 3.0
+    },
+    {
+        "Comment": "ゾンビ出現のウェーブ情報2",
+        "LeftCount": 12,
+        "CenterCount": 2,
+        "RightCount": 1,
+        "BossCount": 0,
+        "SpawnInterval": 1.8
+    },
+    {
+        "Comment": "ゾンビ出現のウェーブ情報3",
+        "LeftCount": 1,
+        "CenterCount": 2,
+        "RightCount": 16,
+        "BossCount": 0,
+        "SpawnInterval": 1.6
+    },
+    {
+        "Comment": "ゾンビ出現のウェーブ情報4",
+        "LeftCount": 7,
+        "CenterCount": 7,
+        "RightCount": 7,
+        "BossCount": 0,
+        "SpawnInterval": 1.4
+    },
+    {
+        "Comment": "ゾンビ出現のウェーブ情報5",
+        "LeftCount": 6,
+        "CenterCount": 20,
+        "RightCount": 4,
+        "BossCount": 0,
+        "SpawnInterval": 1.2
+    }
+]

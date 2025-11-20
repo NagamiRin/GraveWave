@@ -4,18 +4,21 @@
  * クロスヘアの描画
  */
 #pragma once
-
+#include "src/UI/UIBase.h"
 
 namespace nsApp
 {
 	namespace nsUI
 	{
+		class UICanvas;
+		class ImageUI;
+
 		class Crosshair:public IGameObject
 		{
 		private:
-			/**画像モデル*/
-			SpriteRender m_crosshairImage;
-
+			/** キャンバス */
+			std::unique_ptr<UICanvas>m_uiCanvas;
+			
 
 		public:
 			/** コンストラクタ */

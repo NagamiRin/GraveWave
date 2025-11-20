@@ -1,0 +1,20 @@
+[
+    {
+        "Comment": "左側",
+        "MinPos":-500.0,
+        "MaxPos":-200.0,
+        "SpawnPositionZ":1000.0
+    },
+    {
+        "Comment": "中央",
+        "MinPos":-200.0,
+        "MaxPos":200.0,
+        "SpawnPositionZ":1000.0
+    },
+    {
+        "Comment": "右側",
+        "MinPos":200.0,
+        "MaxPos":500.0,
+        "SpawnPositionZ":1000.0
+    }
+]

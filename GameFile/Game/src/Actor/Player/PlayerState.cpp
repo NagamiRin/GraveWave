@@ -34,24 +34,27 @@ namespace nsApp
 
 			void WalkState::Update()
 			{
-				//X方向のスティック入力量を取得
 				auto* playerStateMachine = GetOwner<PlayerStateMachine>();
-				const float InputAmount = playerStateMachine->GetLStickXDirAmount();
-
-				//プレイヤーの移動速度を設定
 				auto* player = playerStateMachine->GetOwner();
-				const auto* status = player->GetStatus();
-				const auto moveSpeed = status->GetMoveSpeed();
-				player->SetSpeed(Vector3(InputAmount * moveSpeed, 0.0f, 0.0f));
+				auto* status = player->GetStatus();
+				const float moveSpeed = status->GetMoveSpeed();
+				const Vector3 playerPosition = player->GetLocalPosition();
+				//X方向のスティック入力量を取得
+				const float InputAmount = playerStateMachine->GetLStickXDirAmount();
+				//プレイヤーを移動させる
+				if (InputAmount >= 0.0f) {
+					//右方向
+					player->SetLocalPosition(Vector3(playerPosition.x + (InputAmount * moveSpeed), playerPosition.y, playerPosition.z));
+				}
+				else {
+					//左方向
+					player->SetLocalPosition(Vector3(playerPosition.x + (InputAmount * moveSpeed), playerPosition.y, playerPosition.z));
+				}
 			}
 
 
 			void WalkState::Exit()
-			{
-				// 適用おわったで速度を0にする
-				auto* playerStateMachine = GetOwner<PlayerStateMachine>();
-				auto* player = playerStateMachine->GetOwner();
-				player->SetSpeed(Vector3::Zero);
+			{;
 			}
 
 

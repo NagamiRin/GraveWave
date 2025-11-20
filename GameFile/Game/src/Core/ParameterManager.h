@@ -24,49 +24,129 @@ struct MasterPlayerStatus : public IMasterParameter
 };
 
 
+//エネミーのステータス
 struct MasterEnemyStatus : public IMasterParameter
 {
     appParameter(MasterEnemyStatus);
     //
     uint16_t m_hp;
     uint16_t m_attackPower;
+    float m_attackFrequency;
     float m_moveSpeed;
 };
 
 
+//ハンドガンのステータス
+struct MasterHandGunParameter :public IMasterParameter
+{
+    appParameter(MasterHandGunParameter);
+    //
+    uint8_t m_damage;
+    uint8_t m_maxAmmo;
+    float m_bulletSpeed;
+    float m_fireCoolTime;
+    float m_reloadTime;
+    float m_newPositionX;
+    float m_newPositionY;
+    float m_newPositionZ;
+};
+
+
+
+//弾丸のステータス
 struct MasterBulletStatus : public IMasterParameter
 {
     appParameter(MasterBulletStatus);
     //
     int m_damage;
     int m_maxAmmo;
-    float m_bulletSpeed;
-    
+    float m_bulletSpeed;    
 };
 
 
+//防壁のステータス
+struct MasterWallParameter : public IMasterParameter
+{
+    appParameter(MasterWallParameter);
+    //
+    uint16_t m_maxDurability;
+};
+
+
+//カメラのパラメーター
 struct MasterCameraParameter :public IMasterParameter
 {
     appParameter(MasterCameraParameter);
     //
-    float m_CameraNear;
-    float m_CameraFar;
-    float m_XPosLimit;
-    float m_YPosLimit;
+    float m_cameraNear;
+    float m_cameraFar;
+    float m_initialCameraPositionX;
+    float m_initialCameraPositionY;
+    float m_initialCameraPositionZ;
+    float m_initialTargetPositionX;
+    float m_initialTargetPositionY;
+    float m_initialTargetPositionZ;
+    float m_cameraSensitivity;
 };
 
 
+//インゲーム共通のパラメーター
 struct MasterBattleParameter :public IMasterParameter
 {
     appParameter(MasterBattleParameter);
 
     uint8_t m_maxEnemyNum;
     float m_baseSpawnTime;
-    float m_spawnPositionX;
-    float m_spawnPositionY;
     float m_spawnPositionZ;
+    float m_besideLimitPosition;
+    float m_verticalLimitAngle;
+    float m_horizontalLimitAngle;
+    float m_gravityAmount;
+    float m_enemyStopPosition;
 };
 
+
+//スポナーのパラメーター
+struct MasterSpawnerParameter :public IMasterParameter
+{
+    appParameter(MasterSpawnerParameter);
+
+    float m_spawnPositionZ;
+    float m_minPos;
+    float m_maxPos;
+};
+
+
+//ウェーブのパラメーター
+struct MasterWaveParameter :public IMasterParameter
+{
+    appParameter(MasterWaveParameter);
+
+    uint16_t m_leftCount;
+    uint16_t m_centerCount;
+    uint16_t m_rightCount;
+    uint8_t m_bossCount;
+    float m_spawnInterval;
+};
+
+
+//準備フェーズのパラメーター
+struct MasterPreparationParameter :public IMasterParameter
+{
+    appParameter(MasterPreparationParameter);
+
+    float m_toCountDownTime;
+    float m_specifiedSeconds;
+};
+
+
+//スコアのパラメーター
+struct MasterScoreParameter :public IMasterParameter
+{
+    appParameter(MasterScoreParameter);
+
+    uint8_t m_eliminateZombieScore;
+};
 
 
 /** defineの使用終了 */

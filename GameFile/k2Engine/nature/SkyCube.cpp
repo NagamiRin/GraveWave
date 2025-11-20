@@ -1,41 +1,42 @@
-#include "k2EnginePreCompile.h"
+ï»¿#include "k2EnginePreCompile.h"
 #include "SkyCube.h"
 
 namespace nsK2Engine {
 
 	SkyCube::SkyCube()
 	{
-		m_textureFilePaths[enSkyCubeType_Day] = L"Assets/modelData/preset/skyCubeMap.dds";
-		m_textureFilePaths[enSkyCubeType_Night] = L"Assets/modelData/preset/skyCubeMapNight.dds";
-		m_textureFilePaths[enSkyCubeType_Snow] = L"Assets/modelData/preset/skyCubeMapSnow.dds";
-		m_textureFilePaths[enSkyCubeType_Snow_2] = L"Assets/modelData/preset/skyCubeMapSnow_2.dds";
-		m_textureFilePaths[enSkyCubeType_Wild] = L"Assets/modelData/preset/skyCubeMapWild.dds";
-		m_textureFilePaths[enSkyCubeType_Wild_Night] = L"Assets/modelData/preset/skyCubeMapWild_Night.dds";
-		m_textureFilePaths[enSkyCubeType_Wild_2] = L"Assets/modelData/preset/skyCubeMapWild_2.dds";
-		m_textureFilePaths[enSkyCubeType_Grass] = L"Assets/modelData/preset/skyCubeMapGrass.dds";
-		m_textureFilePaths[enSkyCubeType_Euro] = L"Assets/modelData/preset/skyCubeMapEuro.dds";
-		m_textureFilePaths[enSkyCubeType_DayToon] = L"Assets/modelData/preset/skyCubeMapDay_Toon.dds";
-		m_textureFilePaths[enSkyCubeType_DayToon_2] = L"Assets/modelData/preset/skyCubeMapDay_Toon_02.dds";
-		m_textureFilePaths[enSkyCubeType_DayToon_3] = L"Assets/modelData/preset/skyCubeMapDay_Toon_03.dds";
-		m_textureFilePaths[enSkyCubeType_DayToon_4] = L"Assets/modelData/preset/skyCubeMapDay_Toon_04.dds";
-		m_textureFilePaths[enSkyCubeType_NightToon] = L"Assets/modelData/preset/skyCubeMapNight_Toon.dds";
-		m_textureFilePaths[enSkyCubeType_NightToon_2] = L"Assets/modelData/preset/skyCubeMapNight_Toon_02.dds";
-		m_textureFilePaths[enSkyCubeType_SunriseToon] = L"Assets/modelData/preset/skyCubeMapSunrise_Toon.dds";
-		//m_textureFilePaths[enSkyCubeType_SpaceToon] = L"Assets/modelData/preset/skyCubeMapSpace_Toon.dds";
-		m_textureFilePaths[enSkyCubeType_SpaceToon_2] = L"Assets/modelData/preset/skyCubeMapSpace_Toon_2.dds";
+		m_textureFilePaths[enSkyCubeType_Day] = L"Assets/ModelData/preset/skyCubeMap.dds";
+		m_textureFilePaths[enSkyCubeType_Night] = L"Assets/ModelData/preset/skyCubeMapNight.dds";
+		m_textureFilePaths[enSkyCubeType_Snow] = L"Assets/ModelData/preset/skyCubeMapSnow.dds";
+		m_textureFilePaths[enSkyCubeType_Snow_2] = L"Assets/ModelData/preset/skyCubeMapSnow_2.dds";
+		m_textureFilePaths[enSkyCubeType_Wild] = L"Assets/ModelData/preset/skyCubeMapWild.dds";
+		m_textureFilePaths[enSkyCubeType_Wild_Night] = L"Assets/ModelData/preset/skyCubeMapWild_Night.dds";
+		m_textureFilePaths[enSkyCubeType_Wild_2] = L"Assets/ModelData/preset/skyCubeMapWild_2.dds";
+		m_textureFilePaths[enSkyCubeType_Grass] = L"Assets/ModelData/preset/skyCubeMapGrass.dds";
+		m_textureFilePaths[enSkyCubeType_Euro] = L"Assets/ModelData/preset/skyCubeMapEuro.dds";
+		m_textureFilePaths[enSkyCubeType_DayToon] = L"Assets/ModelData/preset/skyCubeMapDay_Toon.dds";
+		m_textureFilePaths[enSkyCubeType_DayToon_2] = L"Assets/ModelData/preset/skyCubeMapDay_Toon_02.dds";
+		m_textureFilePaths[enSkyCubeType_DayToon_3] = L"Assets/ModelData/preset/skyCubeMapDay_Toon_03.dds";
+		m_textureFilePaths[enSkyCubeType_DayToon_4] = L"Assets/ModelData/preset/skyCubeMapDay_Toon_04.dds";
+		m_textureFilePaths[enSkyCubeType_NightToon] = L"Assets/ModelData/preset/skyCubeMapNight_Toon.dds";
+		m_textureFilePaths[enSkyCubeType_NightToon_2] = L"Assets/ModelData/preset/skyCubeMapNight_Toon_02.dds";
+		m_textureFilePaths[enSkyCubeType_SunriseToon] = L"Assets/ModelData/preset/skyCubeMapSunrise_Toon.dds";
+		//m_textureFilePaths[enSkyCubeType_SpaceToon] = L"Assets/ModelData/preset/skyCubeMapSpace_Toon.dds";
+		m_textureFilePaths[enSkyCubeType_SpaceToon_2] = L"Assets/ModelData/preset/skyCubeMapSpace_Toon_2.dds";
 	}
 
 	SkyCube::~SkyCube()
 	{
-
+		// @todo for test
+		int test = 0;
 	}
 
 	bool SkyCube::Start()
 	{
 		ModelInitData initData;
-		//tkmƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒpƒX‚ğw’è‚·‚éB
-		initData.m_tkmFilePath = "Assets/modelData/preset/sky.tkm";
-		//ƒVƒF[ƒ_[ƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒpƒX‚ğw’è‚·‚éB
+		//tkmãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’æŒ‡å®šã™ã‚‹ã€‚
+		initData.m_tkmFilePath = "Assets/ModelData/preset/sky.tkm";
+		//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’æŒ‡å®šã™ã‚‹ã€‚
 		initData.m_fxFilePath = "Assets/shader/SkyCubeMap.fx";
 		initData.m_vsEntryPointFunc = "VSMain";
 		initData.m_psEntryPointFunc = "PSMain";

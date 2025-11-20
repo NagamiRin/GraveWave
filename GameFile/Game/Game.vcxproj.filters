@@ -54,9 +54,6 @@
     <ClCompile Include="src\Core\ParameterManager.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameCamera.cpp">
-      <Filter>Actor</Filter>
-    </ClCompile>
     <ClCompile Include="src\Actor\StateMachine.cpp">
       <Filter>Actor</Filter>
     </ClCompile>
@@ -83,12 +80,6 @@
     </ClCompile>
     <ClCompile Include="src\Actor\Player\PlayerStatus.cpp">
       <Filter>Actor\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Actor\Wall\WallStatus.cpp">
-      <Filter>Actor\Wall</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Actor\Gun\GunStatus.cpp">
-      <Filter>Actor\Gun</Filter>
     </ClCompile>
     <ClCompile Include="src\Actor\ActorStatus.cpp">
       <Filter>Actor</Filter>
@@ -119,6 +110,36 @@
     <ClCompile Include="src\Core\Game.cpp" />
     <ClCompile Include="src\Actor\Enemy\ZombieStatus.cpp" />
     <ClCompile Include="src\Actor\Enemy\EnemySpawner.cpp" />
+    <ClCompile Include="src\Actor\BackGround\BackGround.cpp" />
+    <ClCompile Include="src\Actor\Enemy\ZombieStateMachine.cpp" />
+    <ClCompile Include="src\Actor\Enemy\ZombieState.cpp" />
+    <ClCompile Include="src\Camera\GameCamera.cpp" />
+    <ClCompile Include="src\UI\UIBase.cpp" />
+    <ClCompile Include="src\UI\RemainingBulletsUI.cpp" />
+    <ClCompile Include="src\UI\InGameUIManager.cpp" />
+    <ClCompile Include="src\UI\ScoreUI.cpp" />
+    <ClCompile Include="src\Scene\IScene.cpp" />
+    <ClCompile Include="src\Scene\SceneManager.cpp" />
+    <ClCompile Include="src\Scene\InGameScene.cpp" />
+    <ClCompile Include="src\Scene\ResultScene.cpp" />
+    <ClCompile Include="src\Scene\TitleScene.cpp" />
+    <ClCompile Include="src\UI\ResultUIManager.cpp" />
+    <ClCompile Include="src\UI\TitleUIManager .cpp" />
+    <ClCompile Include="src\UI\TitleScreen.cpp" />
+    <ClCompile Include="src\GameFlow\GameFlowManager.cpp" />
+    <ClCompile Include="src\GameFlow\ScoreCounter.cpp" />
+    <ClCompile Include="src\Actor\Enemy\EnemyManager.cpp" />
+    <ClCompile Include="src\Actor\Enemy\EnemyPoolManager.cpp" />
+    <ClCompile Include="src\UI\RemainingEnemyUI.cpp" />
+    <ClCompile Include="src\GameFlow\BattleFlow.cpp" />
+    <ClCompile Include="src\GameFlow\PreparationFlow.cpp" />
+    <ClCompile Include="src\UI\ResultScreen.cpp" />
+    <ClCompile Include="src\Actor\Wall\Wall.cpp" />
+    <ClCompile Include="src\UI\WallHPUI.cpp" />
+    <ClCompile Include="src\UI\CountdownUI.cpp" />
+    <ClCompile Include="src\UI\MiniMapUI.cpp" />
+    <ClCompile Include="src\Core\SaveData.cpp" />
+    <ClCompile Include="src\UI\LateResultScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -140,9 +161,6 @@
     </ClInclude>
     <ClInclude Include="src\Core\ParameterManager.h">
       <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameCamera.h">
-      <Filter>Actor</Filter>
     </ClInclude>
     <ClInclude Include="src\Actor\StateMachine.h">
       <Filter>Actor</Filter>
@@ -170,12 +188,6 @@
     </ClInclude>
     <ClInclude Include="src\Actor\Player\PlayerStatus.h">
       <Filter>Actor\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Actor\Wall\WallStatus.h">
-      <Filter>Actor\Wall</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Actor\Gun\GunStatus.h">
-      <Filter>Actor\Gun</Filter>
     </ClInclude>
     <ClInclude Include="src\Actor\ActorStatus.h">
       <Filter>Actor</Filter>
@@ -209,5 +221,36 @@
     <ClInclude Include="src\Core\Game.h" />
     <ClInclude Include="src\Actor\Enemy\ZombieStatus.h" />
     <ClInclude Include="src\Actor\Enemy\EnemySpawner.h" />
+    <ClInclude Include="src\Actor\BackGround\BackGround.h" />
+    <ClInclude Include="src\Actor\Enemy\ZombieStateMachine.h" />
+    <ClInclude Include="src\Actor\Enemy\ZombieState.h" />
+    <ClInclude Include="src\Camera\GameCamera.h" />
+    <ClInclude Include="src\UI\UIBase.h" />
+    <ClInclude Include="src\UI\RemainingBulletsUI.h" />
+    <ClInclude Include="src\UI\InGameUIManager.h" />
+    <ClInclude Include="src\UI\ScoreUI.h" />
+    <ClInclude Include="src\Scene\IScene.h" />
+    <ClInclude Include="src\Scene\SceneManager.h" />
+    <ClInclude Include="src\Scene\InGameScene.h" />
+    <ClInclude Include="src\Scene\ResultScene.h" />
+    <ClInclude Include="src\Scene\TitleScene.h" />
+    <ClInclude Include="src\UI\ResultUIManager.h" />
+    <ClInclude Include="src\UI\TitleUIManager .h" />
+    <ClInclude Include="src\UI\TitleUIManager.h" />
+    <ClInclude Include="src\UI\TitleScreen.h" />
+    <ClInclude Include="src\GameFlow\GameFlowManager.h" />
+    <ClInclude Include="src\GameFlow\ScoreCounter.h" />
+    <ClInclude Include="src\Actor\Enemy\EnemyManager.h" />
+    <ClInclude Include="src\Actor\Enemy\EnemyPoolManager.h" />
+    <ClInclude Include="src\UI\RemainingEnemyUI.h" />
+    <ClInclude Include="src\GameFlow\BattleFlow.h" />
+    <ClInclude Include="src\GameFlow\PreparationFlow.h" />
+    <ClInclude Include="src\UI\ResultScreen.h" />
+    <ClInclude Include="src\Actor\Wall\Wall.h" />
+    <ClInclude Include="src\UI\WallHPUI.h" />
+    <ClInclude Include="src\UI\CountdownUI.h" />
+    <ClInclude Include="src\UI\MiniMapUI.h" />
+    <ClInclude Include="src\Core\SaveData.h" />
+    <ClInclude Include="src\UI\LateResultScreen.h" />
   </ItemGroup>
 </Project>

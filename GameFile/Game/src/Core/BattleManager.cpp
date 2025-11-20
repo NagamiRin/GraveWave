@@ -5,12 +5,22 @@
  */
 #include "stdafx.h"
 #include "BattleManager.h"
+#include "src/Actor/BackGround/BackGround.h"
 #include "src/Actor/Player/Player.h"
+#include "src/Actor/Enemy/EnemyManager.h"
+#include "src/Actor/Enemy/EnemyPoolManager.h"
 #include "src/Actor/Enemy/EnemySpawner.h"
-#include "src/Core/ParameterManager.h"
+#include "src/Actor/Gun/HandGun.h"
 #include "src/Collision/CollisionManager.h"
-#include "src/UI/Crosshair.h"
-#include "src/GameCamera.h"
+#include "src/Core/ParameterManager.h"
+#include "src/Core/SaveData.h"
+#include "src/Camera/GameCamera.h"
+#include "src/GameFlow/GameFlowManager.h"
+#include "src/GameFlow/BattleFlow.h"
+#include "src/GameFlow/PreparationFlow.h"
+#include "src/GameFlow/ScoreCounter.h"
+#include "src/UI/InGameUIManager.h"
+#include "src/Actor/Wall/Wall.h"
 
 
 namespace nsApp
@@ -22,65 +32,227 @@ namespace nsApp
 
         BattleManager::BattleManager()
         {
-            BattleManager::GetInstance();
-
-            CollisionHitManager::Create();
-
-            //パラメーター読み込み
+            //インゲーム共通のパラメーターを読み込み
             ParameterManager::Get().LoadParameter<MasterBattleParameter>("Assets/Parameter/BattleParameter.json", [](const nlohmann::json& j, MasterBattleParameter& p)
                 {
-                    p.m_maxEnemyNum = j["MaxEnemyNum"].get<uint8_t>();
-                    p.m_baseSpawnTime = j["BaseSpawnTime"].get<float>();
-                    p.m_spawnPositionX = j["SpawnPositionX"].get<float>();
-                    p.m_spawnPositionY = j["SpawnPositionY"].get<float>();
-                    p.m_spawnPositionZ = j["SpawnPositionZ"].get<float>();
+                    p.m_maxEnemyNum = j["MaxEnemyNum"].get<uint8_t>();                
+                    p.m_verticalLimitAngle = j["VerticalLimitAngle"].get<float>();
+                    p.m_horizontalLimitAngle = j["HorizontalLimitAngle"].get<float>();
+                    p.m_gravityAmount = j["GravityAmount"].get<float>();
+                    p.m_enemyStopPosition = j["EnemyStopPosition"].get<float>();
                 });
 
-            auto* parameter = ParameterManager::Get().GetParameter<MasterBattleParameter>();
+            auto* battleParam = ParameterManager::Get().GetParameter<MasterBattleParameter>();
+            m_enemyStopPosition = battleParam->m_enemyStopPosition;
 
+            //スポナーのパラメーターを読み込み
+            ParameterManager::Get().LoadParameter<MasterSpawnerParameter>("Assets/Parameter/SpawnerParameter.json", [](const nlohmann::json& j, MasterSpawnerParameter& p)
+                {
+                    p.m_minPos = j["MinPos"].get<float>();
+                    p.m_maxPos = j["MaxPos"].get<float>();
+                    p.m_spawnPositionZ = j["SpawnPositionZ"].get<float>();
+                });            
 
-            //エネミーのスポナーを生成
-            m_enemySpawner = std::make_unique<nsApp::nsActor::nsEnemy::EnemySpawner>(parameter->m_maxEnemyNum, parameter->m_baseSpawnTime, Vector3(parameter->m_spawnPositionX, parameter->m_spawnPositionY, parameter->m_spawnPositionZ));
-            //ゲームカメラを生成
-            m_camera = NewGO<nsApp::GameCamera>(enGameObjectPriority_Camera, "GameCamera");
+            //ゾンビのプールマネージャーを生成
+            nsApp::nsActor::nsEnemy::EnemyPoolManager::CreateInstance();
+            nsApp::nsActor::nsEnemy::EnemyPoolManager::GetInstance()->SetUp(battleParam->m_maxEnemyNum);
+
+            //位置ごとのスポナーを生成
+            const auto& paramList = ParameterManager::Get().GetParameters<MasterSpawnerParameter>();
+            for (int i = 0; i < paramList.size(); ++i) {
+                m_enemySpawner[i] = std::make_unique<nsActor::nsEnemy::EnemySpawner>(static_cast<EnSpwnerType>(i));
+            }
+
+            //ヒット判定のマネージャーを生成
+            CollisionHitManager::Create();
+
+            ////背景を生成
+            m_backGround = NewGO<nsActor::nsBackGround::BackGround>(enGameObjectPriority_BackGround, "BackGround");
+            ////防壁を生成
+            m_wall = NewGO<nsActor::nsWall::Wall>(enGameObjectPriority_Wall, "Wall");
+
             //プレイヤーを生成
-            m_player = NewGO<nsApp::nsActor::nsPlayer::Player>(0, "Player");
-			//十字マークを生成
-			NewGO<nsApp::nsUI::Crosshair>(0, "Crosshair");
+            m_player = NewGO<nsActor::nsPlayer::Player>(enGameObjectPriority_Player, "Player");
+
+            //ゲームカメラを生成
+            m_camera = NewGO<nsCamera::GameCamera>(enGameObjectPriority_Camera, "GameCamera");
+
+            //ゲーム進行のマネージャーを生成
+            nsFlow::GameFlowManager::CreateInstance();
         }
 
 
         BattleManager::~BattleManager()
         {
-            CollisionHitManager::Delete();
-
-            ParameterManager::Get().UnloadParameter<MasterBattleParameter>();
+            //パラメーターを削除
+            ParameterManager::Get().UnloadParameter<MasterBattleParameter>();            
+            //ゾンビのプールマネージャーを削除
+            nsApp::nsActor::nsEnemy::EnemyPoolManager::DeleteInstance();
+            //背景を削除
+            DeleteGO(m_backGround);
+            //防壁を削除
+            DeleteGO(m_wall);
+            //プレイヤーを削除
+            DeleteGO(m_player);
+            //ゲームカメラ削除
+            DeleteGO(m_camera);
+            //ゲーム進行のマネージャーを削除
+            nsFlow::GameFlowManager::DeleteInstance();
+            //ヒット判定のマネージャーを削除
+            CollisionHitManager::Get().Delete();
         }
 
 
         void BattleManager::Update()
         {
             CollisionHitManager::Get().Update();
+            //ゲーム進行のマネージャーの更新処理
+            nsFlow::GameFlowManager::GetInstance()->Update();
 
-            UpdateCameraForPlayer();        
+            UpdateCameraForPlayer();
 
-            m_enemySpawner->Create();
-            m_enemySpawner->CountTime();
+            // @todo for test
+            // この関数を呼ぶ場所を後で用意
+            LateUpdate();
         }
 
 
-        void BattleManager::DeleteZombie(nsApp::nsActor::nsEnemy::Zombie* zombie)
+        void BattleManager::LateUpdate()
         {
-            m_enemySpawner->Delete(zombie); 
+            // 弾数
+            {
+                const uint8_t remainingAmmo = m_player->GetHandGun()->GetRemainingAmmo();
+                const uint8_t maxAmmo = m_player->GetHandGun()->GetMaxAmmo();
+
+                RemainingBulletsNotify* remainingBulletsNotify = new RemainingBulletsNotify();
+                remainingBulletsNotify->m_remainingNum = remainingAmmo;
+                remainingBulletsNotify->m_maxNum = maxAmmo;
+
+                nsUI::InGameUIManager::GetInstance()->AddNotify(remainingBulletsNotify);
+            }
+
+            //スコア
+            {
+                const uint16_t score = nsApp::nsFlow::ScoreCounter::GetInstance()->GetScore();
+
+                ScoreNotify* scoreNotify = new ScoreNotify();
+                scoreNotify->m_score = score;
+
+                nsUI::InGameUIManager::GetInstance()->AddNotify(scoreNotify);
+
+                // セーブデータにスコアを設定
+                SaveData::Get().SetScore(score);
+
+            }
+
+            //エネミーの残数
+            {
+                const uint8_t remainingEnemy = nsFlow::BattleFlow::GetInstance()->GetRemainingEnemy();
+
+                RemainingEnemiesNotify* remainingEnemiesNotify = new RemainingEnemiesNotify();
+                remainingEnemiesNotify->m_remainingEnemy = remainingEnemy;
+
+                nsUI::InGameUIManager::GetInstance()->AddNotify(remainingEnemiesNotify);
+            }
+
+            //防壁のHP
+            {
+                const uint16_t maxWallHP = m_wall->GetMaxDurability();
+                const uint16_t wallHP = m_wall->GetDurability();
+
+                WallHPNotify* wallHPNotify = new WallHPNotify();
+                wallHPNotify->m_maxWallHP = maxWallHP;
+                wallHPNotify->m_wallHP = wallHP;
+
+                nsUI::InGameUIManager::GetInstance()->AddNotify(wallHPNotify);
+            }
+
+            //カウントダウン            
+            {
+                const float specifiedSeconds = nsFlow::PreparationFlow::GetInstance()->GetSpecifiedSeconds();
+                const float currentCount = nsFlow::PreparationFlow::GetInstance()->GetCurrentCount();
+                const bool isDrawCount = nsFlow::PreparationFlow::GetInstance()->IsDrawCount();
+
+                CountdownNotify* countdownNotify = new CountdownNotify();
+                countdownNotify->m_specifiedSeconds = specifiedSeconds;
+                countdownNotify->m_currentSeconds = currentCount;
+                countdownNotify->m_isDrawCount = isDrawCount;
+
+                nsUI::InGameUIManager::GetInstance()->AddNotify(countdownNotify);
+            }
         }
 
-
+        
         void BattleManager::UpdateCameraForPlayer()
         {
             //カメラ座標を設定
             m_camera->SetCameraPos(m_player->GetPosition());
             //カメラの向きを設定
             m_camera->SetCameraDir(m_player->GetDirection());
+        }
+
+
+        void BattleManager::DeleteZombie(nsApp::nsActor::nsEnemy::Zombie* zombie)
+        {
+            nsApp::nsActor::nsEnemy::EnemyPoolManager::GetInstance()->Restore(zombie);
+        }
+
+
+        float BattleManager::GetVerLimitAngle()
+        {
+            auto* parameter = ParameterManager::Get().GetParameter<MasterBattleParameter>();
+
+            return parameter->m_verticalLimitAngle;
+        }
+
+
+        float BattleManager::GetHorLimitAngle()
+        {
+            auto* parameter = ParameterManager::Get().GetParameter<MasterBattleParameter>();
+
+            return parameter->m_horizontalLimitAngle;
+        }
+
+
+        float BattleManager::GetGravityAmount()
+        {
+            auto* parameter = ParameterManager::Get().GetParameter<MasterBattleParameter>();
+
+            return parameter->m_gravityAmount;
+        }
+
+
+        float BattleManager::GetEnemyStopPosition()
+        {
+            auto* param = ParameterManager::Get().GetParameter<MasterBattleParameter>();
+            return param->m_enemyStopPosition;
+        }
+
+
+        void BattleManager::DealingDamage(const uint16_t damage)
+        {
+            m_wall->ReduceDurability(damage);
+        }
+
+
+        bool BattleManager::IsBattleFinish()const
+        {
+            if (IsBattleWin()) return true;
+            if (IsBattleLose())return true;
+            
+            return false;
+        }
+
+
+        bool BattleManager::IsBattleWin()const
+        {
+            return nsFlow::GameFlowManager::GetInstance()->IsClearConditions();
+        }
+
+       
+        bool BattleManager::IsBattleLose()const
+        {
+            return m_wall->CheckDestroyWall();
         }
     }
 }

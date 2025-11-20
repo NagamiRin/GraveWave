@@ -3,6 +3,8 @@
 #include "src/Actor/Bullet/NormalBullet.h"
 #include "src/Actor/Enemy/Zombie.h"
 #include "src/Core/BattleManager.h"
+#include "src/GameFlow/BattleFlow.h"
+#include "src/GameFlow/ScoreCounter.h"
 
 
 CollisionHitManager* CollisionHitManager::m_instance = nullptr;
@@ -17,6 +19,12 @@ CollisionHitManager::CollisionHitManager()
 
 CollisionHitManager::~CollisionHitManager()
 {
+	// コリジョンオブジェクトを削除する
+	for (auto& info : m_collisionInfoList) {
+		if (info.m_collision) {
+			delete info.m_collision;
+		}
+	}
 	m_collisionInfoList.clear();
 	m_collisionPairList.clear();
 }
@@ -88,6 +96,23 @@ void CollisionHitManager::DeleteCollisionObject(IGameObject* object)
 }
 
 
+bool CollisionHitManager::CheckCollision(IGameObject* object)
+{
+	CollisionObject* targetCollision = nullptr;
+	for (auto it = m_collisionInfoList.begin(); it != m_collisionInfoList.end(); ++it)
+	{
+		if (it->m_object == object)
+		{
+			targetCollision = it->m_collision;
+			return true;
+			break;
+		}
+	}
+
+	return false;
+}
+
+
 CollisionObject* CollisionHitManager::CreateCollisionObject(const uint32_t id, IGameObject* gameObject, const Vector3& position, const Quaternion& rotation, const float radisu, const float height)
 {
 	CollisionObject* collisionObject = new CollisionObject();
@@ -115,6 +140,7 @@ void CollisionHitManager::RegisterCollisionObject(const uint32_t id, IGameObject
 	m_collisionInfoList.push_back(std::move(info));
 }
 
+
 bool CollisionHitManager::UpdateHitBullet(CollisionPair& pair)
 {
 	nsApp::nsActor::nsBullet::NormalBullet* normalBullet = GetTargetObject<nsApp::nsActor::nsBullet::NormalBullet>(pair, nsApp::nsActor::nsBullet::NormalBullet::ID());
@@ -133,6 +159,10 @@ bool CollisionHitManager::UpdateHitBullet(CollisionPair& pair)
 	//死んだなら削除要請
 	if (zombie->GetZombieStatus()->GetHP() <= 0) {
 		nsApp::nsCore::BattleManager::GetInstance()->DeleteZombie(zombie);
+		//倒した敵を加算
+		nsApp::nsFlow::BattleFlow::GetInstance()->AddEliminateEnemy();
+		//スコア加算
+		nsApp::nsFlow::ScoreCounter::GetInstance()->AddScoreEliminateZombie();
 	}
 
 	return true;

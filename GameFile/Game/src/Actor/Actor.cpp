@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Actor.cpp
  *
  * ゲームオブジェクトのベース
@@ -29,6 +29,10 @@ namespace nsApp
         
         void Actor::Update()
         {
+            m_model.SetPosition(m_transform.m_localPosition);
+            m_model.SetRotation(m_transform.m_localRotation);
+            m_model.SetScale(m_transform.m_localScale);
+            m_model.Update();       
         }
 
         

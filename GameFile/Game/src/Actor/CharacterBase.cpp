@@ -29,7 +29,7 @@ namespace nsApp
 		
 		void CharacterBase::Update()
 		{
-			ApplySpeed();
+			SuperClass::Update();
 
 			m_transform.UpdateTransform();
 		}
@@ -37,23 +37,6 @@ namespace nsApp
 		
 		void CharacterBase::Render(RenderContext& rc)
 		{
-		}
-
-
-		void CharacterBase::ApplySpeed()
-		{
-			Vector3 moveAmount = m_speed / g_gameTime->GetFrameDeltaTime();
-			m_transform.m_localPosition += moveAmount;
-		}
-
-
-		const void CharacterBase::SetDirection(const Vector3& direction)
-		{
-			m_direction = direction;
-			Quaternion t;
-			t = GetRotation();
-			t.SetRotationYFromDirectionXZ(m_direction);
-			SetLocalRotation(t);
 		}
 	}
 }

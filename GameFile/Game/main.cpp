@@ -6,9 +6,10 @@
 
 #include "src/Core/Game.h"
 #include "src/Core/ParameterManager.h"
+#include "src/Core/SaveData.h"
+#include "src/Scene/SceneManager.h"
 #include "src/Sound/SoundManager.h"
 #include "src/Effect/EffectManager.h"
-
 
 void ReportLiveObjects()
 {
@@ -44,11 +45,15 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	//パラメーターマネージャーのインスタンスを生成。
 	ParameterManager::CreateInstance();
-	//サウンドマネージャのインスタンスを生成
-	nsApp::SoundManager::CreateInstance();
+	//セーブデータを生成
+	nsApp::nsCore::SaveData::Create();
+	//シーンマネージャーのゲームオブジェクトを生成
+	NewGO<nsApp::nsScene::SceneManagerObject>(enGameObjectPriority_SceneManager, "SceneManagerObject");
+	//サウンドマネージャ-のゲームオブジェクトを生成
+	NewGO<nsApp::SoundManagerObject>(enGameObjectPriority_SceneManager, "SoundManagerObject");
 	//エフェクトマネージャークラスのインスタンスを生成
-	nsApp::EffectManager::CreateInstance();
-	//Gameクラスのオブジェクトを作成。
+	NewGO<EffectManagerObject>(enGameObjectPriority_EffectManager, "EffectManager");
+	//Gameクラスのオブジェクトを作成
 	NewGO<nsApp::nsCore::Game>(0, "game");
 
 
@@ -67,6 +72,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	//パラメーターマネージャーのインスタンスを破棄。
 	ParameterManager::DestroyInstance();
+	//セーブデータを削除
+	nsApp::nsCore::SaveData::Delete();
 
 	K2Engine::DeleteInstance();
 

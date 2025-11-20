@@ -5,53 +5,79 @@
  */
 #pragma once
 
-/** 前方宣言 */
+
 namespace nsApp
 {
-	class GameCamera;
+	namespace nsCamera
+	{
+		class GameCamera;
+	}
 
+	namespace nsUI
+	{
+		class InGameUIManager;
+	}
 
 	namespace nsActor
 	{
-		namespace nsPlayer
+		namespace nsBackGround
 		{
-			class Player;
+			class BackGround;
 		}
 
-		namespace nsEnemy 
+		namespace nsEnemy
 		{
 			class EnemySpawner;
 			class Zombie;
 		}
+
+		namespace nsPlayer
+		{
+			class Player;
+		}		
+		namespace nsWall
+		{
+			class Wall;
+		}
 	}
 }
-
 
 
 namespace nsApp
 {
 	namespace nsCore
 	{
-
 		/**
-		 *ゲームオブジェクトの基底クラス
+		 * インゲーム全体を管理するクラス
 		 */
 		class BattleManager
 		{
+			using EnemySpawnerPtr = std::unique_ptr<nsApp::nsActor::nsEnemy::EnemySpawner>;
+
+
+		private:
+			/** 背景 */
+			nsApp::nsActor::nsBackGround::BackGround* m_backGround = nullptr;
+			/** 防壁 */
+			nsApp::nsActor::nsWall::Wall* m_wall = nullptr;
+			/** カメラ */
+			nsApp::nsCamera::GameCamera* m_camera = nullptr;
+			/** プレイヤー */
+			nsApp::nsActor::nsPlayer::Player* m_player = nullptr;
+			/** エネミーのスポナー(右) */
+			std::array<EnemySpawnerPtr, enSpwnerType_Num> m_enemySpawner;
+
+
+		private:
+			/** エネミーが進行を止める位置（Z座標） */
+			float m_enemyStopPosition = 0.0f;
+
+
 		private:
 			/** カメラ位置をプレイヤーに合わせて更新 */
 			void UpdateCameraForPlayer();
 			/** 銃に発砲させるかを判断 */
-			void JudgOnFire();
-
-
-		private:
-			/** エネミーのスポナー */
-			std::unique_ptr<nsApp::nsActor::nsEnemy::EnemySpawner> m_enemySpawner;
-			/** カメラ */
-			nsApp::GameCamera* m_camera = nullptr;
-			/** プレイヤー */
-			nsApp::nsActor::nsPlayer::Player* m_player = nullptr;
+			void JudgOnFire();		
 
 
 		private:
@@ -64,11 +90,38 @@ namespace nsApp
 		public:
 			/** 更新処理 */
 			void Update();
+			/** 遅延更新処理 */
+			void LateUpdate();
 
 
 		public:
 			/** ゾンビの削除要請 */
 			void DeleteZombie(nsApp::nsActor::nsEnemy::Zombie* zombie);
+			/** 水平方向の限界値を取得 */
+			float GetVerLimitAngle();
+			/** 垂直方向の限界値を取得 */
+			float GetHorLimitAngle();
+			/** 重力量を取得 */
+			float GetGravityAmount();
+			/** エネミーが進行を止める距離を取得 */
+			float GetEnemyStopPosition();
+			/** 防壁にダメージを与える */
+			void DealingDamage(const uint16_t damage);
+			/** リザルトへ移行していいか */
+			bool IsBattleFinish()const;
+			/** ゲームで勝ったか */
+			bool IsBattleWin()const;
+			/** ゲームで負けたか */
+			bool IsBattleLose()const;
+			 
+
+
+		public:
+			/** スポナーを取得 */
+			inline nsApp::nsActor::nsEnemy::EnemySpawner* GetEnemySpawner(EnSpwnerType type)
+			{
+				return m_enemySpawner.at(type).get();
+			}
 
 
 		private:

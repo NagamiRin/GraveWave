@@ -1,0 +1,14 @@
+[
+    {
+        "Comment": "ゲームカメラのパラメーター",
+        "CameraNear": 0.001,
+        "CameraFar": 10000.0,
+        "InitialCameraPositionX": 10.0,
+        "InitialCameraPositionY": 10.0,
+        "InitialCameraPositionZ": -100.0,
+        "InitialTargetPositionX": 10.0,
+        "InitialTargetPositionY": 10.0,
+        "InitialTargetPositionZ": 0.0,
+        "CameraSensitivity": 0.03
+    }
+]

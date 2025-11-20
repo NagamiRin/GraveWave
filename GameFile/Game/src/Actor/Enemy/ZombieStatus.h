@@ -23,11 +23,6 @@ namespace nsApp
 				ZombieStatus();
 				/** デストラクタ */
 				~ZombieStatus();
-
-
-			public:
-				/** セットアップ */
-				void Setup() override;
 			};
 		}
 	}

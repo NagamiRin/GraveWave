@@ -4,10 +4,34 @@
 enum EnGameObjectPriority
 {
 	enGameObjectPriority_Default = 0,
-	enGameObjectPriority_Enemy,
+	enGameObjectPriority_BackGround,
 	enGameObjectPriority_Bullet,
-	enGameObjectPriority_Gun,
 	enGameObjectPriority_Camera,
+	enGameObjectPriority_Enemy,
+	enGameObjectPriority_Gun,
+	enGameObjectPriority_Player,
+	enGameObjectPriority_Wall,
+	enGameObjectPriority_UI,
+	enGameObjectPriority_SceneManager,
+	enGameObjectPriority_EffectManager,
+	enGameObjectPriority_SkyCube,
+};
+
+
+enum EnSpwnerType
+{
+	enSpwnerType_Left = 0,
+	enSpwnerType_Center,
+	enSpwnerType_Right,
+	enSpwnerType_Num
+};
+
+
+enum EnResultType
+{
+	enResultType_Clear,
+	enResultType_Over,
+	enResultType_None,
 };
 
 

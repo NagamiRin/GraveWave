@@ -22,18 +22,6 @@ namespace nsApp
 				appGameObject(NormalBullet);
 
 
-			private:
-				/** 飛翔中処理 */
-				void FlyingProcessing();
-				/** 自動削除 */
-				void AutoDelete();
-
-
-			private:
-				/** 現在の飛翔時間 */
-				float m_flyingTime = 0.0f;
-
-
 			public:
 				/** コンストラクタ */
 				NormalBullet();
