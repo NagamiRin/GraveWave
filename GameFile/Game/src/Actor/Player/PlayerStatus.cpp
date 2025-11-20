@@ -16,10 +16,9 @@ namespace nsApp
 		{
 			PlayerStatus::PlayerStatus()
 			{
-				ParameterManager::Get().LoadParameter<MasterPlayerStatus>("Assets/Status/Player/PlayerStatus.json", [](const nlohmann::json& j, MasterPlayerStatus& p)
+				ParameterManager::Get().LoadParameter<MasterPlayerStatus>("Assets/Status/player/PlayerStatus.json", [](const nlohmann::json& j, MasterPlayerStatus& p)
 					{
 						p.m_moveSpeed = j["MoveSpeed"].get<float>();
-
 					});
 			}
 

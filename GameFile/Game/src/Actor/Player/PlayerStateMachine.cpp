@@ -4,8 +4,8 @@
  * プレイヤーの状態遷移を行うステートマシン
  */
 #include "stdafx.h"
+#include "PlayerStateMachine.h"
 #include "src/Actor/StateMachine.h"
-#include "src/Actor/Player/PlayerStateMachine.h"
 #include "src/Actor/Player/Player.h"
 #include "src/Actor/Player/PlayerState.h"
 
@@ -41,7 +41,6 @@ namespace nsApp
                 if (CanChangeToWalkState()) {
                     m_requestStateId = WalkState::ID();
                 }
-
                 else {
 					m_requestStateId = IdleState::ID();
                 }           
@@ -50,8 +49,7 @@ namespace nsApp
 
             bool PlayerStateMachine::CanChangeToWalkState() const 
             {
-                if (fabsf(GetLStickXDirAmount()) >= FLT_EPSILON) {
-                   
+                if (fabsf(GetLStickXDirAmount()) >= FLT_EPSILON) {                   
                     return true;
                 }
                 return false;

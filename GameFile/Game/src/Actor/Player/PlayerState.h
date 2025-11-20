@@ -15,12 +15,10 @@ namespace nsApp
 			class PlayerStateMachine;
 
 
-
-
 			/** 
 			 * 歩行状態のクラス 
 			 */
-			class WalkState : public nsApp::nsActor::IState
+			class WalkState : public IState
 			{
 				appState(WalkState);
 
@@ -31,12 +29,12 @@ namespace nsApp
 				/** デストラクタ */
 				~WalkState();
 
+
+			public:
 				void Enter() override;
 				void Update() override;
 				void Exit() override;
 			};
-
-
 
 
 			/*********************************/
@@ -45,7 +43,7 @@ namespace nsApp
 			/**
 			 * 待機状態のクラス
 			 */
-			class IdleState : public nsApp::nsActor::IState
+			class IdleState : public IState
 			{
 				appState(IdleState);
 
@@ -56,6 +54,8 @@ namespace nsApp
 				/** デストラクタ */
 				~IdleState();
 
+
+			public:
 				void Enter() override;
 				void Update() override;
 				void Exit() override;

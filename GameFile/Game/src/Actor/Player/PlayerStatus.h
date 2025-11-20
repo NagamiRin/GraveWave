@@ -21,7 +21,6 @@ namespace nsApp
 			private:
 				/** 移動速度 */
 				float m_moveSpeed = 0.0f;
-
 			
 
 			public:
@@ -36,7 +35,8 @@ namespace nsApp
 
 
 			public:
-				float GetMoveSpeed() const { return m_moveSpeed; }
+				/** 移動速度を取得 */
+				inline float GetMoveSpeed() { return m_moveSpeed; }
 			};
 		}
 	}

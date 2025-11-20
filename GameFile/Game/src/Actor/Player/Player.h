@@ -39,13 +39,17 @@ namespace nsApp
 			private:
 				using SuperClass = CharacterBase;
 				/** ハンドガンのポインタ */
-				nsApp::nsActor::nsGun::HandGun* m_handGun = nullptr;
+				nsGun::HandGun* m_handGun = nullptr;
 				/** プレイヤーのステートマシンのポインタ */
 				std::unique_ptr<PlayerStateMachine> m_stateMachine;
 				/** RLスティックの入力量 */
 				Vector2 m_inputRStick = Vector2::Zero;
 				/** 右トリガーの入力情報 */
 				bool m_isInputRTrigger = false;
+				/** 上下方向の限界値 */
+				float m_verticalLimitAngle = 0.0f;
+				/** 左右方向の限界値 */
+				float m_horizontalLimitAngle = 0.0f;
 
 
 			private:
@@ -74,17 +78,19 @@ namespace nsApp
 				void UpdateInputLStick();
 				/** Rトリガーの入力情報を更新 */
 				void JudgOnFire();
+				/** Xボタンの入力を更新 */
+				void JudgeToReload();
 
 
 			public:
 				/** プレイヤーのステータスをキャスト */
-				PlayerStatus* GetStatus() { return dynamic_cast<PlayerStatus*>(m_status); }
-
+				inline PlayerStatus* GetStatus() { return dynamic_cast<PlayerStatus*>(m_status); }
 				/** プレイヤーのLスティックの入力量を取得 */
-				Vector2 GetInputRStick() const { return m_inputRStick; };
-
+				inline Vector2 GetInputRStick() const { return m_inputRStick; };
 				/** プレイヤーの右トリガーの入力情報を取得 */
-				bool GetInputRTrigger()const { return m_isInputRTrigger; }
+				inline bool GetInputRTrigger()const { return m_isInputRTrigger; }
+				/** ハンドガンを取得 */
+				inline nsGun::HandGun* GetHandGun() const { return m_handGun; }
 			};
 		}		
 	}
