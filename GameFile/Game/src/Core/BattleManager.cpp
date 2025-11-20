@@ -10,6 +10,7 @@
 #include "src/Actor/Enemy/EnemyManager.h"
 #include "src/Actor/Enemy/EnemyPoolManager.h"
 #include "src/Actor/Enemy/EnemySpawner.h"
+#include "src/Actor/Enemy/Zombie.h"
 #include "src/Actor/Gun/HandGun.h"
 #include "src/Collision/CollisionManager.h"
 #include "src/Core/ParameterManager.h"
@@ -162,6 +163,19 @@ namespace nsApp
                 remainingEnemiesNotify->m_remainingEnemy = remainingEnemy;
 
                 nsUI::InGameUIManager::GetInstance()->AddNotify(remainingEnemiesNotify);
+            }
+
+            // ミニマップ
+            {
+                nsApp::nsActor::nsEnemy::EnemyPoolManager::GetInstance()->ForEachUsedEnemy([&](nsActor::nsEnemy::Zombie* zombie)
+                    {
+                        EnemiesNotify* enemiesNotify = new EnemiesNotify();
+                        enemiesNotify->m_iconId = reinterpret_cast<uintptr_t>(zombie);// ポインタのアドレスを uint64_t に変換
+                        enemiesNotify->m_id = zombie->ID();
+                        enemiesNotify->m_position = zombie->GetPosition();
+
+                        nsUI::InGameUIManager::GetInstance()->AddNotify(enemiesNotify);
+                    });
             }
 
             //防壁のHP

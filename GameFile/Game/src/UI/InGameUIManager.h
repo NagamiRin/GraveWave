@@ -10,6 +10,10 @@ namespace nsApp
 {
 	namespace nsActor
 	{
+		namespace nsEnemy
+		{
+			class Zombie;
+		}
 		namespace nsGun
 		{
 			class HandGun;
@@ -70,6 +74,18 @@ namespace nsApp
 		}
 	};
 
+	struct EnemiesNotify :public INotify
+	{
+		uint64_t m_iconId;
+		uint32_t m_id;
+		Vector3 m_position;
+		//
+		EnemiesNotify()
+			: INotify(enNotifyType_Enemies)
+		{
+		}
+	};
+
 	struct WallHPNotify :public INotify
 	{
 		uint16_t m_maxWallHP;
@@ -112,6 +128,7 @@ namespace nsApp
 		class RemainingEnemyUI;
 		class WallHPUI;
 		class CountdownUI;
+		class MiniMapUI;
 
 
 		class InGameUIManager
@@ -129,6 +146,8 @@ namespace nsApp
 			RemainingEnemyUI* m_remainingEnemyUI = nullptr;
 			/** 防壁のHP */
 			WallHPUI* m_wallHPUI = nullptr;
+			/** ミニマップ */
+			MiniMapUI* m_miniMapUI = nullptr;
 
 			std::vector<INotify*> m_notifyList;
 

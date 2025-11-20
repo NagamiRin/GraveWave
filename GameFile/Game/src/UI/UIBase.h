@@ -75,6 +75,8 @@ namespace nsApp
 			inline void SetSize(const float width, const float height) { m_transform.m_localScale = Vector3(width, height, 0.0f); }
 			/** 画像描画のフラグを設定 */
 			inline void SetIsDraw(const bool isDraw) { m_isDraw = isDraw; }
+			/** 位置を更新 */
+			inline void SetPosition(const Vector3& position) { m_transform.m_localPosition = position; }
 		};
 
 
@@ -99,6 +101,8 @@ namespace nsApp
 		public:
 			/** 画像の横幅を補完率で拡縮 */
 			void SetImageScale(const float t) { m_image.SetScale(Vector3(t, 1.0f, 1.0f)); }
+			/** 位置を更新 */
+			inline void SetPosition(const Vector3& position) { m_transform.m_localPosition = position; }
 		};
 
 
@@ -175,6 +179,8 @@ namespace nsApp
 				m_uiList.push_back(ui);
 				return ui;
 			}
+
+			void Remove(UIBase* ui);
 		};
 
 

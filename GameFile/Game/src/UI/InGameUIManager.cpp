@@ -11,6 +11,7 @@
 #include "src/UI/ScoreUI.h"
 #include "src/UI/RemainingEnemyUI.h"
 #include "src/UI/WallHPUI.h"
+#include "src/UI/MiniMapUI.h"
 
 
 namespace nsApp
@@ -34,6 +35,8 @@ namespace nsApp
             m_remainingEnemyUI = NewGO<RemainingEnemyUI>(enGameObjectPriority_UI, "RemainingEnemyUI");
             //防壁のHPバーを生成
             m_wallHPUI = NewGO<WallHPUI>(enGameObjectPriority_UI, "WallHPUI");
+            //ミニマップ生成
+            m_miniMapUI = NewGO<MiniMapUI>(enGameObjectPriority_UI, "MiniMap");
         }
 
 
@@ -45,6 +48,7 @@ namespace nsApp
             DeleteGO(m_scoreUI);
             DeleteGO(m_remainingEnemyUI);
             DeleteGO(m_wallHPUI);
+            DeleteGO(m_miniMapUI);
         }
 
 
@@ -84,6 +88,15 @@ namespace nsApp
                         const auto* remainingEnemiesNotify = static_cast<const RemainingEnemiesNotify*>(notify);
 
                         m_remainingEnemyUI->SetEnemyCount(remainingEnemiesNotify->m_remainingEnemy);
+
+                        break;
+                    }
+
+                    case enNotifyType_Enemies:
+                    {
+                        const auto* enemiesNotify = static_cast<const EnemiesNotify*>(notify);
+
+                        m_miniMapUI->UpdateIconInformation(enemiesNotify->m_iconId, enemiesNotify->m_id, enemiesNotify->m_position);
 
                         break;
                     }

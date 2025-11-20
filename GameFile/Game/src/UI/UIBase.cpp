@@ -184,6 +184,19 @@ namespace nsApp
         }
 
 
+        void UICanvas::Remove(UIBase* ui)
+        {
+			// uiをリストから削除
+            auto it = std::find(m_uiList.begin(), m_uiList.end(), ui);
+            if (it != m_uiList.end()) {
+                m_uiList.erase(it);
+			}
+            delete ui;
+        }
+
+
+
+
         /*****************************************/
 
 
@@ -265,6 +278,8 @@ namespace nsApp
 
         void NumberUI::NumberUpdate(const char* assetName, const uint16_t drawNumber, const float width, const float height)
         {
+            if (m_number == drawNumber) return;
+
             m_number = drawNumber;
             uint8_t digit = 0;
             uint16_t num = 1;

@@ -36,8 +36,10 @@ namespace nsApp
 			private:
 				/** エネミーの配列 */
 				std::vector<PoolInformation<Zombie>> m_zombiePool;
-
+				/** 現在出現しているエネミーのリスト */
+				std::vector<Zombie*> m_usedEnemyList;
 				
+
 			private:
 				EnemyPoolManager();
 				~EnemyPoolManager();
@@ -59,6 +61,12 @@ namespace nsApp
 
 				/** いらなくなったやつを戻す */
 				void Restore(Zombie* target);
+
+
+			public:
+				/** 現在出現しているエネミーのリストを取得 */
+				inline const std::vector<Zombie*>& GetUsedEnemyList() { return m_usedEnemyList; }
+				void ForEachUsedEnemy(const std::function<void(Zombie*)>& func);
 
 
 			private:
