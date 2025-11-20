@@ -20,8 +20,14 @@ namespace nsApp
 			class BulletBase : public Actor
 			{
 			protected:
+				using SuperClass = BulletBase;
+
+				/** 弾のダメージ */
+				uint8_t m_damage = 0;
 				/** 弾の初速 */
-				float m_initialVelocity = 0.0f;
+				float m_bulletSpeed = 0.0f;
+				/** 現在の飛翔時間 */
+				float m_flyingTime = 0.0f;
 				/** 弾の飛翔方向 */
 				Vector3 m_flyDirection = Vector3::Zero;
 				/** 弾が飛翔中かのフラグ */
@@ -43,14 +49,24 @@ namespace nsApp
 				virtual void Render(RenderContext& rc)override;
 
 
+			private:
+				/** 飛翔中処理 */
+				void FlyingProcessing();
+				/** 自動削除 */
+				void AutoDelete();
+
+
 			public:
-				void SetDirection(const Vector3& direction) { m_flyDirection = direction; }
-				/** 初速を設定 */
-				void SetInitialVelocity(const float Velocity) { m_initialVelocity = Velocity; }
+				inline void SetFlyDirection(const Vector3& direction) { m_flyDirection = direction; }
+				/** パラメーターを設定 */
+				inline void SetParameter(const float speed, const uint8_t damage) {
+					m_bulletSpeed = speed;
+					m_damage = damage;
+				}
 				/** 飛翔中フラグを設定 */
-				void SetFlying(const float isFlying) { m_isFlying = isFlying; }
+				inline void SetFlying(const float isFlying) { m_isFlying = isFlying; }
 				/** 飛翔中フラグを取得 */
-				bool IsFlying() const { return m_isFlying; }
+				inline bool IsFlying() const { return m_isFlying; }
 			};
 		}
 	}
