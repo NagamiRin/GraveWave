@@ -32,36 +32,18 @@ namespace nsApp
 
 			void BulletBase::Update()
 			{
-				FlyingProcessing();
-				AutoDelete();
+				m_currentFlyTime += g_gameTime->GetFrameDeltaTime();
+				if (m_currentFlyTime <= 0.0f) m_currentFlyTime = 0.0f;
+
+				const Vector3 moveAmount = m_flyDirection * m_bulletSpeed;
+				m_transform.m_localPosition = m_transform.m_localPosition + moveAmount;
 			}
 
 
 			void BulletBase::Render(RenderContext& rc)
 			{
 
-			}
-
-
-			void BulletBase::FlyingProcessing()
-			{
-				if (!m_isFlying) {
-					return;
-				}
-
-				const Vector3 moveAmount = m_flyDirection * m_bulletSpeed;
-				SetPosition(GetPosition() + moveAmount);
-			}
-
-
-			void BulletBase::AutoDelete()
-			{
-				m_flyingTime += g_gameTime->GetFrameDeltaTime();
-
-				if (m_flyingTime >= 3.0f) {
-					DeleteGO(this);
-				}
-			}
+			}			
 		}
 	}
 }
