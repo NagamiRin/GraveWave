@@ -6,6 +6,7 @@
 #include "stdafx.h"
 #include "BattleManager.h"
 #include "src/Actor/BackGround/BackGround.h"
+#include "src/Actor/Bullet/BulletManager.h"
 #include "src/Actor/Player/Player.h"
 #include "src/Actor/Enemy/EnemyManager.h"
 #include "src/Actor/Enemy/EnemyPoolManager.h"
@@ -67,9 +68,12 @@ namespace nsApp
             //ヒット判定のマネージャーを生成
             CollisionHitManager::Create();
 
-            ////背景を生成
+            //弾管理のマネージャーを生成
+			nsActor::nsBullet::BulletManager::CreateInstance();
+
+            //背景を生成
             m_backGround = NewGO<nsActor::nsBackGround::BackGround>(enGameObjectPriority_BackGround, "BackGround");
-            ////防壁を生成
+            //防壁を生成
             m_wall = NewGO<nsActor::nsWall::Wall>(enGameObjectPriority_Wall, "Wall");
 
             //プレイヤーを生成
@@ -89,6 +93,8 @@ namespace nsApp
             ParameterManager::Get().UnloadParameter<MasterBattleParameter>();            
             //ゾンビのプールマネージャーを削除
             nsApp::nsActor::nsEnemy::EnemyPoolManager::DeleteInstance();
+            //弾管理のマネージャーを削除
+            nsActor::nsBullet::BulletManager::DeleteInstance();
             //背景を削除
             DeleteGO(m_backGround);
             //防壁を削除
@@ -109,6 +115,8 @@ namespace nsApp
             CollisionHitManager::Get().Update();
             //ゲーム進行のマネージャーの更新処理
             nsFlow::GameFlowManager::GetInstance()->Update();
+			//弾管理マネージャーの更新処理
+			nsActor::nsBullet::BulletManager::GetInstance()->Update();
 
             UpdateCameraForPlayer();
 

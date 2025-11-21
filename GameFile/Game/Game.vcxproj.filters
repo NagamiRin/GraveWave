@@ -140,6 +140,7 @@
     <ClCompile Include="src\UI\MiniMapUI.cpp" />
     <ClCompile Include="src\Core\SaveData.cpp" />
     <ClCompile Include="src\UI\LateResultScreen.cpp" />
+    <ClCompile Include="src\Actor\Bullet\BulletManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -252,5 +253,6 @@
     <ClInclude Include="src\UI\MiniMapUI.h" />
     <ClInclude Include="src\Core\SaveData.h" />
     <ClInclude Include="src\UI\LateResultScreen.h" />
+    <ClInclude Include="src\Actor\Bullet\BulletManager.h" />
   </ItemGroup>
 </Project>

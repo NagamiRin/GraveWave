@@ -38,7 +38,7 @@ namespace nsApp
 				/** 現在のリロード時間 */
 				float m_currentReloadTime = 0.0f;
 				/** 弾丸の射出方向 */
-				Vector3 m_InjectionDirection = Vector3::Zero;
+				Vector3 m_injectionDirection = Vector3::Zero;
 
 				// @todo for あとでコメント
 				Vector3 m_offsetPosition = Vector3::Zero;
@@ -105,7 +105,7 @@ namespace nsApp
 				/** 情報を更新 */
 				void InformationUpdate(const Vector3& position, const Vector3& direction) {
 					m_transform.m_localPosition = position + m_offsetPosition;
-					m_InjectionDirection = direction;
+					m_injectionDirection = direction;
 					SetDirection(direction);
 				}
 
