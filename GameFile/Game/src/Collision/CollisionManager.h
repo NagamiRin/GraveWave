@@ -46,6 +46,8 @@ private:
 	std::vector<CollisionInfo> m_collisionInfoList;
 	/** 当たり判定のペア */
 	std::vector<CollisionPair> m_collisionPairList;
+	/** 弾がヒットしたか */
+	bool m_isHit = false;
 
 
 private:
@@ -67,12 +69,16 @@ public:
 	CollisionObject* CreateCollisionObject(const uint32_t id, IGameObject* gameObject, const Vector3& position, const Quaternion& rotation, const float radisu);
 
 private:
-	void RegisterCollisionObject(const uint32_t id,IGameObject* gameObject, CollisionObject* collisionObject);
-	
+	void RegisterCollisionObject(const uint32_t id,IGameObject* gameObject, CollisionObject* collisionObject);	
 
 
 private:
 	bool UpdateHitBullet(CollisionPair& pair);
+
+
+public:
+	/** 弾ヒットのフラグを取得 */
+	inline const bool IsHitBullet() { return m_isHit; }
 
 
 private:

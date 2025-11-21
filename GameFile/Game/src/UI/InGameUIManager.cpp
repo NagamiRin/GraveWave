@@ -11,6 +11,7 @@
 #include "src/UI/ScoreUI.h"
 #include "src/UI/RemainingEnemyUI.h"
 #include "src/UI/WallHPUI.h"
+#include "src/UI/MiniMapUI.h"
 
 
 namespace nsApp
@@ -23,7 +24,7 @@ namespace nsApp
         InGameUIManager::InGameUIManager()
         {
             //クロスヘアを生成
-            m_crosshair = NewGO<Crosshair>(enGameObjectPriority_UI, "Crosshair");
+            m_crosshairUI = NewGO<Crosshair>(enGameObjectPriority_UI, "Crosshair");
             //カウントダウンUIを生成
             m_countdownUI = NewGO<CountdownUI>(enGameObjectPriority_UI, "CountdownUI");
             //残段数UIを生成
@@ -34,17 +35,20 @@ namespace nsApp
             m_remainingEnemyUI = NewGO<RemainingEnemyUI>(enGameObjectPriority_UI, "RemainingEnemyUI");
             //防壁のHPバーを生成
             m_wallHPUI = NewGO<WallHPUI>(enGameObjectPriority_UI, "WallHPUI");
+            //ミニマップ生成
+            m_miniMapUI = NewGO<MiniMapUI>(enGameObjectPriority_UI, "MiniMap");
         }
 
 
         InGameUIManager::~InGameUIManager()
         {
-            DeleteGO(m_crosshair);
+            DeleteGO(m_crosshairUI);
             DeleteGO(m_countdownUI);
             DeleteGO(m_remainingBulletsUI);
             DeleteGO(m_scoreUI);
             DeleteGO(m_remainingEnemyUI);
             DeleteGO(m_wallHPUI);
+            DeleteGO(m_miniMapUI);
         }
 
 
@@ -54,6 +58,12 @@ namespace nsApp
             {
                 switch (notify->m_notifyType)
                 {
+                    case enNotifyType_CrossHair:
+                    {
+                        const auto* crossHairNotify= static_cast<const CrossHairNotify*>(notify);
+
+                        m_crosshairUI->SetIsHit(crossHairNotify->m_isHit);
+                    }
                     case enNotifyType_RemainingBullets:
                     {
                         const auto* remainingNotify = static_cast<const RemainingBulletsNotify*>(notify);
@@ -78,6 +88,15 @@ namespace nsApp
                         const auto* remainingEnemiesNotify = static_cast<const RemainingEnemiesNotify*>(notify);
 
                         m_remainingEnemyUI->SetEnemyCount(remainingEnemiesNotify->m_remainingEnemy);
+
+                        break;
+                    }
+
+                    case enNotifyType_Enemies:
+                    {
+                        const auto* enemiesNotify = static_cast<const EnemiesNotify*>(notify);
+
+                        m_miniMapUI->UpdateIconInformation(enemiesNotify->m_iconId, enemiesNotify->m_id, enemiesNotify->m_position);
 
                         break;
                     }

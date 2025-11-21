@@ -77,6 +77,10 @@ namespace nsApp
                     return nullptr;
                 }
                 targetInformation->m_canUse = false;
+
+                // 使ってるエネミー一覧に追加
+                m_usedEnemyList.push_back(targetInformation->m_enemy);
+
                 return targetInformation->m_enemy;
             }
 
@@ -91,9 +95,25 @@ namespace nsApp
                     }
                 }
 
+				// 使っているエネミー一覧から削除
+                for(auto it = m_usedEnemyList.begin(); it != m_usedEnemyList.end(); ++it) {
+                    if (*it == target) {
+                        m_usedEnemyList.erase(it);
+                        break;
+                    }
+				}
+
                 info->m_canUse = true;
                 target->Destruction();
                 info->m_enemy->Deactivate();
+            }
+
+
+            void EnemyPoolManager::ForEachUsedEnemy(const std::function<void(Zombie*)>& func)
+            {
+                for (auto* enemy : m_usedEnemyList) {
+                    func(enemy);
+                }
             }
         }
     }

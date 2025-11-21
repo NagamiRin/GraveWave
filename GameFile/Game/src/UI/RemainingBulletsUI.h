@@ -11,6 +11,7 @@ namespace nsApp
 	namespace nsUI
 	{
 		class UICanvas;
+		class ImageUI;
 		class NumberUI;
 
 
@@ -21,8 +22,11 @@ namespace nsApp
 			std::unique_ptr<UICanvas> m_uiCanvas;
 			/** 文字UI */
 			NumberUI* m_ammoUI = nullptr;
-
+			/** 弾アイコンのリスト */
+			std::vector<ImageUI> m_bulletsIconList;
+			/** 残弾数 */
 			uint8_t m_remainingAmmo = 0;
+			/** 最大弾数 */
 			uint8_t m_maxAmmo = 0;
 
 
@@ -40,6 +44,11 @@ namespace nsApp
 			void Update() override;
 			/** 描画処理 */
 			void Render(RenderContext& rc) override;
+
+
+		private:
+			/** 弾アイコンの配置を決める */
+			void DecidePlace();
 
 
 		public:

@@ -30,7 +30,14 @@ namespace nsApp
 
             //クロスヘアUIを生成
             auto* crosshair = m_uiCanvas->CreateUI<ImageUI>();
-            crosshair->Initialize("Assets/UI/Crosshair/Crosshair.DDS", 80.0f, 80.0f, Vector3::Zero, Vector3::One, Quaternion::Identity);
+            crosshair->Initialize("Assets/UI/Crosshair/Crosshair.DDS", 40.0f, 40.0f, Vector3::Zero, Vector3::One, Quaternion::Identity);
+            crosshair->SetMulColor(Vector4::Black);
+
+            //ヒットエフェクトを生成
+            m_hitEffect = m_uiCanvas->CreateUI<ImageUI>();
+            m_hitEffect->Initialize("Assets/UI/Crosshair/HitEffect.dds", 50.0f, 50.0f, Vector3::Zero, Vector3::One, Quaternion::Identity);
+            m_hitEffect->SetMulColor(Vector4::Black);
+            m_hitEffect->SetIsDraw(false);
 
             return true;
         }
@@ -38,6 +45,17 @@ namespace nsApp
         
         void Crosshair::Update()
         {
+            m_currentTime -= g_gameTime->GetFrameDeltaTime();
+            if (m_currentTime <= 0.0f)m_currentTime = 0.0f;
+
+            if (m_isHit) {
+                m_hitEffect->SetIsDraw(true);
+                m_currentTime = 0.5f;
+            }
+            else if (!m_isHit && m_currentTime == 0.0f) {
+                m_hitEffect->SetIsDraw(false);
+            }
+
             m_uiCanvas->Update();
         }
 

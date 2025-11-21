@@ -10,6 +10,10 @@ namespace nsApp
 {
 	namespace nsActor
 	{
+		namespace nsEnemy
+		{
+			class Zombie;
+		}
 		namespace nsGun
 		{
 			class HandGun;
@@ -21,9 +25,11 @@ namespace nsApp
 {
 	enum EnNotifyType
 	{
+		enNotifyType_CrossHair,
 		enNotifyType_Countdown,
 		enNotifyType_RemainingBullets,
 		enNotifyType_RemainingEnemies,
+		enNotifyType_Enemies,
 		enNotifyType_Score,
 		enNotifyType_WallHP,
 		enNotifyType_None,
@@ -35,6 +41,16 @@ namespace nsApp
 		EnNotifyType m_notifyType;
 		//
 		INotify(EnNotifyType type) : m_notifyType(type) {}
+	};
+
+	struct CrossHairNotify : public INotify
+	{
+		bool m_isHit;
+		//
+		CrossHairNotify()
+			: INotify(enNotifyType_CrossHair)
+		{
+		}
 	};
 
 	struct RemainingBulletsNotify : public INotify
@@ -54,6 +70,18 @@ namespace nsApp
 		//
 		RemainingEnemiesNotify()
 			: INotify(enNotifyType_RemainingEnemies)
+		{
+		}
+	};
+
+	struct EnemiesNotify :public INotify
+	{
+		uint64_t m_iconId;
+		uint32_t m_id;
+		Vector3 m_position;
+		//
+		EnemiesNotify()
+			: INotify(enNotifyType_Enemies)
 		{
 		}
 	};
@@ -100,13 +128,14 @@ namespace nsApp
 		class RemainingEnemyUI;
 		class WallHPUI;
 		class CountdownUI;
+		class MiniMapUI;
 
 
 		class InGameUIManager
 		{
 		private:
 			/** クロスヘア */
-			Crosshair* m_crosshair = nullptr;
+			Crosshair* m_crosshairUI = nullptr;
 			/** カウントダウン */
 			CountdownUI* m_countdownUI = nullptr;
 			/** 残弾数 */
@@ -117,6 +146,8 @@ namespace nsApp
 			RemainingEnemyUI* m_remainingEnemyUI = nullptr;
 			/** 防壁のHP */
 			WallHPUI* m_wallHPUI = nullptr;
+			/** ミニマップ */
+			MiniMapUI* m_miniMapUI = nullptr;
 
 			std::vector<INotify*> m_notifyList;
 

@@ -12,15 +12,28 @@ namespace nsApp
 	{
 		class UICanvas;
 		class ImageUI;
+		struct EnemyInformation;
 
 		/** ミニマップを表示する */
 		class MiniMapUI :public IGameObject
 		{
 		private:
+
+			/** ミニマップに表示するエネミーの情報(1体の情報) */
+			struct EnemyIconInformation
+			{
+				uint64_t m_iconId;					// iconのID(ユニーク。一意なID)
+				uint32_t m_id;						// エネミーの種類
+				Vector3 m_position;					// エネミーの座標
+				ImageUI* m_icon = nullptr;			// 画像
+				bool isUpdate = 0;					// 情報が更新されているか
+			};
+
+		private:
 			/** キャンバス */
 			std::unique_ptr<UICanvas>m_uiCanvas;
 			/** 敵アイコンのリスト */
-			std::unique_ptr<ImageUI>m_enemyIconList;
+			std::vector<EnemyIconInformation> m_enemyIcons;
 			
 
 		public:
@@ -34,7 +47,23 @@ namespace nsApp
 			/**更新処理*/ 
 			void Update() override;
 			/** 描画処理 */
-			void Render(RenderContext& rc) override;			
+			void Render(RenderContext& rc) override;
+
+
+		public:
+			void UpdateIconInformation(const uint64_t iconId, const uint32_t id, const Vector3& position);
+
+
+		private:
+			EnemyIconInformation* FindInformation(const uint64_t iconId)
+			{
+				for (auto& info : m_enemyIcons) {
+					if (info.m_iconId == iconId) {
+						return &info;
+					}
+				}
+				return nullptr;
+			}
 		};
 	}
 }

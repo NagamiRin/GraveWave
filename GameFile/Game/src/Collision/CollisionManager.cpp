@@ -32,6 +32,11 @@ CollisionHitManager::~CollisionHitManager()
 
 void CollisionHitManager::Update()
 {
+	if (m_isHit)
+	{
+		m_isHit = false;
+	}
+
 	m_collisionPairList.clear();
 
 	// ヒットするオブジェクトのペアを作る
@@ -66,12 +71,9 @@ void CollisionHitManager::Update()
 		// 弾の処理
 		if (UpdateHitBullet(pair)) {
 			continue;
-		}
-		// ここでなにかする
-
-
-		// ここでも何かする
+		}		
 	}
+	
 
 	m_collisionPairList.clear();
 }
@@ -152,7 +154,8 @@ bool CollisionHitManager::UpdateHitBullet(CollisionPair& pair)
 	if (zombie == nullptr) {
 		return false;
 	}
-	
+
+	m_isHit = true;
 	DeleteGO(normalBullet);
 	//ゾンビのHPを減らす
 	zombie->ReduceHP(20);
