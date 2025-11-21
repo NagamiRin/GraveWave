@@ -141,6 +141,8 @@
     <ClCompile Include="src\Core\SaveData.cpp" />
     <ClCompile Include="src\UI\LateResultScreen.cpp" />
     <ClCompile Include="src\Actor\Bullet\BulletManager.cpp" />
+    <ClCompile Include="src\Shop\Shop.cpp" />
+    <ClCompile Include="src\Battle\Inventory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -254,5 +256,7 @@
     <ClInclude Include="src\Core\SaveData.h" />
     <ClInclude Include="src\UI\LateResultScreen.h" />
     <ClInclude Include="src\Actor\Bullet\BulletManager.h" />
+    <ClInclude Include="src\Shop\Shop.h" />
+    <ClInclude Include="src\Battle\Inventory.h" />
   </ItemGroup>
 </Project>

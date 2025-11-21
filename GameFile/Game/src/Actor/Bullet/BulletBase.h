@@ -19,9 +19,10 @@ namespace nsApp
 			 */
 			class BulletBase : public Actor
 			{
-			protected:
 				using SuperClass = Actor;
 
+
+			protected:
 				/** 弾のダメージ */
 				uint8_t m_damage = 0;
 				/** 弾の初速 */
@@ -30,7 +31,7 @@ namespace nsApp
 				float m_currentFlyTime = 0.0f;
 				/** 弾の飛翔方向 */
 				Vector3 m_flyDirection = Vector3::Zero;
-
+				/** 自身のコリジョン */
 				CollisionObject* m_collisionObject = nullptr;
 
 
