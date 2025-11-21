@@ -57,6 +57,8 @@ namespace nsApp
 				}
 				/** 現在の飛翔時間を取得 */
 				inline float GetCurrentFlyTime()const { return m_currentFlyTime; };
+				/** 弾のダメージ量を取得 */
+				inline const uint8_t GetDamage() { return m_damage; }
 			};
 		}
 	}

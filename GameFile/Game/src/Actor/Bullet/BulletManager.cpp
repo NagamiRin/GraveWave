@@ -23,6 +23,11 @@ namespace nsApp
 
 			BulletManager::~BulletManager()
 			{
+				for (int i = 0; i < m_normalBulletList.size(); i++) {
+					auto* bullet = m_normalBulletList[i];
+					DeleteGO(bullet);
+				}
+				m_normalBulletList.clear();
 			}			
 
 
@@ -43,7 +48,9 @@ namespace nsApp
 				//通常弾削除
 				for(int i=0;i<m_normalBulletList.size();i++) {
 					auto* bullet = m_normalBulletList.at(i);
+					float hoge = bullet->GetCurrentFlyTime();
 					if (bullet->GetCurrentFlyTime() >= 5.0f) {
+						
 						DeleteGO(bullet);
 						m_normalBulletList.erase(m_normalBulletList.begin() + i);
 						i--;
