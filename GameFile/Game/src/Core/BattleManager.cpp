@@ -13,6 +13,8 @@
 #include "src/Actor/Enemy/EnemySpawner.h"
 #include "src/Actor/Enemy/Zombie.h"
 #include "src/Actor/Gun/HandGun.h"
+#include "src/Battle/Inventory.h"
+#include "src/Battle/Shop.h"
 #include "src/Collision/CollisionManager.h"
 #include "src/Core/ParameterManager.h"
 #include "src/Core/SaveData.h"
@@ -71,13 +73,20 @@ namespace nsApp
             //弾管理のマネージャーを生成
 			nsActor::nsBullet::BulletManager::CreateInstance();
 
+            //ショップを生成
+			nsBattle::Shop::CreateInstance();
+
             //背景を生成
             m_backGround = NewGO<nsActor::nsBackGround::BackGround>(enGameObjectPriority_BackGround, "BackGround");
+
             //防壁を生成
             m_wall = NewGO<nsActor::nsWall::Wall>(enGameObjectPriority_Wall, "Wall");
 
             //プレイヤーを生成
             m_player = NewGO<nsActor::nsPlayer::Player>(enGameObjectPriority_Player, "Player");
+
+            //インベントリを生成
+            nsBattle::Inventory::CreateInstance();
 
             //ゲームカメラを生成
             m_camera = NewGO<nsCamera::GameCamera>(enGameObjectPriority_Camera, "GameCamera");
@@ -101,6 +110,10 @@ namespace nsApp
             DeleteGO(m_wall);
             //プレイヤーを削除
             DeleteGO(m_player);
+            //インベントリを削除
+            nsBattle::Inventory::DeleteInstance();
+            //ショップを削除
+            nsBattle::Shop::DeleteInstance();
             //ゲームカメラ削除
             DeleteGO(m_camera);
             //ゲーム進行のマネージャーを削除
@@ -115,6 +128,8 @@ namespace nsApp
             CollisionHitManager::Get().Update();
             //ゲーム進行のマネージャーの更新処理
             nsFlow::GameFlowManager::GetInstance()->Update();
+            //ショップの更新処理
+            nsBattle::Shop::GetInstance().Update();
 			//弾管理マネージャーの更新処理
 			nsActor::nsBullet::BulletManager::GetInstance()->Update();
 
@@ -123,6 +138,21 @@ namespace nsApp
             // @todo for test
             // この関数を呼ぶ場所を後で用意
             LateUpdate();
+
+
+            for (auto* notify : m_notifyList)
+            {
+                switch (notify->m_notifyType)
+                {
+                    case nsBattle::enNotifyType_BuyGun:
+                    {
+                        const auto* buyGunNotify = static_cast<const nsApp::nsBattle::BuyGunNotify*>(notify);
+
+                        nsBattle::Inventory::GetInstance().SetMainWeaponID(buyGunNotify->m_gunID);
+                        break;
+                    }
+                }
+            }
         }
 
 
@@ -139,8 +169,8 @@ namespace nsApp
 
             // 弾数
             {
-                const uint8_t remainingAmmo = m_player->GetHandGun()->GetRemainingAmmo();
-                const uint8_t maxAmmo = m_player->GetHandGun()->GetMaxAmmo();
+                const uint8_t remainingAmmo = m_player->GetGun()->GetRemainingAmmo();
+                const uint8_t maxAmmo = m_player->GetGun()->GetMaxAmmo();
 
                 RemainingBulletsNotify* remainingBulletsNotify = new RemainingBulletsNotify();
                 remainingBulletsNotify->m_remainingNum = remainingAmmo;
@@ -284,6 +314,36 @@ namespace nsApp
         bool BattleManager::IsBattleLose()const
         {
             return m_wall->CheckDestroyWall();
+        }
+
+
+        const std::vector<uint32_t>& BattleManager::GetSubWeaponIDList() const
+        {
+            return nsBattle::Inventory::GetInstance().GetSubWeaponID();
+        }      
+
+
+        const std::vector<uint32_t>& BattleManager::GetMainWeaponIDList() const
+        {
+			return nsBattle::Inventory::GetInstance().GetMainWeaponID();
+        }
+
+
+        void BattleManager::SetSubWeaponID(const uint32_t gunID)
+        {
+			nsBattle::Inventory::GetInstance().SetSubWeaponID(gunID);
+        }
+
+
+        void BattleManager::SetMainWeaponID(const uint32_t gunID)
+        {
+            nsBattle::Inventory::GetInstance().SetMainWeaponID(gunID);
+        }
+
+
+        void BattleManager::RequestChangeWeapon(const uint32_t weaponID)
+        {
+			m_player->RequestChangeGun(weaponID);
         }
     }
 }

@@ -240,6 +240,7 @@
     <ClCompile Include="src\Actor\Enemy\ZombieState.cpp" />
     <ClCompile Include="src\Actor\Enemy\Zombie.cpp" />
     <ClCompile Include="src\Actor\Enemy\ZombieStatus.cpp" />
+    <ClCompile Include="src\Actor\Gun\AssaultRifle.cpp" />
     <ClCompile Include="src\Actor\Gun\GunBase.cpp" />
     <ClCompile Include="src\Actor\Gun\HandGun.cpp" />
     <ClCompile Include="src\Actor\IState.cpp" />
@@ -250,6 +251,7 @@
     <ClCompile Include="src\Actor\StateMachine.cpp" />
     <ClCompile Include="src\Actor\Wall\Wall.cpp" />
     <ClCompile Include="src\Battle\Inventory.cpp" />
+    <ClCompile Include="src\Battle\Shop.cpp" />
     <ClCompile Include="src\Camera\GameCamera.cpp" />
     <ClCompile Include="src\Collision\CollisionManager.cpp" />
     <ClCompile Include="src\Core\BattleManager.cpp" />
@@ -265,7 +267,6 @@
     <ClCompile Include="src\Scene\ResultScene.cpp" />
     <ClCompile Include="src\Scene\SceneManager.cpp" />
     <ClCompile Include="src\Scene\TitleScene.cpp" />
-    <ClCompile Include="src\Shop\Shop.cpp" />
     <ClCompile Include="src\UI\CountdownUI.cpp" />
     <ClCompile Include="src\UI\LateResultScreen.cpp" />
     <ClCompile Include="src\UI\MiniMapUI.cpp" />
@@ -279,6 +280,7 @@
     <ClCompile Include="src\UI\Crosshair.cpp" />
     <ClCompile Include="src\UI\InGameUIManager.cpp" />
     <ClCompile Include="src\UI\RemainingBulletsUI.cpp" />
+    <ClCompile Include="src\UI\ShopUI.cpp" />
     <ClCompile Include="src\UI\TitleScreen.cpp" />
     <ClCompile Include="src\UI\TitleUIManager .cpp" />
     <ClCompile Include="src\UI\UIBase.cpp" />
@@ -307,6 +309,7 @@
     <ClInclude Include="src\Actor\Enemy\ZombieState.h" />
     <ClInclude Include="src\Actor\Enemy\Zombie.h" />
     <ClInclude Include="src\Actor\Enemy\ZombieStatus.h" />
+    <ClInclude Include="src\Actor\Gun\AssaultRifle.h" />
     <ClInclude Include="src\Actor\Gun\GunBase.h" />
     <ClInclude Include="src\Actor\Gun\HandGun.h" />
     <ClInclude Include="src\Actor\IState.h" />
@@ -317,6 +320,7 @@
     <ClInclude Include="src\Actor\StateMachine.h" />
     <ClInclude Include="src\Actor\Wall\Wall.h" />
     <ClInclude Include="src\Battle\Inventory.h" />
+    <ClInclude Include="src\Battle\Shop.h" />
     <ClInclude Include="src\Camera\GameCamera.h" />
     <ClInclude Include="src\Collision\CollisionManager.h" />
     <ClInclude Include="src\Core\BattleManager.h" />
@@ -332,7 +336,6 @@
     <ClInclude Include="src\Scene\ResultScene.h" />
     <ClInclude Include="src\Scene\SceneManager.h" />
     <ClInclude Include="src\Scene\TitleScene.h" />
-    <ClInclude Include="src\Shop\Shop.h" />
     <ClInclude Include="src\UI\CountdownUI.h" />
     <ClInclude Include="src\UI\LateResultScreen.h" />
     <ClInclude Include="src\UI\MiniMapUI.h" />
@@ -349,6 +352,7 @@
     <ClInclude Include="src\UI\Crosshair.h" />
     <ClInclude Include="src\UI\InGameUIManager.h" />
     <ClInclude Include="src\UI\RemainingBulletsUI.h" />
+    <ClInclude Include="src\UI\ShopUI.h" />
     <ClInclude Include="src\UI\TitleScreen.h" />
     <ClInclude Include="src\UI\TitleUIManager .h" />
     <ClInclude Include="src\UI\TitleUIManager.h" />

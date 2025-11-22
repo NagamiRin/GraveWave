@@ -11,6 +11,8 @@ namespace nsApp
 {
     namespace nsBattle
     {
+        Inventory* Inventory::m_instance = nullptr;
+
         Inventory::Inventory()
         {
         }

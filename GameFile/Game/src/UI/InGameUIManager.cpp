@@ -9,6 +9,7 @@
 #include "src/UI/CountdownUI.h"
 #include "src/UI/RemainingBulletsUI.h"
 #include "src/UI/ScoreUI.h"
+#include "src/UI/ShopUI.h"
 #include "src/UI/RemainingEnemyUI.h"
 #include "src/UI/WallHPUI.h"
 #include "src/UI/MiniMapUI.h"
@@ -37,6 +38,8 @@ namespace nsApp
             m_wallHPUI = NewGO<WallHPUI>(enGameObjectPriority_UI, "WallHPUI");
             //ミニマップ生成
             m_miniMapUI = NewGO<MiniMapUI>(enGameObjectPriority_UI, "MiniMap");
+            //ショップ生成
+			m_shopUI = NewGO<ShopUI>(enGameObjectPriority_UI, "ShopUI");
         }
 
 
@@ -49,6 +52,7 @@ namespace nsApp
             DeleteGO(m_remainingEnemyUI);
             DeleteGO(m_wallHPUI);
             DeleteGO(m_miniMapUI);
+			DeleteGO(m_shopUI);
         }
 
 

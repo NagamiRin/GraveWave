@@ -9,12 +9,33 @@
 namespace nsApp
 {
 	namespace nsBattle
-	{		
+	{
 		/**
 		 * プレイヤーのインベントリクラス
 		 */
 		class Inventory
 		{
+			/** 弾数の可変領域 */
+			using AmmoValue = uint16_t;
+			/** 所持金の可変領域 */	
+			using MoneyValue = uint16_t;
+
+
+		private:
+			/** 所持金 */
+			MoneyValue m_money = 0;
+
+			/** サブ武器の弾数 */
+			AmmoValue m_subWeaponAmmo = 0;
+			/** メイン武器の弾数 */
+			AmmoValue m_mainWeaponAmmo = 0;
+
+			/** サブ武器のIDのリスト */
+			std::vector<uint32_t> m_subWeaponIDList;
+			/** メイン武器のIDのリスト */
+			std::vector<uint32_t> m_mainWeaponIDList;
+
+
 		private:
 			Inventory();
 			~Inventory();
@@ -23,6 +44,13 @@ namespace nsApp
 		public:
 			/** 更新処理 */
 			void Update();
+
+
+		public:
+			inline void SetSubWeaponID(const uint32_t id) { m_subWeaponIDList.push_back(id); }
+			inline const std::vector<uint32_t>& GetSubWeaponID() const { return m_subWeaponIDList; }
+			inline void SetMainWeaponID(const uint32_t id) { m_mainWeaponIDList.push_back(id); }
+			inline const std::vector<uint32_t>& GetMainWeaponID() const { return m_mainWeaponIDList; }
 
 			
 		private:
