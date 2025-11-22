@@ -21,13 +21,20 @@ namespace nsApp
 
 			NormalBullet::~NormalBullet()
 			{
-				if (!CollisionHitManager::Get().CheckCollision(this)) return;
-				CollisionHitManager::Get().DeleteCollisionObject(this);
+				if (CollisionHitManager::Get().IsAvailable()) {
+					if (!CollisionHitManager::Get().CheckCollision(this)) return;
+					CollisionHitManager::Get().DeleteCollisionObject(this);
+				}
 			}
 
 
 			bool NormalBullet::Start() 
 			{
+				//コリジョンマネージャーが消えているならreturn
+				if (!&CollisionHitManager::Get()) {
+					return true;
+				}
+
 				m_collisionObject = CollisionHitManager::Get().CreateCollisionObject(ID(), this, GetPosition(), GetRotation(), 3.0f);
 
 				return true;
@@ -38,8 +45,11 @@ namespace nsApp
 			{
 				SuperClass::Update();
 
-				m_collisionObject->SetPosition(GetPosition());
+				m_collisionObject->SetPosition(m_transform.m_localPosition);
 				m_collisionObject->Update();
+
+				//todo for test
+				Vector3 hoge = m_transform.m_localPosition;
 			}
 
 

@@ -20,7 +20,7 @@ namespace nsApp
 			class NormalBullet : public BulletBase
 			{
 				appGameObject(NormalBullet);
-
+				using SuperClass = BulletBase;
 
 			public:
 				/** コンストラクタ */

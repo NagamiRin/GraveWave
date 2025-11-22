@@ -5,6 +5,7 @@
  */
 #include "stdafx.h"
 #include "src/Actor/Gun/GunBase.h"
+#include "src/Actor/Bullet/BulletManager.h"
 #include "src/Actor/Bullet/NormalBullet.h"
 #include "src/Effect/EffectManager.h"
 #include "src/Sound/SoundManager.h"
@@ -52,16 +53,9 @@ namespace nsApp
 			{
 				if (m_currentCoolTime > 0.0f || m_remainingAmmo <= 0 || m_isReloading)return;
 
-				nsBullet::NormalBullet* m_bullet = nullptr;
+				nsBullet::NormalBullet* bullet = nullptr;
 				// 弾を生成
-				m_bullet = NewGO<nsBullet::NormalBullet>(enGameObjectPriority_Bullet, "NormalBullet");
-				// 弾に初期値や初速を渡す
-				m_bullet->SetPosition(GetPosition());
-				m_bullet->SetParameter(m_bulletSpeed, m_damage);
-				// 弾側で初速等をもとに移動させる
-				m_bullet->SetFlying(true);
-
-				m_bullet->SetFlyDirection(m_InjectionDirection);
+				nsBullet::BulletManager::GetInstance()->CreatBullet<nsBullet::NormalBullet>(m_transform.m_localPosition, m_injectionDirection, m_bulletSpeed, m_damage);			
 
 				//効果音、エフェクト
 				SoundManager::Get().PlaySE(enSoundKind_HandGun_Fire);

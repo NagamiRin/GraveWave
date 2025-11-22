@@ -58,13 +58,15 @@ namespace nsApp
             }
             
             for (auto* deleteTarget : deleteList) {
-				// 削除リストをもとにアイコン情報を削除
-                auto it = std::find_if(m_enemyIcons.begin(), m_enemyIcons.end(),
-					[deleteTarget](const EnemyIconInformation& info) { return info.m_iconId == deleteTarget->m_iconId; });
+                // 削除リストをもとにアイコン情報を削除
+                auto it = std::find_if(m_enemyIcons.begin(), m_enemyIcons.end(), [deleteTarget](const EnemyIconInformation& info)
+                    {
+                        return info.m_iconId == deleteTarget->m_iconId;
+                    });
+                m_uiCanvas->Remove(it->m_icon);
                 if (it != m_enemyIcons.end()) {
                     m_enemyIcons.erase(it);
                 }
-                m_uiCanvas->Remove(deleteTarget->m_icon);
             }
 
             m_uiCanvas->Update();

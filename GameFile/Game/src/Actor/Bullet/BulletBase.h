@@ -19,20 +19,19 @@ namespace nsApp
 			 */
 			class BulletBase : public Actor
 			{
-			protected:
-				using SuperClass = BulletBase;
+				using SuperClass = Actor;
 
+
+			protected:
 				/** 弾のダメージ */
 				uint8_t m_damage = 0;
 				/** 弾の初速 */
 				float m_bulletSpeed = 0.0f;
 				/** 現在の飛翔時間 */
-				float m_flyingTime = 0.0f;
+				float m_currentFlyTime = 0.0f;
 				/** 弾の飛翔方向 */
 				Vector3 m_flyDirection = Vector3::Zero;
-				/** 弾が飛翔中かのフラグ */
-				bool m_isFlying = false;
-
+				/** 自身のコリジョン */
 				CollisionObject* m_collisionObject = nullptr;
 
 
@@ -49,24 +48,18 @@ namespace nsApp
 				virtual void Render(RenderContext& rc)override;
 
 
-			private:
-				/** 飛翔中処理 */
-				void FlyingProcessing();
-				/** 自動削除 */
-				void AutoDelete();
-
-
 			public:
-				inline void SetFlyDirection(const Vector3& direction) { m_flyDirection = direction; }
 				/** パラメーターを設定 */
-				inline void SetParameter(const float speed, const uint8_t damage) {
+				inline void SetParameter(const Vector3& position, const Vector3& direction,const float speed, const uint8_t damage) {
+					m_transform.m_localPosition = position;
+					m_flyDirection = direction;
 					m_bulletSpeed = speed;
 					m_damage = damage;
 				}
-				/** 飛翔中フラグを設定 */
-				inline void SetFlying(const float isFlying) { m_isFlying = isFlying; }
-				/** 飛翔中フラグを取得 */
-				inline bool IsFlying() const { return m_isFlying; }
+				/** 現在の飛翔時間を取得 */
+				inline float GetCurrentFlyTime()const { return m_currentFlyTime; };
+				/** 弾のダメージ量を取得 */
+				inline const uint8_t GetDamage() { return m_damage; }
 			};
 		}
 	}

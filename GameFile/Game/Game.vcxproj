@@ -228,6 +228,7 @@
     <ClCompile Include="src\Actor\ActorStatus.cpp" />
     <ClCompile Include="src\Actor\BackGround\BackGround.cpp" />
     <ClCompile Include="src\Actor\Bullet\BulletBase.cpp" />
+    <ClCompile Include="src\Actor\Bullet\BulletManager.cpp" />
     <ClCompile Include="src\Actor\Bullet\NormalBullet.cpp" />
     <ClCompile Include="src\Actor\CharacterBase.cpp" />
     <ClCompile Include="src\Actor\Enemy\EnemyBase.cpp" />
@@ -248,6 +249,7 @@
     <ClCompile Include="src\Actor\Player\PlayerStatus.cpp" />
     <ClCompile Include="src\Actor\StateMachine.cpp" />
     <ClCompile Include="src\Actor\Wall\Wall.cpp" />
+    <ClCompile Include="src\Battle\Inventory.cpp" />
     <ClCompile Include="src\Camera\GameCamera.cpp" />
     <ClCompile Include="src\Collision\CollisionManager.cpp" />
     <ClCompile Include="src\Core\BattleManager.cpp" />
@@ -263,6 +265,7 @@
     <ClCompile Include="src\Scene\ResultScene.cpp" />
     <ClCompile Include="src\Scene\SceneManager.cpp" />
     <ClCompile Include="src\Scene\TitleScene.cpp" />
+    <ClCompile Include="src\Shop\Shop.cpp" />
     <ClCompile Include="src\UI\CountdownUI.cpp" />
     <ClCompile Include="src\UI\LateResultScreen.cpp" />
     <ClCompile Include="src\UI\MiniMapUI.cpp" />
@@ -292,6 +295,7 @@
     <ClInclude Include="src\Actor\ActorStatus.h" />
     <ClInclude Include="src\Actor\BackGround\BackGround.h" />
     <ClInclude Include="src\Actor\Bullet\BulletBase.h" />
+    <ClInclude Include="src\Actor\Bullet\BulletManager.h" />
     <ClInclude Include="src\Actor\Bullet\NormalBullet.h" />
     <ClInclude Include="src\Actor\CharacterBase.h" />
     <ClInclude Include="src\Actor\Enemy\EnemyBase.h" />
@@ -312,6 +316,7 @@
     <ClInclude Include="src\Actor\Player\PlayerStatus.h" />
     <ClInclude Include="src\Actor\StateMachine.h" />
     <ClInclude Include="src\Actor\Wall\Wall.h" />
+    <ClInclude Include="src\Battle\Inventory.h" />
     <ClInclude Include="src\Camera\GameCamera.h" />
     <ClInclude Include="src\Collision\CollisionManager.h" />
     <ClInclude Include="src\Core\BattleManager.h" />
@@ -327,6 +332,7 @@
     <ClInclude Include="src\Scene\ResultScene.h" />
     <ClInclude Include="src\Scene\SceneManager.h" />
     <ClInclude Include="src\Scene\TitleScene.h" />
+    <ClInclude Include="src\Shop\Shop.h" />
     <ClInclude Include="src\UI\CountdownUI.h" />
     <ClInclude Include="src\UI\LateResultScreen.h" />
     <ClInclude Include="src\UI\MiniMapUI.h" />

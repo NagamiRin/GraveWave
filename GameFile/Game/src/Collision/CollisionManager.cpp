@@ -1,5 +1,6 @@
 ﻿#include "stdafx.h"
 #include "CollisionManager.h"
+#include "src/Actor/Bullet/BulletManager.h"
 #include "src/Actor/Bullet/NormalBullet.h"
 #include "src/Actor/Enemy/Zombie.h"
 #include "src/Core/BattleManager.h"
@@ -156,9 +157,9 @@ bool CollisionHitManager::UpdateHitBullet(CollisionPair& pair)
 	}
 
 	m_isHit = true;
-	DeleteGO(normalBullet);
+	nsApp::nsActor::nsBullet::BulletManager::GetInstance()->DeleteBullet(normalBullet);
 	//ゾンビのHPを減らす
-	zombie->ReduceHP(20);
+	zombie->ReduceHP(normalBullet->GetDamage());
 	//死んだなら削除要請
 	if (zombie->GetZombieStatus()->GetHP() <= 0) {
 		nsApp::nsCore::BattleManager::GetInstance()->DeleteZombie(zombie);

@@ -115,8 +115,14 @@ public:
 	}
 
 
-	static CollisionHitManager& Get()
+	static bool IsAvailable()
 	{
+		return m_instance != nullptr;
+	}
+
+
+	static CollisionHitManager& Get()
+	{		
 		return *m_instance;
 	}
 
