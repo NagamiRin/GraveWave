@@ -6,7 +6,9 @@
 #include "stdafx.h"
 #include "Player.h"
 #include "src/Actor/Player/PlayerStateMachine.h"
+#include "src/Actor/Gun/GunBase.h"
 #include "src/Actor/Gun/HandGun.h"
+#include "src/Actor/Gun/AssaultRifle.h"
 #include "src/Core/BattleManager.h"
 
 
@@ -36,7 +38,7 @@ namespace nsApp
 				m_status = nullptr;
 
 				//ハンドガン削除
-				DeleteGO(m_handGun);
+				DeleteGO(m_gun);
 			}
 
 
@@ -48,7 +50,7 @@ namespace nsApp
 				SetDirection(Vector3::Front);
 
 				//ハンドガンを生成
-				m_handGun = NewGO<nsApp::nsActor::nsGun::HandGun>(enGameObjectPriority_Gun, "HandGun");
+				m_gun = NewGO<nsApp::nsActor::nsGun::HandGun>(enGameObjectPriority_Gun, "HandGun");
 
 				return true;
 			}
@@ -64,8 +66,8 @@ namespace nsApp
 
 				SuperClass::Update();
 
-				//銃に弾の射出方向を教える
-				m_handGun->InformationUpdate(m_transform.m_position, m_direction);
+				//銃にプレイヤーの位置を教える
+				m_gun->InformationUpdate(m_transform.m_position, m_direction);
 			}
 
 
@@ -117,8 +119,8 @@ namespace nsApp
 			void Player::JudgOnFire()
 			{
 				if (g_pad[0]->IsTrigger(enButtonRB2)) {
-					m_handGun->SetPosition(GetPosition());
-					m_handGun->OnFire();
+					m_gun->SetPosition(GetPosition());
+					m_gun->OnFire();
 				}
 			}
 
@@ -126,8 +128,48 @@ namespace nsApp
 			void Player::JudgeToReload()
 			{
 				if (g_pad[0]->IsTrigger(enButtonX)) {
-					m_handGun->Reload();
+					m_gun->Reload();
 				}
+			}			
+
+
+			void Player::RequestChangeGun(const uint32_t gunID)
+			{
+				
+					m_requestGunID = gunID;
+					m_stateMachine->SetSwitchingWeapon(true);
+				
+			}
+
+
+			nsGun::GunBase* Player::ChangeGun()
+			{
+				DeleteGO(m_gun);
+
+				nsGun::GunBase* createGun = nullptr; 
+
+				//サブ武器
+				if (m_requestGunID == nsGun::HandGun::ID())
+				{
+					createGun = NewGO<nsGun::HandGun>(enGameObjectPriority_Gun, "HandGun");
+				}
+
+				//メイン武器
+				if (m_requestGunID == nsGun::AssaultRifle::ID()) {
+					createGun = NewGO<nsGun::AssaultRifle>(enGameObjectPriority_Gun, "AssaultRifle");
+				}
+
+				else
+				{
+					K2_ASSERT(false, "存在しない銃IDが指定されました");
+					// 一応デフォルトでハンドガンを生成
+					createGun = NewGO<nsGun::HandGun>(enGameObjectPriority_Gun, "HandGun");
+				}
+
+				// 切り替え
+				m_gun = createGun;
+
+				return createGun;
 			}
 		}
 	}

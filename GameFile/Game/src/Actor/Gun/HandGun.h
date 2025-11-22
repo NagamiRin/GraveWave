@@ -29,6 +29,9 @@ namespace nsApp
 			 */
 			class HandGun : public GunBase
 			{
+				appGameObject(HandGun);
+
+
 			public:
 				/** コンストラクタ */
 				HandGun();

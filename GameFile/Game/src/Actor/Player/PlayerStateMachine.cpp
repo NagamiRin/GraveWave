@@ -20,6 +20,7 @@ namespace nsApp
             {
 				m_stateMap.emplace(IdleState::ID(), new IdleState(this));
                 m_stateMap.emplace(WalkState::ID(), new WalkState(this));
+                m_stateMap.emplace(WeaponSwitchState::ID(), new WeaponSwitchState(this));
             }
 
 
@@ -38,12 +39,19 @@ namespace nsApp
 
             void PlayerStateMachine::ChangeState()
             {
-                if (CanChangeToWalkState()) {
-                    m_requestStateId = WalkState::ID();
+                if (CanChangeToWeaponSwitchState()) m_requestStateId = WeaponSwitchState::ID();
+                else if (CanChangeToWalkState())  m_requestStateId = WalkState::ID();                
+                else m_requestStateId = IdleState::ID();
+            }
+
+
+            bool PlayerStateMachine::CanChangeToWeaponSwitchState() const
+            {
+                //todo for test
+                if (IsSwitchingWeapon()) {
+                    return true;
                 }
-                else {
-					m_requestStateId = IdleState::ID();
-                }           
+                return false;
             }
 
 

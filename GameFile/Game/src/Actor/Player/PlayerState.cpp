@@ -7,6 +7,7 @@
 #include "src/Actor/Player/Player.h"
 #include "src/Actor/Player/PlayerState.h"
 #include "src/Actor/Player/PlayerStateMachine.h"
+#include "src/Actor/Gun/GunBase.h"
 
 
 namespace nsApp
@@ -15,6 +16,73 @@ namespace nsApp
 	{
 		namespace nsPlayer
 		{
+			WeaponSwitchState::WeaponSwitchState(PlayerStateMachine* owner)
+				: IState(owner)
+			{
+
+			}
+
+
+			WeaponSwitchState::~WeaponSwitchState()
+			{
+
+			}
+
+			void WeaponSwitchState::Enter()
+			{
+				auto* playerStateMachine = GetOwner<PlayerStateMachine>();
+				playerStateMachine->SetSwitchingWeapon(true);
+				m_gun = playerStateMachine->GetOwner()->GetGun();
+				m_currentSwitchTime = 0.0f;
+			}
+
+			void WeaponSwitchState::Update()
+			{
+				//todo for test
+				constexpr float switchTime = 5.0f;
+
+				m_currentSwitchTime += g_gameTime->GetFrameDeltaTime();
+
+				switch (m_step)
+				{
+					case enSwitchStep_Out:
+					{
+						// 仕舞うアニメーション再生
+						if (m_currentSwitchTime <= switchTime / 2) {
+							m_gun->PutGun(switchTime / 2);
+						} else {
+							m_step = enSwitchStep_Change;
+						}
+						break;
+					}
+					case enSwitchStep_Change:
+					{
+						// 新しい銃の生成(中で破棄もしてる)
+						m_gun = GetOwner<PlayerStateMachine>()->GetOwner()->ChangeGun();
+						// 銃を持つアニメーション再生開始
+						m_step = enSwitchStep_In;
+						break;
+					}
+					case enSwitchStep_In:
+					{
+						if (m_currentSwitchTime <= switchTime) {
+							m_gun->TakeOutGun(switchTime / 2);
+						}
+						break;
+					}
+				}
+			}
+
+			void WeaponSwitchState::Exit()
+			{
+				auto* playerStateMachine = GetOwner<PlayerStateMachine>();
+				playerStateMachine->SetSwitchingWeapon(false);
+			}
+
+
+			/**********************************************************/
+
+
 			WalkState::WalkState(PlayerStateMachine* owner)
 				: IState(owner)
 			{
@@ -85,7 +153,7 @@ namespace nsApp
 
 			void IdleState::Exit()
 			{
-			}
-		}		
+			}			
+		}
 	}
 }

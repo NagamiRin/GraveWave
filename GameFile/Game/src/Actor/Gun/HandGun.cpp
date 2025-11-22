@@ -76,7 +76,7 @@ namespace nsApp
 
 			void HandGun::Render(RenderContext& rc)
 			{
-				m_model.Draw(rc);
+				SuperClass::Render(rc);
 			}
 		}
 	}
