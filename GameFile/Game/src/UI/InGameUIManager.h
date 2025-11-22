@@ -31,6 +31,7 @@ namespace nsApp
 		enNotifyType_RemainingEnemies,
 		enNotifyType_Enemies,
 		enNotifyType_Score,
+		enNotifyType_Shop,
 		enNotifyType_WallHP,
 		enNotifyType_None,
 	};
@@ -107,6 +108,17 @@ namespace nsApp
 		}
 	};
 
+	struct ShopNotify : public INotify
+	{
+		uint16_t m_score;
+		uint16_t m_menuIndex;
+		//
+		ShopNotify()
+			: INotify(enNotifyType_Shop)
+		{
+		}
+	};
+
 	struct CountdownNotify :public INotify
 	{
 		float m_specifiedSeconds;
@@ -129,6 +141,7 @@ namespace nsApp
 		class WallHPUI;
 		class CountdownUI;
 		class MiniMapUI;
+		class ShopUI;
 
 
 		class InGameUIManager
@@ -148,6 +161,8 @@ namespace nsApp
 			WallHPUI* m_wallHPUI = nullptr;
 			/** ミニマップ */
 			MiniMapUI* m_miniMapUI = nullptr;
+			/** ショップUI */
+			ShopUI* m_shopUI = nullptr;
 
 			std::vector<INotify*> m_notifyList;
 

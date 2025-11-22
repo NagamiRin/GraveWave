@@ -43,6 +43,8 @@ namespace nsApp
 
 				if (m_currentReloadTime >= 0.0f && m_isReloading)ReloadAnimation();
 
+				m_transform.m_localPosition = m_playerPosition + m_offsetPosition + m_adjustPosition;
+
 				m_model.SetPosition(m_transform.m_localPosition);
 				m_model.SetRotation(m_transform.m_localRotation);
 				m_model.Update();
@@ -103,9 +105,40 @@ namespace nsApp
 				if (m_currentReloadTime <= 0.0f)ReloadCompletion();
 			}
 
+
+			void GunBase::PutGun(const float animTime)
+			{
+				m_currentGunAnimTime += g_gameTime->GetFrameDeltaTime();
+				const float targetPos = -50.0f;
+				const float t = m_currentGunAnimTime / animTime;
+				const float currentPos = targetPos * t;
+
+				m_adjustPosition = Vector3(0.0f, currentPos, 0.0f);
+
+				if (t == 1.0f) {
+					m_currentGunAnimTime = 0.0f;
+				}
+			}
+
+
+			void GunBase::TakeOutGun(const float animTime)
+			{
+				m_currentGunAnimTime += g_gameTime->GetFrameDeltaTime();
+				const float startPos = -50.0f;
+				const float t = m_currentGunAnimTime / animTime;
+				const float currentPos = startPos * (1 - t);
+
+				m_adjustPosition = Vector3(0.0f, currentPos, 0.0f);
+
+				if (t == 1.0f) {
+					m_currentGunAnimTime = 0.0f;
+				}
+			}
+
+
 			void GunBase::Render(RenderContext& rc) 
 			{
-
+				m_model.Draw(rc);				
 			}
 		}
 	}

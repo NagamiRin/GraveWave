@@ -35,6 +35,7 @@ namespace nsApp
                     nextState->Enter();
 					m_currentState = nextState;
                 }
+                m_currentStateId = m_requestStateId;
             }
             if (m_currentState) {
                 m_currentState->Update();

@@ -14,7 +14,7 @@ namespace nsApp
 	{
 		namespace nsGun
 		{
-			class HandGun;
+			class GunBase;
 		}
 	}
 }
@@ -38,8 +38,10 @@ namespace nsApp
 
 			private:
 				using SuperClass = CharacterBase;
-				/** ハンドガンのポインタ */
-				nsGun::HandGun* m_handGun = nullptr;
+				/** 装備している銃のポインタ */
+				nsGun::GunBase* m_gun = nullptr;
+				/** 切り替えたい銃のID */
+				uint32_t m_requestGunID = INVALID_ID;
 				/** プレイヤーのステートマシンのポインタ */
 				std::unique_ptr<PlayerStateMachine> m_stateMachine;
 				/** RLスティックの入力量 */
@@ -80,17 +82,21 @@ namespace nsApp
 				void JudgOnFire();
 				/** Xボタンの入力を更新 */
 				void JudgeToReload();
+				/** 装備する銃をリクエスト */
+				void RequestChangeGun(const uint32_t gunID);
 
-
+				
 			public:
 				/** プレイヤーのステータスをキャスト */
 				inline PlayerStatus* GetStatus() { return dynamic_cast<PlayerStatus*>(m_status); }
 				/** プレイヤーのLスティックの入力量を取得 */
 				inline Vector2 GetInputRStick() const { return m_inputRStick; };
 				/** プレイヤーの右トリガーの入力情報を取得 */
-				inline bool GetInputRTrigger()const { return m_isInputRTrigger; }
-				/** ハンドガンを取得 */
-				inline nsGun::HandGun* GetHandGun() const { return m_handGun; }
+				inline bool GetInputRTrigger()const { return m_isInputRTrigger; }				
+				/** 装備している銃を取得 */
+				inline nsGun::GunBase* GetGun() const { return m_gun; }
+				/** 装備する銃を切り替え */
+				nsGun::GunBase* ChangeGun();
 			};
 		}		
 	}

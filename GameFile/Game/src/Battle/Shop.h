@@ -8,13 +8,22 @@
 
 namespace nsApp
 {
-	namespace nsShop
+	namespace nsBattle
 	{		
 		/**
 		 * ショップクラス
 		 */
 		class Shop
 		{
+		private:
+			/** メニューでのアイテムごとのインデックス */
+			int8_t m_menuIndex = 0;
+			/** メニューのアイコンを改行するインデックス */
+			int8_t m_menuIndexLineBreak = 0;
+			/** インデックスの最大値 */
+			int8_t m_menuIndexMax = 0;
+
+
 		public:
 			Shop();
 			~Shop();
@@ -22,6 +31,15 @@ namespace nsApp
 		public:
 			/** 更新処理 */
 			void Update();	
+			/** ショップのメニュー操作 */
+			void OperateMenu();
+			/** 武器の変更をリクエスト */
+			void RequestChangeWeapon(uint32_t weaponID);
+
+
+		public:
+			/** 現在のインデックスを取得 */
+			inline int8_t GetMenuIndex() const { return m_menuIndex; }
 
 
 		private:

@@ -6,6 +6,7 @@
 #pragma once
 
 
+
 namespace nsApp
 {
 	namespace nsCamera
@@ -45,6 +46,50 @@ namespace nsApp
 
 namespace nsApp
 {
+	namespace nsBattle
+	{
+		enum EnNotifyType
+		{
+			enNotifyType_BuyGun,
+			enNotifyType_BuyAmmo,
+			enNotifyType_None,
+		};
+
+
+		struct INotify
+		{
+			EnNotifyType m_notifyType;
+			//
+			INotify(EnNotifyType type) : m_notifyType(type) {}
+		};
+
+
+		struct BuyGunNotify : public INotify
+		{
+			uint32_t m_gunType;
+			uint32_t m_gunID;
+			//
+			BuyGunNotify()
+				: INotify(enNotifyType_BuyGun)
+			{
+			}
+		};
+
+		//struct BuyAmmoNotify : public INotify
+		//{
+		//	bool m_isHit;
+		//	//
+		//	BuyAmmoNotify()
+		//		: INotify(enNotifyType_BuyAmmo)
+		//	{
+		//	}
+		//};
+	}
+}
+
+
+namespace nsApp
+{
 	namespace nsCore
 	{
 		/**
@@ -72,6 +117,10 @@ namespace nsApp
 			/** エネミーが進行を止める位置（Z座標） */
 			float m_enemyStopPosition = 0.0f;
 
+			/** 通知のリスト */
+			std::vector<nsApp::nsBattle::INotify*> m_notifyList;
+
+
 
 		private:
 			/** カメラ位置をプレイヤーに合わせて更新 */
@@ -95,6 +144,11 @@ namespace nsApp
 
 
 		public:
+			/**	通知を追加 */
+			void AddNotify(nsApp::nsBattle::INotify* notify)
+			{
+				m_notifyList.push_back(notify);
+			}
 			/** ゾンビの削除要請 */
 			void DeleteZombie(nsApp::nsActor::nsEnemy::Zombie* zombie);
 			/** 水平方向の限界値を取得 */
@@ -113,6 +167,18 @@ namespace nsApp
 			bool IsBattleWin()const;
 			/** ゲームで負けたか */
 			bool IsBattleLose()const;
+
+			//todo for test
+			/** サブ武器のIDリストを取得 */
+			const std::vector<uint32_t>& GetSubWeaponIDList() const;
+			/** メイン武器のIDリストを取得 */
+			const std::vector<uint32_t>& GetMainWeaponIDList() const;
+			/** サブ武器のIDを登録 */
+			void SetSubWeaponID(const uint32_t gunID);
+			/** メイン武器のIDを登録 */
+			void SetMainWeaponID(const uint32_t gunID);
+			/** プレイヤーに武器の変更をリクエスト */
+			void RequestChangeWeapon(const uint32_t weaponID);
 			 
 
 

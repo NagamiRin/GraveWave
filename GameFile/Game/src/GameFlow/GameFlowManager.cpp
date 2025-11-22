@@ -28,7 +28,7 @@ namespace nsApp
             nsFlow::ScoreCounter::CreateInstance();
 
             //todo for test
-            m_currentPhase = EnInGameFlow::enBattle;
+            m_currentPhase = EnInGameFlow::enPreparation;
             nsFlow::BattleFlow::GetInstance()->SetInformation(m_waveCount);
         }
 

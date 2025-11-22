@@ -35,10 +35,16 @@ namespace nsApp
 				float m_currentCoolTime = 0.0f;
 				/** リロード時間 */
 				float m_reloadTime = 0.0f;
+				/** 現在の銃のアニメーション時間 */
+				float m_currentGunAnimTime = 0.0f;
 				/** 現在のリロード時間 */
 				float m_currentReloadTime = 0.0f;
 				/** 弾丸の射出方向 */
 				Vector3 m_injectionDirection = Vector3::Zero;
+				/** 計算後の銃の位置 */
+				Vector3 m_adjustPosition = Vector3::Zero;
+				/** プレイヤーの位置 */
+				Vector3 m_playerPosition = Vector3::Zero;
 
 				// @todo for あとでコメント
 				Vector3 m_offsetPosition = Vector3::Zero;
@@ -71,6 +77,10 @@ namespace nsApp
 				void ReloadCompletion();
 				/** リロードアニメーション */
 				void ReloadAnimation();
+				/** 武器をしまう */
+				void PutGun(const float animTime);
+				/** 銃を出す */
+				void TakeOutGun(const float animTime);
 
 
 			public:
@@ -104,7 +114,7 @@ namespace nsApp
 			public:
 				/** 情報を更新 */
 				void InformationUpdate(const Vector3& position, const Vector3& direction) {
-					m_transform.m_localPosition = position + m_offsetPosition;
+					m_playerPosition = position;
 					m_injectionDirection = direction;
 					SetDirection(direction);
 				}
