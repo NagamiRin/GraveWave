@@ -29,7 +29,7 @@ namespace nsApp
 
             //todo for test
             m_currentPhase = EnInGameFlow::enPreparation;
-            nsFlow::BattleFlow::GetInstance()->SetInformation(m_waveCount);
+            nsFlow::PreparationFlow::GetInstance()->SetInformation();
         }
 
 
@@ -45,7 +45,6 @@ namespace nsApp
 
         void GameFlowManager::Update()
         {
-            m_currentPhase;
             //各フェーズの更新処理
             nsFlow::BattleFlow::GetInstance()->Update();
             nsFlow::PreparationFlow::GetInstance()->Update();

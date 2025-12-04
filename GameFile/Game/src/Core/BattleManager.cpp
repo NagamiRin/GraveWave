@@ -31,6 +31,23 @@ namespace nsApp
 {
     namespace nsCore {
 
+        namespace
+        {
+            struct CrosshairCallback : public btCollisionWorld::RayResultCallback
+            {
+                bool isHit = false;
+                btScalar addSingleResult(btCollisionWorld::LocalRayResult& rayResult, bool normalInWorldSpace) override
+                {
+                    // Enemyじゃない&&Gohstじゃない なら当たらない
+                    if (rayResult.m_collisionObject->getUserIndex() != nsApp::enCollirionEnemy && rayResult.m_collisionObject->getInternalType() != btCollisionObject::CO_GHOST_OBJECT) {
+                        return rayResult.m_hitFraction;
+                    }
+                    isHit = true;
+                    return rayResult.m_hitFraction;
+                }
+            };
+        }
+
         BattleManager* BattleManager::m_instance = nullptr;
 
 
@@ -160,9 +177,24 @@ namespace nsApp
         {
             //クロスヘア
             {
-                CrossHairNotify* crossHairNotify = new CrossHairNotify();
+                CrossHairNotify* crossHairNotify = new CrossHairNotify();                
 
-                crossHairNotify->m_isHit = CollisionHitManager::Get().IsHitBullet();
+                // レイの処理
+                {
+                    Vector3 startPos = m_camera->GetCameraPos();
+                    Vector3 endPos = m_camera->GetCameraPos() + (m_camera->GetCameraDir() * 3000.0f);
+                    CrosshairCallback cb;
+                    bool isHit = PhysicsWorld::GetInstance()->RayTest(startPos, endPos, cb, [](const btCollisionWorld::RayResultCallback* result)
+                        {
+                            const auto* resultCB = dynamic_cast<const CrosshairCallback*>(result);
+                            if (resultCB->isHit) {
+                                return true;
+                            }
+                            return false;
+                        });
+                    // 赤色にする
+                    crossHairNotify->m_isHit = isHit;   
+                }                
 
                 nsUI::InGameUIManager::GetInstance()->AddNotify(crossHairNotify);
             }
@@ -240,6 +272,18 @@ namespace nsApp
                 countdownNotify->m_isDrawCount = isDrawCount;
 
                 nsUI::InGameUIManager::GetInstance()->AddNotify(countdownNotify);
+            }
+
+            //ショップ
+            {
+                const int8_t menuIndex = nsBattle::Shop::GetInstance().GetMenuIndex();
+                const bool isOpen = nsBattle::Shop::GetInstance().IsOpenMenu();
+
+                ShopNotify* shopNotify = new ShopNotify();
+                shopNotify->m_menuIndex = menuIndex;
+                shopNotify->m_isOpen = isOpen;
+
+                nsUI::InGameUIManager::GetInstance()->AddNotify(shopNotify);
             }
         }
 

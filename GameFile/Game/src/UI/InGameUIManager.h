@@ -110,8 +110,8 @@ namespace nsApp
 
 	struct ShopNotify : public INotify
 	{
-		uint16_t m_score;
 		uint16_t m_menuIndex;
+		bool m_isOpen;
 		//
 		ShopNotify()
 			: INotify(enNotifyType_Shop)

@@ -6,6 +6,7 @@
 #include "stdafx.h"
 #include "MiniMapUI.h"
 #include "src/UI/UIBase.h"
+#include "src/GameFlow/GameFlowManager.h"
 
 
 namespace nsApp
@@ -75,6 +76,8 @@ namespace nsApp
         
         void MiniMapUI::Render(RenderContext& rc)
         {
+            if (nsFlow::GameFlowManager::GetInstance()->GetGameFlow() != enBattle) return;
+
             m_uiCanvas->Render(rc);
         }
 

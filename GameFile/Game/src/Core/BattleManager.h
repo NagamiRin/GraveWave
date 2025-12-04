@@ -73,17 +73,7 @@ namespace nsApp
 				: INotify(enNotifyType_BuyGun)
 			{
 			}
-		};
-
-		//struct BuyAmmoNotify : public INotify
-		//{
-		//	bool m_isHit;
-		//	//
-		//	BuyAmmoNotify()
-		//		: INotify(enNotifyType_BuyAmmo)
-		//	{
-		//	}
-		//};
+		};		
 	}
 }
 
@@ -178,8 +168,7 @@ namespace nsApp
 			/** メイン武器のIDを登録 */
 			void SetMainWeaponID(const uint32_t gunID);
 			/** プレイヤーに武器の変更をリクエスト */
-			void RequestChangeWeapon(const uint32_t weaponID);
-			 
+			void RequestChangeWeapon(const uint32_t weaponID);			 
 
 
 		public:

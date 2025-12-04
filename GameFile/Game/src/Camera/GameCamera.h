@@ -78,10 +78,14 @@ namespace nsApp
 		public:
 			/** カメラ座標を設定 */
 			const void SetCameraPos(const Vector3& pos) { m_cameraPos = pos; };
+			/** カメラ座標を取得 */
+			inline Vector3 GetCameraPos()const { return m_cameraPos; }
 			/** カメラ注視点を設定 */
 			const void SetTargetPos(const Vector3& pos) { m_targetPos = pos; };
 			/** カメラの向きを設定 */
 			const void SetCameraDir(const Vector3& dir) { m_cameraDir = dir; };
+			/** カメラの向きを取得 */
+			inline Vector3 GetCameraDir()const { return m_cameraDir; }
 		};
 	}
 }

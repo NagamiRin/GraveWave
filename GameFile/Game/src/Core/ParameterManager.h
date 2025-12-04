@@ -36,16 +36,17 @@ struct MasterEnemyStatus : public IMasterParameter
 };
 
 
-//ハンドガンのステータス
-struct MasterHandGunParameter :public IMasterParameter
+// 銃のステータス
+struct MasterGunParameter :public IMasterParameter
 {
-    appParameter(MasterHandGunParameter);
+    appParameter(MasterGunParameter);
     //
     uint8_t m_damage;
     uint8_t m_maxAmmo;
     float m_bulletSpeed;
     float m_fireCoolTime;
     float m_reloadTime;
+    float m_switchTime;
     float m_newPositionX;
     float m_newPositionY;
     float m_newPositionZ;
@@ -146,6 +147,24 @@ struct MasterScoreParameter :public IMasterParameter
     appParameter(MasterScoreParameter);
 
     uint8_t m_eliminateZombieScore;
+};
+
+
+//ショップUIのパラメーター
+struct MasterShopUIParameter :public IMasterParameter
+{
+    appParameter(MasterShopUIParameter);
+
+    float m_backWidth;
+    float m_backHeight;
+    float m_iconWidth;
+    float m_iconHeight;
+    float m_positionX;
+    float m_positionY;
+    float m_stringPositionX;
+    float m_stringPositionY;
+    uint16_t m_price;
+    std::string m_weaponName;
 };
 
 
