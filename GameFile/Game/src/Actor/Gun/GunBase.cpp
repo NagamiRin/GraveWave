@@ -106,32 +106,37 @@ namespace nsApp
 			}
 
 
-			void GunBase::PutGun(const float animTime)
+			void GunBase::PutGun()
 			{
 				m_currentGunAnimTime += g_gameTime->GetFrameDeltaTime();
-				const float targetPos = -50.0f;
-				const float t = m_currentGunAnimTime / animTime;
+				const float targetPos = -30.0f;
+				float t = m_currentGunAnimTime / m_switchTime;
+				if (t >= 1.0f) t = 1.0f;
 				const float currentPos = targetPos * t;
 
 				m_adjustPosition = Vector3(0.0f, currentPos, 0.0f);
 
 				if (t == 1.0f) {
 					m_currentGunAnimTime = 0.0f;
+					m_isEquipment = false;
 				}
 			}
 
 
-			void GunBase::TakeOutGun(const float animTime)
+			void GunBase::TakeOutGun()
 			{
 				m_currentGunAnimTime += g_gameTime->GetFrameDeltaTime();
-				const float startPos = -50.0f;
-				const float t = m_currentGunAnimTime / animTime;
+				const float startPos = -30.0f;
+				float t = m_currentGunAnimTime / m_switchTime;
+				if (t >= 1.0f) t = 1.0f;
 				const float currentPos = startPos * (1 - t);
 
 				m_adjustPosition = Vector3(0.0f, currentPos, 0.0f);
 
 				if (t == 1.0f) {
+					m_adjustPosition = Vector3::Zero;
 					m_currentGunAnimTime = 0.0f;
+					m_isEquipment = true;
 				}
 			}
 

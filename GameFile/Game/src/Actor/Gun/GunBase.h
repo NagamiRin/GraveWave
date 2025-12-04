@@ -21,12 +21,16 @@ namespace nsApp
 			protected:
 				/** リロード中か */
 				bool m_isReloading = false;
+				/** 銃を装備中か */
+				bool m_isEquipment = false;
 				/** ダメージ量 */
 				uint8_t m_damage = 0;
 				/** 最大弾数 */
 				uint8_t m_maxAmmo = 0;
 				/** 残弾数 */
 				uint8_t m_remainingAmmo = 0;
+				/** 高さの初期値 */
+				float m_initialHeight = 0.0f;
 				/** 発射初速 */
 				float m_bulletSpeed = 0.0f;
 				/** 発射クールタイム */
@@ -35,6 +39,8 @@ namespace nsApp
 				float m_currentCoolTime = 0.0f;
 				/** リロード時間 */
 				float m_reloadTime = 0.0f;
+				/** 武器切り替え時間 */
+				float m_switchTime = 0.0f;
 				/** 現在の銃のアニメーション時間 */
 				float m_currentGunAnimTime = 0.0f;
 				/** 現在のリロード時間 */
@@ -78,9 +84,9 @@ namespace nsApp
 				/** リロードアニメーション */
 				void ReloadAnimation();
 				/** 武器をしまう */
-				void PutGun(const float animTime);
+				void PutGun();
 				/** 銃を出す */
-				void TakeOutGun(const float animTime);
+				void TakeOutGun();
 
 
 			public:
@@ -121,6 +127,10 @@ namespace nsApp
 
 
 			public:
+				/** 銃装備の状態を取得 */
+				inline bool IsEquipment() const { return m_isEquipment; }
+				/** 銃装備の状態を設定 */
+				inline void SetIsEquipment(const bool equipment) { m_isEquipment = equipment; }
 				/** 発射クールタイムを取得 */
 				inline float GetFireCoolTime() { return m_currentCoolTime; }
 				/** 現在の弾数を取得 */
