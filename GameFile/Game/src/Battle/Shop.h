@@ -22,6 +22,8 @@ namespace nsApp
 			int8_t m_menuIndexLineBreak = 0;
 			/** インデックスの最大値 */
 			int8_t m_menuIndexMax = 0;
+			/** メニューを開いているか */
+			bool m_isOpenMenu = false;
 
 
 		public:
@@ -33,6 +35,10 @@ namespace nsApp
 			void Update();	
 			/** ショップのメニュー操作 */
 			void OperateMenu();
+			/** 商品の購入 */
+			void BuyProducts();
+			/** 銃購入の共通処理 */
+			void BuyGuns(const uint32_t gunID);
 			/** 武器の変更をリクエスト */
 			void RequestChangeWeapon(uint32_t weaponID);
 
@@ -40,6 +46,8 @@ namespace nsApp
 		public:
 			/** 現在のインデックスを取得 */
 			inline int8_t GetMenuIndex() const { return m_menuIndex; }
+			/** メニュー開閉の状態を取得 */
+			inline bool IsOpenMenu() const { return m_isOpenMenu; }
 
 
 		private:
