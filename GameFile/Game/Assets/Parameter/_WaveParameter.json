@@ -2,8 +2,8 @@
     {
         "Comment": "ゾンビ出現のウェーブ情報1",
         "LeftCount": 2,
-        "CenterCount": 15,
-        "RightCount": 3,
+        "CenterCount": 10,
+        "RightCount": 1,
         "BossCount": 0,
         "SpawnInterval": 3.0
     },

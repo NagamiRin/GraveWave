@@ -4,6 +4,7 @@
         "Damage": 5,
         "MaxAmmo": 15,
         "ReloadTime": 1.5,
+        "SwitchTime": 0.5,
         "BulletSpeed": 30.0,
         "FireCoolTime": 0.3,
         "NewPositionX":1.0,
