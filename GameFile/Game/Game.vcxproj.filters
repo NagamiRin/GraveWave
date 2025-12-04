@@ -145,6 +145,7 @@
     <ClCompile Include="src\Actor\Gun\AssaultRifle.cpp" />
     <ClCompile Include="src\Battle\Shop.cpp" />
     <ClCompile Include="src\UI\ShopUI.cpp" />
+    <ClCompile Include="src\Core\ModelLOD.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -262,5 +263,6 @@
     <ClInclude Include="src\Actor\Gun\AssaultRifle.h" />
     <ClInclude Include="src\Battle\Shop.h" />
     <ClInclude Include="src\UI\ShopUI.h" />
+    <ClInclude Include="src\Core\ModelLOD.h" />
   </ItemGroup>
 </Project>

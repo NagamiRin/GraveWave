@@ -7,6 +7,7 @@
 #include "Zombie.h"
 #include "src/Actor/Enemy/ZombieStateMachine.h"
 #include "src/Collision/CollisionManager.h"
+#include "src/Core/ModelLOD.h"
 
 
 namespace nsApp
@@ -40,6 +41,14 @@ namespace nsApp
                 m_transform.m_localScale = Vector3(0.3f, 0.3f, 0.3f);
                 SetDirection(Vector3(0.0f, 0.0f, -1.0f));
 
+                //LODの初期設定
+                m_modelLOD = NewGO<nsCore::ModelLOD>(enGameObjectPriority_Enemy, "ModelLOD");
+                m_modelLOD->Initialize({ "Assets/ModelData/Zombie/Default/LOD1.tkm"/*,
+                    "Assets/ModelData/Zombie/Default/LOD2.dds",
+                    "Assets/ModelData/Zombie/Default/LOD3.dds" */},
+                    0.3f,
+                    1);
+
                 // アニメーションの初期化
                 {
                     // 歩き
@@ -49,7 +58,7 @@ namespace nsApp
                         clip.SetLoopFlag(true);
                     }
                 }
-                m_model.Init("Assets/ModelData/Zombie/Default.tkm", m_animationClipList.data(), EnAnimationVar_Max);
+                m_model.Init("Assets/ModelData/Zombie/Default/Default.tkm", m_animationClipList.data(), EnAnimationVar_Max);
                 m_model.PlayAnimation(EnAnimationVar_Walk);                
 
                 return true;
@@ -63,11 +72,13 @@ namespace nsApp
                 m_collisionPosition = m_transform.m_position + Vector3(0.0f, 25.0f, 0.0f);
                 m_collisionObject->SetPosition(m_collisionPosition);
                 m_collisionObject->Update();
+                m_collisionObject->GetbtCollisionObject().setUserIndex(nsApp::enCollirionEnemy);
 
 				m_model.SetPosition(m_transform.m_position);
                 m_model.SetRotation(m_transform.m_rotation);
                 m_model.Update();
 
+                m_modelLOD->UpdateInformation(m_transform.m_localPosition, m_transform.m_localRotation);
                 m_stateMachine->Update();
 
                 SuperClass::Update();
@@ -76,7 +87,7 @@ namespace nsApp
 
             void Zombie::Render(RenderContext& rc)
             {
-                m_model.Draw(rc);
+                if(!m_modelLOD->IsDrawLOD()) m_model.Draw(rc);
             }
 
 

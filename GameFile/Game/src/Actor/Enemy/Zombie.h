@@ -10,6 +10,14 @@
 
 namespace nsApp
 {
+	namespace nsCore
+	{
+		class ModelLOD;
+	}
+}
+
+namespace nsApp
+{
 	namespace nsActor
 	{
 		namespace nsEnemy
@@ -37,6 +45,8 @@ namespace nsApp
 				std::array<AnimationClip, EnAnimationVar_Max> m_animationClipList;
 				/** ゾンビのステートマシンのポインタ */
 				std::unique_ptr<ZombieStateMachine> m_stateMachine;
+				/** LODモデル */
+				nsCore::ModelLOD* m_modelLOD = nullptr;
 
 
 			public:
