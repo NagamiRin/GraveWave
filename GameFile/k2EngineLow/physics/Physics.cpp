@@ -1,9 +1,9 @@
-#include "k2EngineLowPreCompile.h"
+ï»¿#include "k2EngineLowPreCompile.h"
 #include "Physics.h"
 
 using namespace std;
 namespace nsK2EngineLow {
-	PhysicsWorld* PhysicsWorld::m_instance = nullptr;	//—Bˆê‚ÌƒCƒ“ƒXƒ^ƒ“ƒXB
+	PhysicsWorld* PhysicsWorld::m_instance = nullptr;	//å”¯ä¸€ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã€‚
 
 	namespace {
 		struct MyContactResultCallback : public btCollisionWorld::ContactResultCallback {
@@ -37,7 +37,7 @@ namespace nsK2EngineLow {
 			btScalar	addSingleResult(btCollisionWorld::LocalRayResult& rayResult, bool normalInWorldSpace) override			
 			{
 				if (rayResult.m_hitFraction < hitFraction) {
-					// ‚±‚¿‚ç‚Ì•û‚ª‹ß‚¢B
+					// ã“ã¡ã‚‰ã®æ–¹ãŒè¿‘ã„ã€‚
 					hitPos.Lerp(rayResult.m_hitFraction, rayStart, rayEnd);
 				}
 				isHit = true;
@@ -76,11 +76,20 @@ namespace nsK2EngineLow {
 		}
 		return cb.isHit;
 	}
+	bool PhysicsWorld::RayTest(const Vector3& rayStart, const Vector3& rayEnd, btCollisionWorld::RayResultCallback& cb, const std::function<bool(const btCollisionWorld::RayResultCallback*)>& resultCallback) const
+	{
+		btVector3 start, end;
+		start.setValue(rayStart.x, rayStart.y, rayStart.z);
+		end.setValue(rayEnd.x, rayEnd.y, rayEnd.z);
+		m_dynamicWorld->rayTest(start, end, cb);
+		const bool isHit = resultCallback(&cb);
+		return isHit;
+	}
 	PhysicsWorld::PhysicsWorld()
 	{
 		K2_ASSERT(
 			m_instance == nullptr,
-			"PhysisWorld‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ•¡”ì‚é‚±‚Æ‚Í‚Å‚«‚Ü‚¹‚ñB"
+			"PhysisWorldã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’è¤‡æ•°ä½œã‚‹ã“ã¨ã¯ã§ãã¾ã›ã‚“ã€‚"
 		);
 		Init();
 	}
@@ -102,7 +111,7 @@ namespace nsK2EngineLow {
 	{
 		Release();
 
-		//•¨—ƒGƒ“ƒWƒ“‚ğ‰Šú‰»B
+		//ç‰©ç†ã‚¨ãƒ³ã‚¸ãƒ³ã‚’åˆæœŸåŒ–ã€‚
 		///collision configuration contains default setup for memory, collision setup. Advanced users can create their own configuration.
 		m_collisionConfig = make_unique<btDefaultCollisionConfiguration>();
 
@@ -125,7 +134,7 @@ namespace nsK2EngineLow {
 		m_dynamicWorld->setGravity(btVector3(0, -10, 0));
 
 #ifdef _DEBUG
-		//ƒfƒoƒbƒOƒƒCƒ„[ƒtƒŒ[ƒ€‚ğ‰Šú‰»B
+		//ãƒ‡ãƒãƒƒã‚°ãƒ¯ã‚¤ãƒ¤ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’åˆæœŸåŒ–ã€‚
 		m_debugWireFrame.Init();
 		m_dynamicWorld->setDebugDrawer(&m_debugWireFrame);
 #endif
