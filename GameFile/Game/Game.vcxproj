@@ -256,6 +256,7 @@
     <ClCompile Include="src\Collision\CollisionManager.cpp" />
     <ClCompile Include="src\Core\BattleManager.cpp" />
     <ClCompile Include="src\Core\Game.cpp" />
+    <ClCompile Include="src\Core\ModelLOD.cpp" />
     <ClCompile Include="src\Core\ParameterManager.cpp" />
     <ClCompile Include="src\Core\SaveData.cpp" />
     <ClCompile Include="src\GameFlow\BattleFlow.cpp" />
@@ -325,6 +326,7 @@
     <ClInclude Include="src\Collision\CollisionManager.h" />
     <ClInclude Include="src\Core\BattleManager.h" />
     <ClInclude Include="src\Core\Game.h" />
+    <ClInclude Include="src\Core\ModelLOD.h" />
     <ClInclude Include="src\Core\ParameterManager.h" />
     <ClInclude Include="src\Core\SaveData.h" />
     <ClInclude Include="src\GameFlow\BattleFlow.h" />

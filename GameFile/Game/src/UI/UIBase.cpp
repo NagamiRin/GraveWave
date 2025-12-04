@@ -222,7 +222,7 @@ namespace nsApp
 
             for (int i = 0; i < m_numbers.size();++i) {
                 auto* number = m_numbers[i];          
-                float pos = (i - 1) * -35.0f;
+                float pos = (i - 1) * -15.0f;
                 number->SetPosition(m_transform.m_position + Vector3(pos, 0.0f, 0.0f));
                 number->SetScale(m_transform.m_scale);
                 number->SetRotation(m_transform.m_rotation);

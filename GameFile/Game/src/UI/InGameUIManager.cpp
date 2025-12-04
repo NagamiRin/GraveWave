@@ -68,6 +68,7 @@ namespace nsApp
 
                         m_crosshairUI->SetIsHit(crossHairNotify->m_isHit);
                     }
+
                     case enNotifyType_RemainingBullets:
                     {
                         const auto* remainingNotify = static_cast<const RemainingBulletsNotify*>(notify);
@@ -122,6 +123,16 @@ namespace nsApp
 
                         m_wallHPUI->SetMaxDurability(wallHPNotify->m_maxWallHP);
                         m_wallHPUI->SetDurability(wallHPNotify->m_wallHP);
+
+                        break;
+                    }
+
+                    case enNotifyType_Shop:
+                    {
+                        const auto* shopNotify = static_cast<const ShopNotify*>(notify);
+
+                        m_shopUI->SetIndex(shopNotify->m_menuIndex);
+                        m_shopUI->SetIsOpen(shopNotify->m_isOpen);
 
                         break;
                     }

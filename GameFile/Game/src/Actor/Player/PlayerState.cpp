@@ -34,23 +34,20 @@ namespace nsApp
 				playerStateMachine->SetSwitchingWeapon(true);
 				m_gun = playerStateMachine->GetOwner()->GetGun();
 				m_currentSwitchTime = 0.0f;
+				m_step = enSwitchStep_Out;
 			}
 
 			void WeaponSwitchState::Update()
 			{
-				//todo for test
-				constexpr float switchTime = 5.0f;
-
-				m_currentSwitchTime += g_gameTime->GetFrameDeltaTime();
-
 				switch (m_step)
 				{
 					case enSwitchStep_Out:
 					{
 						// 仕舞うアニメーション再生
-						if (m_currentSwitchTime <= switchTime / 2) {
-							m_gun->PutGun(switchTime / 2);
-						} else {
+						if (m_gun->IsEquipment()) {
+							m_gun->PutGun();
+						} 
+						else {
 							m_step = enSwitchStep_Change;
 						}
 						break;
@@ -65,8 +62,12 @@ namespace nsApp
 					}
 					case enSwitchStep_In:
 					{
-						if (m_currentSwitchTime <= switchTime) {
-							m_gun->TakeOutGun(switchTime / 2);
+						if (!m_gun->IsEquipment()) {
+							m_gun->TakeOutGun();
+						}
+						else {
+							auto* playerStateMachine = GetOwner<PlayerStateMachine>();
+							playerStateMachine->SetSwitchingWeapon(false);
 						}
 						break;
 					}
@@ -75,8 +76,7 @@ namespace nsApp
 
 			void WeaponSwitchState::Exit()
 			{
-				auto* playerStateMachine = GetOwner<PlayerStateMachine>();
-				playerStateMachine->SetSwitchingWeapon(false);
+
 			}
 
 

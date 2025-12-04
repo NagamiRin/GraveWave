@@ -18,6 +18,8 @@ namespace nsApp{
 			std::unique_ptr<UICanvas>m_uiCanvas;
 			/** ヒットエフェクト */
 			ImageUI* m_hitEffect = nullptr;
+			/** クロスヘア画像 */
+			ImageUI* m_crosshairImage = nullptr;
 			/** 弾がヒットしたか */
 			bool m_isHit = false;
 			/** 弾がヒットしてからの経過時間 */

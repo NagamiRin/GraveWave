@@ -49,8 +49,9 @@ namespace nsApp
 				//初期方向を設定
 				SetDirection(Vector3::Front);
 
-				//ハンドガンを生成
-				m_gun = NewGO<nsApp::nsActor::nsGun::HandGun>(enGameObjectPriority_Gun, "HandGun");
+				//初期装備
+				m_gun = NewGO<nsApp::nsActor::nsGun::AssaultRifle>(enGameObjectPriority_Gun, "HandGun");
+				m_gun->SetIsEquipment(true);
 
 				return true;
 			}
@@ -136,8 +137,8 @@ namespace nsApp
 			void Player::RequestChangeGun(const uint32_t gunID)
 			{
 				
-					m_requestGunID = gunID;
-					m_stateMachine->SetSwitchingWeapon(true);
+				m_requestGunID = gunID;
+				m_stateMachine->SetSwitchingWeapon(true);
 				
 			}
 
@@ -149,13 +150,12 @@ namespace nsApp
 				nsGun::GunBase* createGun = nullptr; 
 
 				//サブ武器
-				if (m_requestGunID == nsGun::HandGun::ID())
-				{
+				if (m_requestGunID == nsGun::HandGun::ID()) {
 					createGun = NewGO<nsGun::HandGun>(enGameObjectPriority_Gun, "HandGun");
 				}
 
 				//メイン武器
-				if (m_requestGunID == nsGun::AssaultRifle::ID()) {
+				else if (m_requestGunID == nsGun::AssaultRifle::ID()) {
 					createGun = NewGO<nsGun::AssaultRifle>(enGameObjectPriority_Gun, "AssaultRifle");
 				}
 

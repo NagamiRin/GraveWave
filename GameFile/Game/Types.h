@@ -34,6 +34,18 @@ enum EnResultType
 	enResultType_None,
 };
 
+/** アプリ側用の処理にしたいのでnamespaceをつける */
+namespace nsApp
+{
+	enum EnCollisionAttr
+	{
+		enCollirionEnemy = enCollisionAttr_User,
+		// ここに追加していく
+		enCollisionMax,
+	};
+}
+
+
 
 /** ゲームオブジェクトにIDを割り振る */
 #define appGameObject(name)\

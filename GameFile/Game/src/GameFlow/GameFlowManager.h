@@ -52,6 +52,8 @@ namespace nsApp
 		public:
 			/** ゲームクリア条件を満たしたか */
 			bool IsClearConditions() const;
+			/** 現在のゲームフェーズを取得 */
+			inline EnInGameFlow GetGameFlow() const { return m_currentPhase; }
 
 
 		private:

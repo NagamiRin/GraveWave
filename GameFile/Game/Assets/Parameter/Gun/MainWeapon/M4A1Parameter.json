@@ -1,0 +1,14 @@
+[
+    {
+        "Commnet": "M4M1用のパラメータ",
+        "Damage": 5,
+        "MaxAmmo": 30,
+        "ReloadTime": 3.0,
+        "SwitchTime": 1.0,
+        "BulletSpeed": 30.0,
+        "FireCoolTime": 0.1,
+        "NewPositionX":0.15,
+        "NewPositionY":-0.3,
+        "NewPositionZ":0.35
+    }
+]

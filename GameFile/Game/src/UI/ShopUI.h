@@ -13,6 +13,7 @@ namespace nsApp
 		class UICanvas;
 		class ImageUI;
 		class StringUI;
+		class NumberUI;
 
 		/** 
 		 * ショップのUIを表示するクラス 
@@ -21,13 +22,15 @@ namespace nsApp
 		{
 		private:
 			/** キャンバス */
-			std::unique_ptr<UICanvas>m_uiCanvas;
-			/**	各アイテム欄の背景のリスト */
-			ImageUI* m_back = nullptr;			
+			std::unique_ptr<UICanvas>m_uiCanvas;		
 			/** アイコンの背景画像のリスト */
-			std::vector<ImageUI*> m_uiItemList;
+			std::vector<ImageUI*> m_uiBackList;			
+			/** 商品の値段 */
+			std::vector<NumberUI*> m_itemPriceList;
 			/** 今ショップ画面を開いているか */
 			bool m_isOpen = false;
+			/** 変更前のインデックス */
+			int8_t m_beforeIndex = 0;
 			/** 現在のインデックス */
 			int8_t m_index = 0;
 
@@ -47,7 +50,9 @@ namespace nsApp
 
 		public:
 			/** インデックスを設定 */
-			void SetIndex(int8_t index) { m_index = index; }
+			inline void SetIndex(const int8_t index) { m_index = index; }
+			/** メニュー開閉の状態を設定 */
+			inline void SetIsOpen(const bool open) { m_isOpen = open; }
 		};
 	}
 }
