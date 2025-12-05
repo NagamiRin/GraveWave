@@ -24,6 +24,7 @@ namespace nsApp
 		namespace nsBackGround
 		{
 			class BackGround;
+			class FogObject;
 		}
 
 		namespace nsEnemy
@@ -94,6 +95,8 @@ namespace nsApp
 		private:
 			/** 背景 */
 			nsActor::nsBackGround::BackGround* m_backGround = nullptr;
+			/** フォグのボックス */
+			nsActor::nsBackGround::FogObject* m_fogObject = nullptr;
 			/** 防壁 */
 			nsActor::nsWall::Wall* m_wall = nullptr;
 			/** カメラ */

@@ -144,6 +144,7 @@
     <ClCompile Include="src\Core\ModelLOD.cpp" />
     <ClCompile Include="src\Actor\Gun\MainWeapon.cpp" />
     <ClCompile Include="src\Actor\Gun\SubWeapon.cpp" />
+    <ClCompile Include="src\Actor\BackGround\FogObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -260,5 +261,6 @@
     <ClInclude Include="src\Core\ModelLOD.h" />
     <ClInclude Include="src\Actor\Gun\MainWeapon.h" />
     <ClInclude Include="src\Actor\Gun\SubWeapon.h" />
+    <ClInclude Include="src\Actor\BackGround\FogObject.h" />
   </ItemGroup>
 </Project>

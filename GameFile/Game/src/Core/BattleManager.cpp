@@ -6,6 +6,7 @@
 #include "stdafx.h"
 #include "BattleManager.h"
 #include "src/Actor/BackGround/BackGround.h"
+#include "src/Actor/BackGround/FogObject.h"
 #include "src/Actor/Bullet/BulletManager.h"
 #include "src/Actor/Player/Player.h"
 #include "src/Actor/Enemy/EnemyManager.h"
@@ -96,6 +97,9 @@ namespace nsApp
             //背景を生成
             m_backGround = NewGO<nsActor::nsBackGround::BackGround>(enGameObjectPriority_BackGround, "BackGround");
 
+            //フォグのボックスを生成
+            m_fogObject = NewGO<nsActor::nsBackGround::FogObject>(enGameObjectPriority_BackGround, "FogObject");
+
             //防壁を生成
             m_wall = NewGO<nsActor::nsWall::Wall>(enGameObjectPriority_Wall, "Wall");
 
@@ -123,6 +127,8 @@ namespace nsApp
             nsActor::nsBullet::BulletManager::DeleteInstance();
             //背景を削除
             DeleteGO(m_backGround);
+            //フォグを削除
+            DeleteGO(m_fogObject);
             //防壁を削除
             DeleteGO(m_wall);
             //プレイヤーを削除

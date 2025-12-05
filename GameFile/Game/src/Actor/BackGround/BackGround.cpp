@@ -4,7 +4,7 @@
  * 背景オブジェクト
  */
 #include "stdafx.h"
-#include "src/Actor/BackGround/BackGround.h"
+#include "BackGround.h"
 
 
 namespace nsApp
@@ -17,6 +17,7 @@ namespace nsApp
             {
                 m_model.Init("Assets/ModelData/BackGround/BackGroundObject.tkm");
                 m_model.SetPosition(Vector3::Zero);
+                m_model.Update();
             }
 
 
