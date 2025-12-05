@@ -8,6 +8,38 @@
 #include "src/GameFlow/ScoreCounter.h"
 
 
+namespace
+{
+	/** 弾用のSweepTestコールバック */
+	struct BulletCallback : public btCollisionWorld::ConvexResultCallback
+	{
+		bool isHit = false;
+		CollisionObject* m_me = nullptr;
+		//btCollisionObject* m_me = nullptr;
+		const btCollisionObject* m_you = nullptr;
+
+		btScalar	addSingleResult(btCollisionWorld::LocalConvexResult& convexResult, bool normalInWorldSpace) override
+		{
+			//自分自身を弾く
+			//if (&m_me->GetbtCollisionObject() == convexResult.m_hitCollisionObject) return 0.0f;
+
+			//エネミー以外かつゴーストオブジェクトではない時
+			if (convexResult.m_hitCollisionObject->getUserIndex() != nsApp::enCollirionEnemy
+				|| convexResult.m_hitCollisionObject->getInternalType() != btCollisionObject::CO_GHOST_OBJECT) {
+				return convexResult.m_hitFraction;
+			}
+
+			if (!isHit) {
+				isHit = true;
+				m_you = convexResult.m_hitCollisionObject;
+			}
+
+			return convexResult.m_hitFraction;
+		}
+	};
+}
+
+
 CollisionHitManager* CollisionHitManager::m_instance = nullptr;
 
 
@@ -40,30 +72,56 @@ void CollisionHitManager::Update()
 
 	m_collisionPairList.clear();
 
-	// ヒットするオブジェクトのペアを作る
-	const uint32_t colSize = static_cast<uint32_t>(m_collisionInfoList.size());
-	for (uint32_t i = 0; i < colSize; ++i) {
-		for (uint32_t j = i+1; j < colSize; ++j) {
-			CollisionInfo* infoA = &m_collisionInfoList[i];
-			CollisionInfo* infoB = &m_collisionInfoList[j];
+	// 別処理でペアをつくる
+	{
+		// 弾
+		{
+			auto bulletInfoList = FindCollisionInfo(nsApp::nsActor::nsBullet::NormalBullet::ID());
 
-			if(infoA->m_collision->IsHit(infoB->m_collision) || infoB->m_collision->IsHit(infoA->m_collision))
-			{
-				// CollisionPairの中に同じ組み合わせがないかチェック
-				bool exists = false;
-				for (const auto& pair : m_collisionPairList) {
-					if ((pair.m_left == infoA && pair.m_right == infoB) || (pair.m_left == infoB && pair.m_right == infoA)) {
-						exists = true;
-						break;
+			for (auto* bulletInfo : bulletInfoList) {
+				auto* bullet = dynamic_cast<nsApp::nsActor::nsBullet::NormalBullet*>(bulletInfo->m_object);
+				// Sweepテストで衝突判定をする
+				Vector3 start = bullet->GetLocalPosition();
+				Vector3 end = start + (bullet->GetFlyDirection() * bullet->GetBulletSpeed());
+				auto* btCollision = &bulletInfo->m_collision->GetbtCollisionObject();
+				auto* collisionShape = btCollision->getCollisionShape();
+				BulletCallback cb;
+				PhysicsWorld::GetInstance()->ConvexSweepTest(collisionShape, start, end, cb);
+				if (cb.isHit) {
+					
+					auto* targetInfo = FindCollisionInfo(cb.m_you);
+					if (targetInfo) {
+						m_collisionPairList.push_back(CollisionPair(bulletInfo, targetInfo));
 					}
-				}
-				// すでに登録済みではないなら追加する
-				if (!exists) {
-					m_collisionPairList.push_back(CollisionPair(infoA, infoB));
 				}
 			}
 		}
 	}
+
+	// ヒットするオブジェクトのペアを作る
+	//const uint32_t colSize = static_cast<uint32_t>(m_collisionInfoList.size());
+	//for (uint32_t i = 0; i < colSize; ++i) {
+	//	for (uint32_t j = i+1; j < colSize; ++j) {
+	//		CollisionInfo* infoA = &m_collisionInfoList[i];
+	//		CollisionInfo* infoB = &m_collisionInfoList[j];
+
+	//		if(infoA->m_collision->IsHit(infoB->m_collision) || infoB->m_collision->IsHit(infoA->m_collision))
+	//		{
+	//			// CollisionPairの中に同じ組み合わせがないかチェック
+	//			bool exists = false;
+	//			for (const auto& pair : m_collisionPairList) {
+	//				if ((pair.m_left == infoA && pair.m_right == infoB) || (pair.m_left == infoB && pair.m_right == infoA)) {
+	//					exists = true;
+	//					break;
+	//				}
+	//			}
+	//			// すでに登録済みではないなら追加する
+	//			if (!exists) {
+	//				m_collisionPairList.push_back(CollisionPair(infoA, infoB));
+	//			}
+	//		}
+	//	}
+	//}
 
 	// ヒットしたペアで衝突した時の処理をする
 	// 今回のゲームではないがプレイヤーの攻撃がエネミーにあたったのでHPを減らすみたいなことをする

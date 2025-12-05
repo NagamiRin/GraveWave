@@ -80,13 +80,6 @@ private:
 	bool UpdateHitBullet(CollisionPair& pair);
 
 
-public:
-	/** 弾ヒットのフラグを取得 */
-	inline const bool IsHitBullet() { return m_isHit; }
-	/** コリジョンのリストを取得 */
-	inline const std::vector<CollisionInfo>& GetCollisionInfoList() { return m_collisionInfoList; }
-
-
 private:
 	/**
 	 * 指定したクラスを取得する
@@ -103,6 +96,30 @@ private:
 		{
 			return static_cast<T*>(pair.m_right->m_object);
 		}
+		return nullptr;
+	}
+
+
+	// @todo for コメントを
+	std::vector<CollisionInfo*> FindCollisionInfo(const uint32_t id)
+	{
+		std::vector<CollisionInfo*> ret;
+		for (auto& info : m_collisionInfoList) {
+			if (info.m_id == id) {
+				ret.push_back(&info);
+			}
+		}
+		return ret;
+	}
+	CollisionInfo* FindCollisionInfo(const btCollisionObject* btCollision)
+	{
+		for (auto& info : m_collisionInfoList) {
+			auto* btCollision = &info.m_collision->GetbtCollisionObject();
+			if (btCollision == btCollision) {
+				return &info;
+			}
+		}
+		K2_ASSERT(false, "ここに来ることはない");
 		return nullptr;
 	}
 

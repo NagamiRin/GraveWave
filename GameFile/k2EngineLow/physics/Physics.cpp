@@ -66,7 +66,7 @@ namespace nsK2EngineLow {
 	}
 
 
-	void PhysicsWorld::ConvexSweepTest(ICollider& collider, 
+	void PhysicsWorld::ConvexSweepTest(btCollisionShape* btCollisionShape,
 		const Vector3& rayStart, const Vector3& rayEnd, 
 		btCollisionWorld::ConvexResultCallback& cb/*, 
 		const std::function<bool(const btCollisionWorld::ConvexResultCallback*)>& resultCallback*/) const
@@ -79,7 +79,7 @@ namespace nsK2EngineLow {
 		end.setOrigin(btVector3(rayEnd.x, rayEnd.y, rayEnd.z));
 
 		ConvexSweepTest(
-			(const btConvexShape*)collider.GetBody(), 
+			(const btConvexShape*)(btCollisionShape), 
 			start, 
 			end, 
 			cb
