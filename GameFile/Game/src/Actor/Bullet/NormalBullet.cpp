@@ -14,6 +14,34 @@ namespace nsApp
 	{
 		namespace nsBullet
 		{
+			namespace {
+				struct BulletCallback : public btCollisionWorld::ConvexResultCallback
+				{
+					bool isHit = false;
+					CollisionObject* m_me;
+					//btCollisionObject* m_me = nullptr;
+					const btCollisionObject* m_you = nullptr;
+
+					btScalar	addSingleResult(btCollisionWorld::LocalConvexResult& convexResult, bool normalInWorldSpace) override
+					{
+						//自分自身を弾く
+						if (&m_me->GetbtCollisionObject() == convexResult.m_hitCollisionObject) return 0.0f;
+						
+						//エネミー以外かつゴーストオブジェクトではない時
+						if (convexResult.m_hitCollisionObject->getUserIndex() != nsApp::enCollirionEnemy 
+							&& convexResult.m_hitCollisionObject->getInternalType() != btCollisionObject::CO_GHOST_OBJECT) {
+							return 0.0f;
+						}
+
+						isHit = true;
+						m_you = convexResult.m_hitCollisionObject;
+						
+						return 0.0f;
+					}
+				};
+			}
+
+
 			NormalBullet::NormalBullet()
 			{
 			}
@@ -48,8 +76,23 @@ namespace nsApp
 				m_collisionObject->SetPosition(m_transform.m_localPosition);
 				m_collisionObject->Update();
 
+				SphereCollider collider;
+				collider.Create(50.0f);
+				Vector3 start = m_transform.m_position;
+				Vector3 end = m_flyDirection * m_bulletSpeed;
+				BulletCallback cb;
 				//todo for test
-				Vector3 hoge = m_transform.m_localPosition;
+				//meの登録
+				//cb.m_me =
+				PhysicsWorld::GetInstance()->ConvexSweepTest(collider, start, end, cb);
+				if (cb.isHit) {
+					for (CollisionInfo col : CollisionHitManager::Get().GetCollisionInfoList()) {
+						if (&col.m_collision->GetbtCollisionObject() == cb.m_you) {
+							col.m_target = cb.m_you;
+							col.m_isHit = true;
+						}
+					}
+				}
 			}
 
 

@@ -113,6 +113,10 @@ namespace nsK2EngineLow {
 		/// <param name="rayEnd">コライダーの終了座標</param>
 		/// <returns>trueがかえってきたら当たっている。</returns>
 		bool ConvexSweepTest(ICollider& collider, const Vector3& rayStart, const Vector3& rayEnd) const;
+		void ConvexSweepTest(ICollider& collider,
+			const Vector3& rayStart, const Vector3& rayEnd, 
+			btCollisionWorld::ConvexResultCallback& cb/*, 
+			const std::function<bool(const btCollisionWorld::ConvexResultCallback*)>& resultCallback*/) const;
 		/// <summary>
 		/// レイテストを実施。
 		/// </summary>
