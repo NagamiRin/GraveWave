@@ -83,6 +83,7 @@ namespace nsApp
 			public:
 				/** ゾンビのステータスをキャスト */
 				inline ZombieStatus* GetZombieStatus() { return dynamic_cast<ZombieStatus*>(m_status); }
+				/**  */
 			};
 		}
 	}

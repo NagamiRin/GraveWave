@@ -13,76 +13,65 @@ namespace nsApp
 	{
 		ModelLOD::ModelLOD()
 		{
-			m_isDrawLOD = true;
 		}
 
 
 		ModelLOD::~ModelLOD()
 		{
-			for (auto* model : m_LODModels) {
+			for (auto* model : m_modelList) {
 				delete model;
 				model = nullptr;
 			}
-			m_LODModels.clear();
-		}
-
-
-		bool ModelLOD::Start()
-		{
-			return true;
+			m_modelList.clear();
 		}
 
 
 		void ModelLOD::Update()
 		{
-			m_currentTime += g_gameTime->GetFrameDeltaTime();
-			if (m_currentTime >= m_switchModelTime) m_currentTime = m_switchModelTime;
-
 			SwitchLODModel();
 
-			SuperClass::Update();
+			m_currentModel->SetPosition(m_position);
+			m_currentModel->SetRotation(m_rotation);
+			m_currentModel->SetScale(m_scale);
+			m_currentModel->Update();
 		}
 
 
 		void ModelLOD::Render(RenderContext& rc)
 		{
-			if (!m_currentLODModel) return;
-			if (m_isDrawLOD) {
-				m_currentLODModel->Draw(rc);
-			}
+			if (m_currentModel == nullptr) return;
+			m_currentModel->Draw(rc);
 		}
 
 
-		void ModelLOD::Initialize(const std::vector<std::string>& modelPathList, const float switchTime, const uint8_t modelNum)
+		void ModelLOD::Initialize(const std::vector<std::string>& modelPathList, const float switchDis, const uint8_t modelNum)
 		{
-			m_switchModelTime = switchTime;
-
-			m_LODModels.reserve(modelNum);
-
+			m_changeDistance = switchDis;
+			m_useLODNum = modelNum;
+			m_modelList.reserve(modelNum);
 			for (int i = 0; i < modelNum; i++) {
 				ModelRender* model = new ModelRender();
 				model->Init(modelPathList.at(i).c_str());
-				model->SetScale(Vector3(10.0f, 10.0f, 10.0f));
-				m_LODModels.push_back(model);
+				m_modelList.push_back(model);
 			}
-		}
-
-
-		void ModelLOD::UpdateInformation(const Vector3 position, const Quaternion rotation)
-		{
-			m_transform.m_localPosition = position;
-			m_transform.m_localRotation = rotation;
+			m_currentModel = m_modelList.front();
 		}
 
 
 		void ModelLOD::SwitchLODModel()
 		{
-			if (m_currentTime == m_switchModelTime) {
-				m_currentModelNum++;
-				if (m_currentModelNum >= m_LODModels.size()) m_currentModelNum = 0;
-				m_currentLODModel = m_LODModels.at(m_currentModelNum);
-				m_currentTime = 0.0f;
+			//todo for test
+			if (m_modelIndex != 0) return;
+			if ((g_camera3D->GetPosition() - m_position).LengthSq() <= std::powf(m_changeDistance,2.0f)) {
+				m_modelIndex++;
+				m_currentModel = m_modelList.at(m_modelIndex);
 			}
+		}
+
+
+		void ModelLOD::ResetLOD()
+		{
+			m_modelIndex = 0;
 		}
 	}
 }

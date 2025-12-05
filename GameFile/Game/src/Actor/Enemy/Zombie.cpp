@@ -32,6 +32,9 @@ namespace nsApp
                 //ステータスを削除
                 delete m_status;
                 m_status = nullptr;
+
+                //LOD削除
+                delete m_modelLOD;
             }
 
 
@@ -42,12 +45,13 @@ namespace nsApp
                 SetDirection(Vector3(0.0f, 0.0f, -1.0f));
 
                 //LODの初期設定
-                m_modelLOD = NewGO<nsCore::ModelLOD>(enGameObjectPriority_Enemy, "ModelLOD");
-                m_modelLOD->Initialize({ "Assets/ModelData/Zombie/Default/LOD1.tkm"/*,
-                    "Assets/ModelData/Zombie/Default/LOD2.dds",
-                    "Assets/ModelData/Zombie/Default/LOD3.dds" */},
-                    0.3f,
-                    1);
+                m_modelLOD = new nsCore::ModelLOD();
+                m_modelLOD->Initialize({ "Assets/ModelData/Zombie/Default/LOD1.tkm","Assets/ModelData/Zombie/Default/Default.tkm"
+                    /*,
+                   "Assets/ModelData/Zombie/Default/LOD2.dds",
+                   "Assets/ModelData/Zombie/Default/LOD3.dds" */ },
+                    500.0f,
+                    2);
 
                 // アニメーションの初期化
                 {
@@ -78,7 +82,12 @@ namespace nsApp
                 m_model.SetRotation(m_transform.m_rotation);
                 m_model.Update();
 
-                m_modelLOD->UpdateInformation(m_transform.m_localPosition, m_transform.m_localRotation);
+                //LODのいろいろ更新
+                m_modelLOD->SetPosition(m_transform.m_localPosition);
+                m_modelLOD->SetRotation(m_transform.m_localRotation);
+                m_modelLOD->SetScale(m_transform.m_localScale);
+                m_modelLOD->Update();
+
                 m_stateMachine->Update();
 
                 SuperClass::Update();
@@ -87,7 +96,7 @@ namespace nsApp
 
             void Zombie::Render(RenderContext& rc)
             {
-                if(!m_modelLOD->IsDrawLOD()) m_model.Draw(rc);
+                m_modelLOD->Render(rc);
             }
 
 
@@ -96,7 +105,7 @@ namespace nsApp
                 GetZombieStatus()->ResetHP();
                 SetLocalPosition(initializePosition);                
 
-                m_collisionObject = CollisionHitManager::Get().CreateCollisionObject(ID(), this, m_collisionPosition, GetRotation(), 10.0f, 30.0f);
+                m_collisionObject = CollisionHitManager::Get().CreateCollisionObject(ID(), this, m_collisionPosition, GetRotation(), 10.0f, 30.0f);                
             }
 
 
@@ -104,6 +113,9 @@ namespace nsApp
             {
                 if (!CollisionHitManager::Get().CheckCollision(this)) return;
                 CollisionHitManager::Get().DeleteCollisionObject(this);
+
+                //LODをリセット
+                m_modelLOD->ResetLOD();
             }
         }
     }
