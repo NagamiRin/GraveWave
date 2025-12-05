@@ -6,8 +6,8 @@
 #include "stdafx.h"
 #include "Shop.h"
 #include "src/Core/BattleManager.h"
-#include "src/Actor/Gun/AssaultRifle.h"
-#include "src/Actor/Gun/HandGun.h"
+#include "src/Actor/Gun/MainWeapon.h"
+#include "src/Actor/Gun/SubWeapon.h"
 #include "src/GameFlow/GameFlowManager.h"
 
 
@@ -89,7 +89,7 @@ namespace nsApp
                 //サブウェポン購入
                 case 0:
                 {
-                    BuyGuns(nsActor::nsGun::HandGun::ID());
+                    BuyGuns(nsActor::nsGun::SubWeapon::ID());
 
                     break;
                 }
@@ -97,11 +97,10 @@ namespace nsApp
                 //メインウェポン購入
                 case 1:
                 {
-                    BuyGuns(nsActor::nsGun::AssaultRifle::ID());
+                    BuyGuns(nsActor::nsGun::MainWeapon::ID());
 
                     break;
                 }
-
             
 
             default:

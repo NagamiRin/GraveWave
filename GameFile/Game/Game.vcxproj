@@ -240,9 +240,9 @@
     <ClCompile Include="src\Actor\Enemy\ZombieState.cpp" />
     <ClCompile Include="src\Actor\Enemy\Zombie.cpp" />
     <ClCompile Include="src\Actor\Enemy\ZombieStatus.cpp" />
-    <ClCompile Include="src\Actor\Gun\AssaultRifle.cpp" />
     <ClCompile Include="src\Actor\Gun\GunBase.cpp" />
-    <ClCompile Include="src\Actor\Gun\HandGun.cpp" />
+    <ClCompile Include="src\Actor\Gun\MainWeapon.cpp" />
+    <ClCompile Include="src\Actor\Gun\SubWeapon.cpp" />
     <ClCompile Include="src\Actor\IState.cpp" />
     <ClCompile Include="src\Actor\Player\Player.cpp" />
     <ClCompile Include="src\Actor\Player\PlayerState.cpp" />
@@ -310,9 +310,9 @@
     <ClInclude Include="src\Actor\Enemy\ZombieState.h" />
     <ClInclude Include="src\Actor\Enemy\Zombie.h" />
     <ClInclude Include="src\Actor\Enemy\ZombieStatus.h" />
-    <ClInclude Include="src\Actor\Gun\AssaultRifle.h" />
     <ClInclude Include="src\Actor\Gun\GunBase.h" />
-    <ClInclude Include="src\Actor\Gun\HandGun.h" />
+    <ClInclude Include="src\Actor\Gun\MainWeapon.h" />
+    <ClInclude Include="src\Actor\Gun\SubWeapon.h" />
     <ClInclude Include="src\Actor\IState.h" />
     <ClInclude Include="src\Actor\Player\Player.h" />
     <ClInclude Include="src\Actor\Player\PlayerState.h" />

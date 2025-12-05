@@ -7,8 +7,8 @@
 #include "Player.h"
 #include "src/Actor/Player/PlayerStateMachine.h"
 #include "src/Actor/Gun/GunBase.h"
-#include "src/Actor/Gun/HandGun.h"
-#include "src/Actor/Gun/AssaultRifle.h"
+#include "src/Actor/Gun/SubWeapon.h"
+#include "src/Actor/Gun/MainWeapon.h"
 #include "src/Core/BattleManager.h"
 
 
@@ -50,7 +50,7 @@ namespace nsApp
 				SetDirection(Vector3::Front);
 
 				//初期装備
-				m_gun = NewGO<nsApp::nsActor::nsGun::AssaultRifle>(enGameObjectPriority_Gun, "HandGun");
+				m_gun = NewGO<nsGun::MainWeapon>(enGameObjectPriority_Gun, "HandGun");
 				m_gun->SetIsEquipment(true);
 
 				return true;
@@ -150,20 +150,20 @@ namespace nsApp
 				nsGun::GunBase* createGun = nullptr; 
 
 				//サブ武器
-				if (m_requestGunID == nsGun::HandGun::ID()) {
-					createGun = NewGO<nsGun::HandGun>(enGameObjectPriority_Gun, "HandGun");
+				if (m_requestGunID == nsGun::SubWeapon::ID()) {
+					createGun = NewGO<nsGun::SubWeapon>(enGameObjectPriority_Gun, "SubWeapon");
 				}
 
 				//メイン武器
-				else if (m_requestGunID == nsGun::AssaultRifle::ID()) {
-					createGun = NewGO<nsGun::AssaultRifle>(enGameObjectPriority_Gun, "AssaultRifle");
+				else if (m_requestGunID == nsGun::MainWeapon::ID()) {
+					createGun = NewGO<nsGun::MainWeapon>(enGameObjectPriority_Gun, "MainWeapon");
 				}
 
 				else
 				{
 					K2_ASSERT(false, "存在しない銃IDが指定されました");
 					// 一応デフォルトでハンドガンを生成
-					createGun = NewGO<nsGun::HandGun>(enGameObjectPriority_Gun, "HandGun");
+					createGun = NewGO<nsGun::SubWeapon>(enGameObjectPriority_Gun, "SubWeapon");
 				}
 
 				// 切り替え

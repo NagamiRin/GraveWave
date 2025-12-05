@@ -1,10 +1,10 @@
 ﻿/**
- * AssaultRifle.cpp
+ * MainWeapon.cpp
  *
- * アサルトライフルクラス
+ * メイン武器クラス
  */
 #include "stdafx.h"
-#include "AssaultRifle.h"
+#include "MainWeapon.h"
 #include "src/Actor/Bullet/NormalBullet.h"
 #include "src/core/ParameterManager.h"
 
@@ -16,7 +16,7 @@ namespace nsApp
 	{
 		namespace nsGun
 		{
-			AssaultRifle::AssaultRifle()
+			MainWeapon::MainWeapon()
 			{
 				constexpr const char* MODEL_PATH = "Assets/ModelData/Gun/MainWeapon/AK-47.tkm";
 				m_model.Init(MODEL_PATH);
@@ -48,25 +48,25 @@ namespace nsApp
 			}
 
 
-			AssaultRifle::~AssaultRifle()
+			MainWeapon::~MainWeapon()
 			{
 				ParameterManager::Get().UnloadParameter<MasterGunParameter>();
 			}
 
 
-			bool AssaultRifle::Start()
+			bool MainWeapon::Start()
 			{
 				return true;
 			}
 
 
-			void AssaultRifle::Update()
+			void MainWeapon::Update()
 			{
 				SuperClass::Update();
 			}
 
 
-			void AssaultRifle::Render(RenderContext& rc)
+			void MainWeapon::Render(RenderContext& rc)
 			{
 				m_model.Draw(rc);
 			}

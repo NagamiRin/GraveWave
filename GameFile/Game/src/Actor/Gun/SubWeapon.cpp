@@ -1,10 +1,10 @@
 ﻿/**
- * HandGun.cpp
+ * SubWeapon.cpp
  *
- * ハンドガンクラス
+ * サブ武器クラス
  */
 #include "stdafx.h"
-#include "HandGun.h"
+#include "SubWeapon.h"
 #include "src/Actor/Bullet/NormalBullet.h"
 #include "src/core/ParameterManager.h"
 
@@ -16,7 +16,7 @@ namespace nsApp
 	{
 		namespace nsGun
 		{
-			HandGun::HandGun()
+			SubWeapon::SubWeapon()
 			{
 				constexpr const char* MODEL_PATH = "Assets/ModelData/Gun/HundGun/HundGun.tkm";
 				m_model.Init(MODEL_PATH);
@@ -49,25 +49,25 @@ namespace nsApp
 			}
 
 
-			HandGun::~HandGun()
+			SubWeapon::~SubWeapon()
 			{
 				ParameterManager::Get().UnloadParameter<MasterGunParameter>();
 			}
 
 
-			bool HandGun::Start()
+			bool SubWeapon::Start()
 			{
 				return true;
 			}
 
 
-			void HandGun::Update()
+			void SubWeapon::Update()
 			{
 				SuperClass::Update();
 			}		
 
 
-			void HandGun::Render(RenderContext& rc)
+			void SubWeapon::Render(RenderContext& rc)
 			{
 				SuperClass::Render(rc);
 			}

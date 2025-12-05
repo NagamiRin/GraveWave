@@ -36,6 +36,7 @@ namespace nsApp
 		{
 			class Player;
 		}		
+
 		namespace nsWall
 		{
 			class Wall;
@@ -92,13 +93,13 @@ namespace nsApp
 
 		private:
 			/** 背景 */
-			nsApp::nsActor::nsBackGround::BackGround* m_backGround = nullptr;
+			nsActor::nsBackGround::BackGround* m_backGround = nullptr;
 			/** 防壁 */
-			nsApp::nsActor::nsWall::Wall* m_wall = nullptr;
+			nsActor::nsWall::Wall* m_wall = nullptr;
 			/** カメラ */
-			nsApp::nsCamera::GameCamera* m_camera = nullptr;
+			nsCamera::GameCamera* m_camera = nullptr;
 			/** プレイヤー */
-			nsApp::nsActor::nsPlayer::Player* m_player = nullptr;
+			nsActor::nsPlayer::Player* m_player = nullptr;
 			/** エネミーのスポナー(右) */
 			std::array<EnemySpawnerPtr, enSpwnerType_Num> m_enemySpawner;
 

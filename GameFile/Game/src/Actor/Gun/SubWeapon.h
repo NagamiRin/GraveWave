@@ -1,7 +1,7 @@
 ﻿/**
- * AssaultRifle.h
+ * SubWeapon.h
  *
- * アサルトライフルクラス
+ * サブ武器クラス
  */
 #pragma once
 #include "src/Actor/Gun/GunBase.h"
@@ -25,17 +25,16 @@ namespace nsApp
 		namespace nsGun
 		{
 			/**
-			 * アサルトライフルクラス
+			 * サブ武器クラス
 			 */
-			class AssaultRifle : public GunBase
+			class SubWeapon : public GunBase
 			{
-				appGameObject(AssaultRifle);
+				appGameObject(SubWeapon);
+
 
 			public:
-				/** コンストラクタ */
-				AssaultRifle();
-				/** デストラクタ */
-				~AssaultRifle();
+				SubWeapon();
+				~SubWeapon();
 
 
 			public:

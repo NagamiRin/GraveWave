@@ -12,7 +12,7 @@
 #include "src/Actor/Enemy/EnemyPoolManager.h"
 #include "src/Actor/Enemy/EnemySpawner.h"
 #include "src/Actor/Enemy/Zombie.h"
-#include "src/Actor/Gun/HandGun.h"
+#include "src/Actor/Gun/GunBase.h"
 #include "src/Battle/Inventory.h"
 #include "src/Battle/Shop.h"
 #include "src/Collision/CollisionManager.h"

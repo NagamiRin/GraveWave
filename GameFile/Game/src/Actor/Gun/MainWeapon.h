@@ -1,7 +1,7 @@
 ﻿/**
- * HandGun.h
+ * MainWeapon.h
  *
- * ハンドガンクラス
+ * メイン武器クラス
  */
 #pragma once
 #include "src/Actor/Gun/GunBase.h"
@@ -25,18 +25,15 @@ namespace nsApp
 		namespace nsGun
 		{
 			/**
-			 * 銃のステータスクラス
+			 * メイン武器クラス
 			 */
-			class HandGun : public GunBase
+			class MainWeapon : public GunBase
 			{
-				appGameObject(HandGun);
-
+				appGameObject(MainWeapon);
 
 			public:
-				/** コンストラクタ */
-				HandGun();
-				/** デストラクタ */
-				~HandGun();
+				MainWeapon();
+				~MainWeapon();
 
 
 			public:
