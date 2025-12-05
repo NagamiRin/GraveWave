@@ -18,7 +18,7 @@ namespace nsApp
 		{
 			AssaultRifle::AssaultRifle()
 			{
-				constexpr const char* MODEL_PATH = "Assets/ModelData/Gun/MainWeapon/M4A1.tkm";
+				constexpr const char* MODEL_PATH = "Assets/ModelData/Gun/MainWeapon/AK-47.tkm";
 				m_model.Init(MODEL_PATH);
 
 				ParameterManager::Get().LoadParameter<MasterGunParameter>("Assets/Parameter/Gun/MainWeapon/M4A1Parameter.json", [](const nlohmann::json& j, MasterGunParameter& p)
@@ -43,7 +43,6 @@ namespace nsApp
 				m_fireCoolTime = parameter->m_fireCoolTime;
 
 				m_offsetPosition = Vector3(parameter->m_newPositionX, parameter->m_newPositionY, parameter->m_newPositionZ);
-				m_transform.m_localScale = Vector3::One * 3.0f;
 
 				m_remainingAmmo = m_maxAmmo;
 			}
