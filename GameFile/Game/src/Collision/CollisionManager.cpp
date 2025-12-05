@@ -147,7 +147,8 @@ void CollisionHitManager::RegisterCollisionObject(const uint32_t id, IGameObject
 bool CollisionHitManager::UpdateHitBullet(CollisionPair& pair)
 {
 	nsApp::nsActor::nsBullet::NormalBullet* normalBullet = GetTargetObject<nsApp::nsActor::nsBullet::NormalBullet>(pair, nsApp::nsActor::nsBullet::NormalBullet::ID());
-	nsApp::nsActor::nsEnemy::Zombie* zombie = GetTargetObject<nsApp::nsActor::nsEnemy::Zombie>(pair, nsApp::nsActor::nsEnemy::Zombie::ID());
+	nsApp::nsActor::nsEnemy::Zombie* zombie = GetTargetObject<nsApp::nsActor::nsEnemy::Zombie>(pair, nsApp::nsActor::nsEnemy::Zombie::ID());	
+
 
 	if (normalBullet == nullptr) {
 		return false;
@@ -170,5 +171,10 @@ bool CollisionHitManager::UpdateHitBullet(CollisionPair& pair)
 	}
 
 	return true;
+}
+
+void CollisionHitManager::BulletAndZombieHandling()
+{
+	
 }
 

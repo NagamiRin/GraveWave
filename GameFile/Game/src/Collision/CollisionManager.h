@@ -15,6 +15,8 @@ struct CollisionInfo
 	uint32_t m_id;	// 当たり判定のID(プレイヤーと弾がヒットしたみたいな処理をするために必要。自分がだれかの判断)
 	IGameObject* m_object;	// 当たり判定を持つオブジェクトのポインタ
 	CollisionObject* m_collision; // 当たり判定オブジェクトのポインタ
+	btCollisionObject* m_target;
+	bool m_isHit = false;
 	//
 	CollisionInfo() : m_id(INVALID_ID), m_object(nullptr), m_collision(nullptr) {}
 	CollisionInfo(const uint32_t id, IGameObject* object, CollisionObject* collision) : m_id(id), m_object(object), m_collision(collision) {}
@@ -64,6 +66,8 @@ public:
 	void DeleteCollisionObject(IGameObject* object);
 	/** ゲームオブジェクトのコリジョンが残っているかを確認 */
 	bool CheckCollision(IGameObject* object);
+	/** 弾とゾンビのヒット処理 */
+	void BulletAndZombieHandling();
 
 	CollisionObject* CreateCollisionObject(const uint32_t id, IGameObject* gameObject, const Vector3& position, const Quaternion& rotation, const float radisu, const float height);
 	CollisionObject* CreateCollisionObject(const uint32_t id, IGameObject* gameObject, const Vector3& position, const Quaternion& rotation, const float radisu);
@@ -79,6 +83,8 @@ private:
 public:
 	/** 弾ヒットのフラグを取得 */
 	inline const bool IsHitBullet() { return m_isHit; }
+	/** コリジョンのリストを取得 */
+	inline const std::vector<CollisionInfo>& GetCollisionInfoList() { return m_collisionInfoList; }
 
 
 private:
