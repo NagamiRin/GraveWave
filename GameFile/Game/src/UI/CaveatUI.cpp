@@ -9,6 +9,10 @@
 #include "src/GameFlow/GameFlowManager.h"
 
 
+namespace {
+}
+
+
 namespace nsApp
 {
     namespace nsUI
@@ -46,7 +50,9 @@ namespace nsApp
                     continue;
                 }
 
-                CalcCaveatPos(caveat);
+                UpdateBlinkIcon(caveat);
+                Vector2 pos = CalcCaveatPos(caveat);
+                caveat.m_icon->SetPosition(Vector3(pos.x, pos.y, 0.0f));
                 
                 caveat.isUpdate = false;  // 更新フラグをリセット
             }
@@ -83,9 +89,9 @@ namespace nsApp
                 info.m_caveatId = iconId;
                 info.m_id = id;
                 info.m_position = position;
+                Vector2 iconPos = CalcCaveatPos(info);
                 info.m_icon = m_uiCanvas->CreateUI<ImageUI>();
-                info.m_icon->Initialize("Assets/UI/Caveat/!.dds", 10.0f, 40.0f, Vector3::Zero, Vector3::One, Quaternion::Identity);
-                CalcCaveatPos(info);
+                info.m_icon->Initialize("Assets/UI/Caveat/!.dds", 10.0f, 40.0f, Vector3(iconPos.x, iconPos.y,0.0f), Vector3::One, Quaternion::Identity);
                 info.m_icon->SetMulColor(Vector4::Red);
                 info.isUpdate = true;
                 m_caveats.push_back(std::move(info));
@@ -96,15 +102,19 @@ namespace nsApp
         }
 
 
-        Vector3 CaveatUI::CalcCaveatPos(CaveatInformation& info)
+        Vector2 CaveatUI::CalcCaveatPos(CaveatInformation& info)
         {
             Vector2 caveatPos = Vector2::Zero;
-            g_camera3D->CalcScreenPositionFromWorldPosition(caveatPos, info.m_position);
-            caveatPos.x *= 0.5f;
-            caveatPos.y *= 0.5f;
-            info.m_icon->SetPosition(Vector3(caveatPos.x, caveatPos.y, 0.0f));
+            g_camera3D->CalcScreenPositionFromWorldPosition(caveatPos, Vector3(info.m_position.x, info.m_position.y + 60.0f, info.m_position.z));
 
-            return Vector3();
+            return caveatPos;
+        }
+
+
+        void CaveatUI::UpdateBlinkIcon(CaveatInformation& info)
+        {
+            info.m_blinkSwitcher.Update();
+            info.m_icon->SetIsDraw(info.m_blinkSwitcher.m_isVisible);
         }
     }
 }

@@ -75,6 +75,8 @@ namespace nsApp
 			inline void SetSize(const float width, const float height) { m_transform.m_localScale = Vector3(width, height, 0.0f); }
 			/** 画像描画のフラグを設定 */
 			inline void SetIsDraw(const bool isDraw) { m_isDraw = isDraw; }
+			/** 画像描画のフラグを取得 */
+			inline bool IsDraw() const { return m_isDraw; }
 			/** 位置を更新 */
 			inline void SetPosition(const Vector3& position) { m_transform.m_localPosition = position; }
 		};

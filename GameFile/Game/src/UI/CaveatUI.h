@@ -11,6 +11,33 @@ namespace nsApp{
 		class UICanvas;
 		class ImageUI;
 
+		struct BlinkSwitcher
+		{
+			static constexpr float BLINK_SWITCH_TIME = 0.2;
+			static constexpr float BLINK_TIME = 5.0f;
+
+			float m_elapsedTime = 0.0f;
+			float m_switchElapsedTime = 0.0f;
+			bool m_isVisible = false;
+			//
+			void Update()
+			{
+				const float deltaTime = g_gameTime->GetFrameDeltaTime();
+				m_elapsedTime += deltaTime;
+				// ３秒経過しているなら表示のまま
+				if (m_elapsedTime >= BLINK_TIME) {
+					m_isVisible = true;
+					return;
+				}
+				// 点滅させる
+				m_switchElapsedTime += deltaTime;
+				if (m_switchElapsedTime >= BLINK_SWITCH_TIME) {
+					m_isVisible = !m_isVisible;
+					m_switchElapsedTime = 0.0f;
+				}
+			}
+		};
+
 		class CaveatUI :public IGameObject
 		{
 			/** ミニマップに表示するエネミーの情報(1体の情報) */
@@ -20,7 +47,8 @@ namespace nsApp{
 				uint32_t m_id;						// エネミーの種類
 				Vector3 m_position;					// エネミーの座標
 				ImageUI* m_icon = nullptr;			// 画像
-				bool isUpdate = 0;					// 情報が更新されているか
+				bool isUpdate = false;				// 情報が更新されているか
+				BlinkSwitcher m_blinkSwitcher;
 			};
 
 		private:
@@ -30,7 +58,6 @@ namespace nsApp{
 			std::vector<CaveatInformation> m_caveats;
 			/** 警告を表示するZ座標 */
 			float m_drawCaveatPos = 0.0f;
-			
 
 		public:
 			CaveatUI();
@@ -53,7 +80,9 @@ namespace nsApp{
 
 		private:
 			/** 警告アイコンの位置を計算 */
-			Vector3 CalcCaveatPos(CaveatInformation& info);
+			Vector2 CalcCaveatPos(CaveatInformation& info);
+			/** アイコンを点滅表示させる */
+			void UpdateBlinkIcon(CaveatInformation& info);
 
 			CaveatInformation* FindInformation(const uint64_t iconId)
 			{
