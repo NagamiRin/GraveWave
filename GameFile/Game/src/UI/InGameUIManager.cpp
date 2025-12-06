@@ -13,6 +13,7 @@
 #include "src/UI/RemainingEnemyUI.h"
 #include "src/UI/WallHPUI.h"
 #include "src/UI/MiniMapUI.h"
+#include "src/UI/CaveatUI.h"
 
 
 namespace nsApp
@@ -40,6 +41,8 @@ namespace nsApp
             m_miniMapUI = NewGO<MiniMapUI>(enGameObjectPriority_UI, "MiniMap");
             //ショップ生成
 			m_shopUI = NewGO<ShopUI>(enGameObjectPriority_UI, "ShopUI");
+            //警告UI生成
+            m_caveatUI = NewGO<CaveatUI>(enGameObjectPriority_UI, "CaveatUI");
         }
 
 
@@ -53,6 +56,7 @@ namespace nsApp
             DeleteGO(m_wallHPUI);
             DeleteGO(m_miniMapUI);
 			DeleteGO(m_shopUI);
+            DeleteGO(m_caveatUI);
         }
 
 
@@ -101,7 +105,16 @@ namespace nsApp
                     {
                         const auto* enemiesNotify = static_cast<const EnemiesNotify*>(notify);
 
-                        m_miniMapUI->UpdateIconInformation(enemiesNotify->m_iconId, enemiesNotify->m_id, enemiesNotify->m_position);
+                        m_miniMapUI->UpdateIconInformation(enemiesNotify->m_iconId, enemiesNotify->m_id, enemiesNotify->m_position);                        
+
+                        break;
+                    }
+
+                    case enNotifyType_Caveat:
+                    {
+                        const auto* caveatNotify = static_cast<const CaveatNotify*>(notify);                       
+
+                        m_caveatUI->UpdateCaveatInformation(caveatNotify->m_caveatId, caveatNotify->m_id, caveatNotify->m_position);
 
                         break;
                     }

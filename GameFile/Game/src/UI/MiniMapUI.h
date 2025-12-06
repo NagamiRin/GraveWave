@@ -12,7 +12,6 @@ namespace nsApp
 	{
 		class UICanvas;
 		class ImageUI;
-		struct EnemyInformation;
 
 		/** ミニマップを表示する */
 		class MiniMapUI :public IGameObject

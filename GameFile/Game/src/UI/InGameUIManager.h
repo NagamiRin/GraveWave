@@ -30,6 +30,7 @@ namespace nsApp
 		enNotifyType_RemainingBullets,
 		enNotifyType_RemainingEnemies,
 		enNotifyType_Enemies,
+		enNotifyType_Caveat,
 		enNotifyType_Score,
 		enNotifyType_Shop,
 		enNotifyType_WallHP,
@@ -87,6 +88,18 @@ namespace nsApp
 		}
 	};
 
+	struct CaveatNotify :public INotify
+	{
+		uint64_t m_caveatId;
+		uint32_t m_id;
+		Vector3 m_position;
+		//
+		CaveatNotify()
+			: INotify(enNotifyType_Caveat)
+		{
+		}
+	};
+
 	struct WallHPNotify :public INotify
 	{
 		uint16_t m_maxWallHP;
@@ -131,7 +144,7 @@ namespace nsApp
 		}
 	};
 
-
+	
 	namespace nsUI
 	{
 		class Crosshair;
@@ -142,6 +155,7 @@ namespace nsApp
 		class CountdownUI;
 		class MiniMapUI;
 		class ShopUI;
+		class CaveatUI;
 
 
 		class InGameUIManager
@@ -163,6 +177,8 @@ namespace nsApp
 			MiniMapUI* m_miniMapUI = nullptr;
 			/** ショップUI */
 			ShopUI* m_shopUI = nullptr;
+			/** 警告UI */
+			CaveatUI* m_caveatUI = nullptr;
 
 			std::vector<INotify*> m_notifyList;
 

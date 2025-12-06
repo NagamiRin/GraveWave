@@ -269,6 +269,7 @@
     <ClCompile Include="src\Scene\ResultScene.cpp" />
     <ClCompile Include="src\Scene\SceneManager.cpp" />
     <ClCompile Include="src\Scene\TitleScene.cpp" />
+    <ClCompile Include="src\UI\CaveatUI.cpp" />
     <ClCompile Include="src\UI\CountdownUI.cpp" />
     <ClCompile Include="src\UI\LateResultScreen.cpp" />
     <ClCompile Include="src\UI\MiniMapUI.cpp" />
@@ -340,6 +341,7 @@
     <ClInclude Include="src\Scene\ResultScene.h" />
     <ClInclude Include="src\Scene\SceneManager.h" />
     <ClInclude Include="src\Scene\TitleScene.h" />
+    <ClInclude Include="src\UI\CaveatUI.h" />
     <ClInclude Include="src\UI\CountdownUI.h" />
     <ClInclude Include="src\UI\LateResultScreen.h" />
     <ClInclude Include="src\UI\MiniMapUI.h" />

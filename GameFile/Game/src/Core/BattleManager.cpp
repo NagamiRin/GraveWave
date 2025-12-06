@@ -199,10 +199,12 @@ namespace nsApp
                             return false;
                         });
                     // 赤色にする
-                    crossHairNotify->m_isHit = isHit;   
+                    crossHairNotify->m_isHit = isHit;                    
                 }                
 
                 nsUI::InGameUIManager::GetInstance()->AddNotify(crossHairNotify);
+
+                //delete crossHairNotify;
             }
 
             // 弾数
@@ -215,6 +217,8 @@ namespace nsApp
                 remainingBulletsNotify->m_maxNum = maxAmmo;
 
                 nsUI::InGameUIManager::GetInstance()->AddNotify(remainingBulletsNotify);
+
+                //delete remainingBulletsNotify;
             }
 
             //スコア
@@ -229,6 +233,7 @@ namespace nsApp
                 // セーブデータにスコアを設定
                 SaveData::Get().SetScore(score);
 
+                //delete scoreNotify;
             }
 
             //エネミーの残数
@@ -239,6 +244,8 @@ namespace nsApp
                 remainingEnemiesNotify->m_remainingEnemy = remainingEnemy;
 
                 nsUI::InGameUIManager::GetInstance()->AddNotify(remainingEnemiesNotify);
+
+               //delete remainingEnemiesNotify;
             }
 
             // ミニマップ
@@ -251,6 +258,26 @@ namespace nsApp
                         enemiesNotify->m_position = zombie->GetPosition();
 
                         nsUI::InGameUIManager::GetInstance()->AddNotify(enemiesNotify);
+
+                        //delete enemiesNotify;
+                    });               
+            }
+
+            //警告表示
+            {
+                nsApp::nsActor::nsEnemy::EnemyPoolManager::GetInstance()->ForEachUsedEnemy([&](nsActor::nsEnemy::Zombie* zombie)
+                    {
+                        CaveatNotify* caveatNotify = new CaveatNotify();
+                        //todo for test
+                        if (zombie->GetLocalPosition().z <= 300.0f) {
+                            caveatNotify->m_caveatId = reinterpret_cast<uintptr_t>(zombie);// ポインタのアドレスを uint64_t に変換
+                            caveatNotify->m_id = zombie->ID();
+                            caveatNotify->m_position = zombie->GetPosition();
+
+                            nsUI::InGameUIManager::GetInstance()->AddNotify(caveatNotify);
+                        }
+                        
+                        //delete enemiesNotify;
                     });
             }
 
@@ -264,6 +291,8 @@ namespace nsApp
                 wallHPNotify->m_wallHP = wallHP;
 
                 nsUI::InGameUIManager::GetInstance()->AddNotify(wallHPNotify);
+
+                //delete wallHPNotify;
             }
 
             //カウントダウン            
@@ -278,6 +307,8 @@ namespace nsApp
                 countdownNotify->m_isDrawCount = isDrawCount;
 
                 nsUI::InGameUIManager::GetInstance()->AddNotify(countdownNotify);
+
+                //delete countdownNotify;
             }
 
             //ショップ
@@ -290,6 +321,8 @@ namespace nsApp
                 shopNotify->m_isOpen = isOpen;
 
                 nsUI::InGameUIManager::GetInstance()->AddNotify(shopNotify);
+
+                //delete shopNotify;
             }
         }
 
