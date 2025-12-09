@@ -66,6 +66,17 @@ struct MasterGunParameter :public IMasterParameter
 };
 
 
+//ボスが投げる岩のステータス
+struct MasterStoneParameter : public IMasterParameter
+{
+    appParameter(MasterStoneParameter);
+    //
+    float m_altitude;
+    float m_landingTime;
+    float m_rotSpeed;
+    uint16_t m_maxDurability;
+};
+
 
 //弾丸のステータス
 struct MasterBulletStatus : public IMasterParameter

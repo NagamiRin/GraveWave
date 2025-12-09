@@ -93,8 +93,14 @@ namespace nsApp
             }
 
             auto* spawner = nsCore::BattleManager::GetInstance()->GetEnemySpawner(static_cast<EnSpwnerType>(selectSpawner));
+                        
+            //spawner->ZombieCreate();
 
-            spawner->Create();
+            if (m_bossCount >= 0 && !m_isSpawnBoss) {
+                spawner = nsCore::BattleManager::GetInstance()->GetEnemySpawner(static_cast<EnSpwnerType>(enSpwnerType_Center));
+                spawner->BossCreate();
+                m_isSpawnBoss = true;
+            }
 
             m_currentTime = m_spawnInterval;
             m_remainingEnemiesNum--;           
@@ -106,6 +112,7 @@ namespace nsApp
             if (m_eliminateEnemyNum != m_waveEnemyNum) return;
             nsFlow::GameFlowManager::GetInstance()->SwitchNextPhase();
             m_eliminateEnemyNum = 0;
+            m_isSpawnBoss = false;
         }
     }
 }

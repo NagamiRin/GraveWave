@@ -30,6 +30,8 @@ namespace nsApp
 			float m_spawnInterval = 0.0f;
 			/** 現在の生成してからの経過時間 */
 			float m_currentTime = 0.0f;
+			/** ボスを出現させたか */
+			bool m_isSpawnBoss = false;
 
 
 		private:

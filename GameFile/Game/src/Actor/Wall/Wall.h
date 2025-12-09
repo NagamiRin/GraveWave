@@ -13,7 +13,6 @@ namespace nsApp
 	{
 		namespace nsWall
 		{
-			class WallStatus;
 			/** 
 			 * 防壁クラス 
 			 */

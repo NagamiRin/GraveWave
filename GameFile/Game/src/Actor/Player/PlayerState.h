@@ -3,6 +3,7 @@
  * 
  * プレイヤーの各ステートの処理を行う
  */
+#pragma once
 #include "src/Actor/IState.h"
 
 namespace nsApp

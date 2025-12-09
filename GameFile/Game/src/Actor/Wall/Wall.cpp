@@ -28,10 +28,7 @@ namespace nsApp
 
 
 			Wall::~Wall()
-			{
-				//ステータス削除
-				delete m_status;
-				m_status = nullptr;				
+			{		
 			}
 
 
