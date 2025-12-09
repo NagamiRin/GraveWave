@@ -232,6 +232,11 @@
     <ClCompile Include="src\Actor\Bullet\BulletManager.cpp" />
     <ClCompile Include="src\Actor\Bullet\NormalBullet.cpp" />
     <ClCompile Include="src\Actor\CharacterBase.cpp" />
+    <ClCompile Include="src\Actor\Enemy\Boss\Boss.cpp" />
+    <ClCompile Include="src\Actor\Enemy\Boss\BossState.cpp" />
+    <ClCompile Include="src\Actor\Enemy\Boss\BossStateMachine.cpp" />
+    <ClCompile Include="src\Actor\Enemy\Boss\BossStatus.cpp" />
+    <ClCompile Include="src\Actor\Enemy\Boss\ThrowStone.cpp" />
     <ClCompile Include="src\Actor\Enemy\EnemyBase.cpp" />
     <ClCompile Include="src\Actor\Enemy\EnemyManager.cpp" />
     <ClCompile Include="src\Actor\Enemy\EnemyPoolManager.cpp" />
@@ -304,6 +309,11 @@
     <ClInclude Include="src\Actor\Bullet\BulletManager.h" />
     <ClInclude Include="src\Actor\Bullet\NormalBullet.h" />
     <ClInclude Include="src\Actor\CharacterBase.h" />
+    <ClInclude Include="src\Actor\Enemy\Boss\Boss.h" />
+    <ClInclude Include="src\Actor\Enemy\Boss\BossState.h" />
+    <ClInclude Include="src\Actor\Enemy\Boss\BossStateMachine.h" />
+    <ClInclude Include="src\Actor\Enemy\Boss\BossStatus.h" />
+    <ClInclude Include="src\Actor\Enemy\Boss\ThrowStone.h" />
     <ClInclude Include="src\Actor\Enemy\EnemyBase.h" />
     <ClInclude Include="src\Actor\Enemy\EnemyManager.h" />
     <ClInclude Include="src\Actor\Enemy\EnemyPoolManager.h" />

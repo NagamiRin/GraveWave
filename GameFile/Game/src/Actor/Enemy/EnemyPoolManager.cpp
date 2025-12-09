@@ -6,6 +6,7 @@
 #include "stdafx.h"
 #include "EnemyPoolManager.h"
 #include "src/Actor/Enemy/Zombie.h"
+#include "src/Actor/Enemy/Boss/Boss.h"
 #include "src/Core/BattleManager.h"
 
 
@@ -34,6 +35,8 @@ namespace nsApp
                         DeleteGO(info.m_enemy);                        
                     }
                 }
+
+                DeleteGO(m_boss.m_enemy);
             }
 
 
@@ -47,15 +50,21 @@ namespace nsApp
 
             void EnemyPoolManager::SetUp(uint16_t maxEnemyNum)
             {
+                // ゾンビたちをnew
                 m_zombiePool.reserve(maxEnemyNum);
                 for (int i = 0; i < maxEnemyNum; ++i) {
                     PoolInformation<Zombie> info;
-                    info.m_enemy = NewGO<Zombie>(enGameObjectPriority_Default, "Zombie");
+                    info.m_enemy = NewGO<Zombie>(enGameObjectPriority_Enemy, "Zombie");
                     info.m_enemy->SetStopPosition(nsCore::BattleManager::GetInstance()->GetEnemyStopPosition());
                     info.m_enemy->Deactivate();   // プールに溜めるだけなのでアクティブではない状態にしておく
                     info.m_canUse = true;
                     m_zombiePool.push_back(info);
                 }
+
+                //ボスをnew
+                m_boss.m_enemy = NewGO<Boss>(enGameObjectPriority_Enemy, "Boss");
+                m_boss.m_enemy->Deactivate();
+                m_boss.m_canUse = true;
             }
 
 
@@ -106,6 +115,13 @@ namespace nsApp
                 info->m_canUse = true;
                 target->Destruction();
                 info->m_enemy->Deactivate();
+            }
+
+
+            void EnemyPoolManager::RestoreBoss()
+            {
+                m_boss.m_enemy->Deactivate();
+                m_boss.m_canUse = true;
             }
 
 

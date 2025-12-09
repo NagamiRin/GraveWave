@@ -19,10 +19,9 @@ namespace nsApp
         {
             ZombieStateMachine::ZombieStateMachine()
             {
-				m_stateMap.emplace(IdleState::ID(), new IdleState(this));
-                m_stateMap.emplace(WalkState::ID(), new WalkState(this));
-                m_stateMap.emplace(MeleeAttackState::ID(), new MeleeAttackState(this));
-                m_stateMap.emplace(NotAppearState::ID(), new NotAppearState(this));
+				m_stateMap.emplace(ZombieIdleState::ID(), new ZombieIdleState(this));
+                m_stateMap.emplace(ZombieWalkState::ID(), new ZombieWalkState(this));
+                m_stateMap.emplace(ZombieMeleeAttackState::ID(), new ZombieMeleeAttackState(this));
             }
 
 
@@ -41,20 +40,16 @@ namespace nsApp
 
             void ZombieStateMachine::ChangeState()
             {
-                if (m_ownerStatus->GetHP() <= 0.0f) {
-                    m_requestStateId = NotAppearState::ID();
-                    return;
-                }
-                else if (CanChangeToMeleeAttack()) {
-                    m_requestStateId = MeleeAttackState::ID();
+                if (CanChangeToMeleeAttack()) {
+                    m_requestStateId = ZombieMeleeAttackState::ID();
                     return;
                 }
                 else if (CanChangeToWalkState()) {
-                    m_requestStateId = WalkState::ID();
+                    m_requestStateId = ZombieWalkState::ID();
                     return;
                 }
                 else {
-					m_requestStateId = IdleState::ID();
+					m_requestStateId = ZombieIdleState::ID();
                 }
             }
 

@@ -146,6 +146,11 @@
     <ClCompile Include="src\Actor\Gun\SubWeapon.cpp" />
     <ClCompile Include="src\Actor\BackGround\FogObject.cpp" />
     <ClCompile Include="src\UI\CaveatUI.cpp" />
+    <ClCompile Include="src\Actor\Enemy\Boss\Boss.cpp" />
+    <ClCompile Include="src\Actor\Enemy\Boss\BossState.cpp" />
+    <ClCompile Include="src\Actor\Enemy\Boss\BossStateMachine.cpp" />
+    <ClCompile Include="src\Actor\Enemy\Boss\BossStatus.cpp" />
+    <ClCompile Include="src\Actor\Enemy\Boss\ThrowStone.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -264,5 +269,10 @@
     <ClInclude Include="src\Actor\Gun\SubWeapon.h" />
     <ClInclude Include="src\Actor\BackGround\FogObject.h" />
     <ClInclude Include="src\UI\CaveatUI.h" />
+    <ClInclude Include="src\Actor\Enemy\Boss\Boss.h" />
+    <ClInclude Include="src\Actor\Enemy\Boss\BossState.h" />
+    <ClInclude Include="src\Actor\Enemy\Boss\BossStateMachine.h" />
+    <ClInclude Include="src\Actor\Enemy\Boss\BossStatus.h" />
+    <ClInclude Include="src\Actor\Enemy\Boss\ThrowStone.h" />
   </ItemGroup>
 </Project>

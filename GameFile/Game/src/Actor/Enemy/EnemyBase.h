@@ -9,20 +9,12 @@
 
 namespace nsApp
 {
+	class ActorStatus;
+
 	namespace nsActor
 	{
 		namespace nsEnemy
 		{
-			/** エネミーの行動状態の種類。 */
-			enum EnEnemyActionVar {
-				enStandby,		//スタンバイ。フィールド上に出現していない状態。
-				enProgress,		//進行。
-				enAttack,		//攻撃。
-				enHit,			//被弾。
-				enDead,			//死亡。
-			};
-
-
 			class EnemyBase :public CharacterBase
 			{
 				using SuperClass = CharacterBase;
@@ -39,8 +31,6 @@ namespace nsApp
 				Vector3 m_playerPosition = Vector3::Zero;
 				/** 進行方向 */
 				Vector3 m_moveDirection = Vector3::Zero;
-				/** コリジョンオブジェクト */
-				CollisionObject* m_collisionObject = nullptr;
 
 
 			public:

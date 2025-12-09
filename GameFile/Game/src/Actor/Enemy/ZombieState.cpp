@@ -16,58 +16,19 @@ namespace nsApp
 	{
 		namespace nsEnemy
 		{
-			MeleeAttackState::MeleeAttackState(ZombieStateMachine* owner)
-				:IState(owner)
-			{
-				m_owner = GetOwner<ZombieStateMachine>();
-			}
-
-
-			MeleeAttackState::~MeleeAttackState()
-			{
-			}
-
-
-			void MeleeAttackState::Enter()
-			{
-			}
-
-
-			void MeleeAttackState::Update()
-			{
-				ZombieStateMachine* stateMachine = GetOwner<ZombieStateMachine>();
-
-				m_currentCoolTime -= g_gameTime->GetFrameDeltaTime();
-				if (m_currentCoolTime <= 0.0f) m_currentCoolTime = 0.0f;
-
-				if (m_currentCoolTime == 0.0f) {
-					nsCore::BattleManager::GetInstance()->DealingDamage(stateMachine->GetAttackPower());
-					m_currentCoolTime = stateMachine->GetDealingDamage();
-				}
-			}
-
-
-			void MeleeAttackState::Exit()
-			{
-			}
-
-
-			/**********************************************************/
-
-
-			WalkState::WalkState(ZombieStateMachine* owner)
+			ZombieMeleeAttackState::ZombieMeleeAttackState(ZombieStateMachine* owner)
 				: IState(owner)
 			{
 				m_owner = GetOwner<ZombieStateMachine>();
 			}
 
 
-			WalkState::~WalkState()
+			ZombieMeleeAttackState::~ZombieMeleeAttackState()
 			{
 			}
 
 
-			void WalkState::Enter()
+			void ZombieMeleeAttackState::Enter()
 			{
 				ZombieStateMachine* stateMachine = GetOwner<ZombieStateMachine>();
 				stateMachine->SetMoveDirection(Vector3::Back);
@@ -75,7 +36,7 @@ namespace nsApp
 			}
 
 
-			void WalkState::Update()
+			void ZombieMeleeAttackState::Update()
 			{
 				ZombieStateMachine* stateMachine = GetOwner<ZombieStateMachine>();
 				const Vector3 moveAmount = stateMachine->GetMoveDirection() * stateMachine->GetMoveSpeed();
@@ -84,7 +45,7 @@ namespace nsApp
 			}
 
 
-			void WalkState::Exit()
+			void ZombieMeleeAttackState::Exit()
 			{
 				auto* stateMachine = GetOwner<ZombieStateMachine>();
 				stateMachine->SetMoveDirection(Vector3::Zero);
@@ -94,61 +55,70 @@ namespace nsApp
 			/**********************************************************/
 
 
-			IdleState::IdleState(ZombieStateMachine* owner)
+			ZombieWalkState::ZombieWalkState(ZombieStateMachine* owner)
 				: IState(owner)
 			{
-				m_owner = owner;			
+				m_owner = GetOwner<ZombieStateMachine>();
 			}
 
 
-			IdleState::~IdleState()
+			ZombieWalkState::~ZombieWalkState()
 			{
 			}
 
 
-			void IdleState::Enter()
+			void ZombieWalkState::Enter()
 			{
+				ZombieStateMachine* stateMachine = GetOwner<ZombieStateMachine>();
+				stateMachine->SetMoveDirection(Vector3::Back);
+				stateMachine->SetDirection(Vector3::Back);
 			}
 
 
-			void IdleState::Update() 
+			void ZombieWalkState::Update()
 			{
+				ZombieStateMachine* stateMachine = GetOwner<ZombieStateMachine>();
+				const Vector3 moveAmount = stateMachine->GetMoveDirection() * stateMachine->GetMoveSpeed();
+
+				stateMachine->SetPosition(stateMachine->GetPosition() + moveAmount);
 			}
 
 
-			void IdleState::Exit()
+			void ZombieWalkState::Exit()
 			{
+				auto* stateMachine = GetOwner<ZombieStateMachine>();
+				stateMachine->SetMoveDirection(Vector3::Zero);
 			}
 
 
 			/**********************************************************/
 
 
-			NotAppearState::NotAppearState(ZombieStateMachine* owner)
-				:IState(owner)
+			ZombieIdleState::ZombieIdleState(ZombieStateMachine* owner)
+				: IState(owner)
 			{
-				m_owner = GetOwner<ZombieStateMachine>();
+				m_owner = owner;			
 			}
 
 
-			NotAppearState::~NotAppearState()
-			{
-			}
-
-
-			void NotAppearState::Enter()
+			ZombieIdleState::~ZombieIdleState()
 			{
 			}
 
 
-			void NotAppearState::Update()
+			void ZombieIdleState::Enter()
 			{
 			}
 
 
-			void NotAppearState::Exit()
+			void ZombieIdleState::Update()
 			{
 			}
+
+
+			void ZombieIdleState::Exit()
+			{
+			}			
 		}
 	}
 }

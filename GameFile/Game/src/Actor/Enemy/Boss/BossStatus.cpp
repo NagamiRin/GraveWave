@@ -1,10 +1,10 @@
 ﻿/**
- * ZombieStatus.cpp
+ * BossStatus.cpp
  *
  * ゾンビのステータス
  */
 #include "stdafx.h"
-#include "src/Actor/Enemy/ZombieStatus.h"
+#include "src/Actor/Enemy/Boss/BossStatus.h"
 #include "src/core/ParameterManager.h"
 
 
@@ -14,9 +14,9 @@ namespace nsApp
 	{
 		namespace nsEnemy
 		{
-			ZombieStatus::ZombieStatus()
+			BossStatus::BossStatus()
 			{
-				ParameterManager::Get().LoadParameter<MasterEnemyStatus>("Assets/Status/Enemy/ZombieStatus.json", [](const nlohmann::json& j, MasterEnemyStatus& p)
+				ParameterManager::Get().LoadParameter<MasterBossStatus>("Assets/Status/Enemy/BossStatus.json", [](const nlohmann::json& j, MasterBossStatus& p)
 					{
 						p.m_moveSpeed = j["MoveSpeed"].get<float>();
 						p.m_hp = j["HP"].get<uint16_t>();
@@ -25,7 +25,7 @@ namespace nsApp
 						p.m_attackRange = j["AttackRange"].get<float>();
 					});
 
-				auto* parameter = ParameterManager::Get().GetParameter<MasterEnemyStatus>();
+				auto* parameter = ParameterManager::Get().GetParameter<MasterBossStatus>();
 				m_moveSpeed = parameter->m_moveSpeed;
 				m_hp = parameter->m_hp;
 				m_maxHp = parameter->m_hp;
@@ -35,7 +35,7 @@ namespace nsApp
 			}
 
 
-			ZombieStatus::~ZombieStatus()
+			BossStatus::~BossStatus()
 			{
 				ParameterManager::Get().UnloadParameter<MasterEnemyStatus>();
 			}			

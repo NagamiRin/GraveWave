@@ -1,17 +1,16 @@
 ﻿/**
- * Zombie.h
+ * Boss.h
  *
- * ゾンビ（雑魚）クラス
+ * ボスクラス
  */
 #pragma once
 #include "src/Actor/Enemy/EnemyBase.h"
-#include "src/Actor/Enemy/ZombieStatus.h"
+#include "src/Actor/Enemy/Boss/BossStatus.h"
+#include "src/Actor/ActorStatus.h"
 
 
-namespace nsApp
-{
-	namespace nsCore
-	{
+namespace nsApp {
+	namespace nsCore {
 		class ModelLOD;
 	}
 }
@@ -22,15 +21,17 @@ namespace nsApp
 	{
 		namespace nsEnemy
 		{
-			class ZombieStateMachine;
+			class BossStateMachine;
+			class BossStatus;
+			class ThrowStone;
 
 
 			/**
-			 *ゾンビクラス
+			 * ボスクラス
 			 */
-			class Zombie : public EnemyBase
+			class Boss : public EnemyBase
 			{
-				appGameObject(Zombie);
+				appGameObject(Boss);
 
 				using SuperClass = EnemyBase;
 
@@ -43,15 +44,19 @@ namespace nsApp
 
 				/** アニメションクリップの種類 */
 				std::array<AnimationClip, EnAnimationVar_Max> m_animationClipList;
+				/** ゾンビのステートマシンのポインタ */
+				std::unique_ptr<BossStateMachine> m_stateMachine;
 				/** LODモデル */
 				nsCore::ModelLOD* m_modelLOD = nullptr;
+				/** 投石の岩 */
+				nsEnemy::ThrowStone* m_throwStone = nullptr;
 
 
 			public:
 				/** コンストラクタ */
-				Zombie();
+				Boss();
 				/** デストラクタ */
-				~Zombie();
+				~Boss();
 
 
 			public:
@@ -68,13 +73,12 @@ namespace nsApp
 				void Initialize(const Vector3& initializePosition);
 				/** ゾンビを破棄する（非アクティブ状態に） */
 				void Destruction();
-				
+
 
 			public:
 				/** ステータスを取得 */
-				inline ZombieStatus* GetStatus() { return dynamic_cast<ZombieStatus*>(m_status); }
-
-				/** HPを減らす */
+				inline BossStatus* GetStatus() { return dynamic_cast<BossStatus*>(m_status); }
+				/** ボスのHPを減らす */
 				inline void ReduceHP(uint16_t reduceAmount)
 				{
 					uint16_t  currentHP = GetStatus()->GetHP();
@@ -82,6 +86,8 @@ namespace nsApp
 					uint16_t afterHP = currentHP - reduceAmount;
 					GetStatus()->SetHP(afterHP);
 				}
+				/** 岩を飛ばす */
+				void ThrowStone(const Vector3& start, const Vector3& end);
 			};
 		}
 	}

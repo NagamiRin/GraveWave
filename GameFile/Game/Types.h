@@ -8,6 +8,7 @@ enum EnGameObjectPriority
 	enGameObjectPriority_Bullet,
 	enGameObjectPriority_Camera,
 	enGameObjectPriority_Enemy,
+	enGameObjectPriority_Stone,
 	enGameObjectPriority_Gun,
 	enGameObjectPriority_Player,
 	enGameObjectPriority_Wall,

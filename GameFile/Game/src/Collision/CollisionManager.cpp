@@ -3,6 +3,9 @@
 #include "src/Actor/Bullet/BulletManager.h"
 #include "src/Actor/Bullet/NormalBullet.h"
 #include "src/Actor/Enemy/Zombie.h"
+#include "src/Actor/Enemy/ZombieStatus.h"
+#include "src/Actor/Enemy/Boss/Boss.h"
+#include "src/Actor/Enemy/EnemyBase.h"
 #include "src/Core/BattleManager.h"
 #include "src/GameFlow/BattleFlow.h"
 #include "src/GameFlow/ScoreCounter.h"
@@ -205,34 +208,42 @@ void CollisionHitManager::RegisterCollisionObject(const uint32_t id, IGameObject
 bool CollisionHitManager::UpdateHitBullet(CollisionPair& pair)
 {
 	nsApp::nsActor::nsBullet::NormalBullet* normalBullet = GetTargetObject<nsApp::nsActor::nsBullet::NormalBullet>(pair, nsApp::nsActor::nsBullet::NormalBullet::ID());
-	nsApp::nsActor::nsEnemy::Zombie* zombie = GetTargetObject<nsApp::nsActor::nsEnemy::Zombie>(pair, nsApp::nsActor::nsEnemy::Zombie::ID());	
+	nsApp::nsActor::nsEnemy::Zombie* zombie = GetTargetObject<nsApp::nsActor::nsEnemy::Zombie>(pair, nsApp::nsActor::nsEnemy::Zombie::ID());
+	nsApp::nsActor::nsEnemy::Boss* boss = GetTargetObject<nsApp::nsActor::nsEnemy::Boss>(pair, nsApp::nsActor::nsEnemy::Boss::ID());
 
 
-	if (normalBullet == nullptr) {
-		return false;
-	}
-	if (zombie == nullptr) {
-		return false;
-	}
+	if (!normalBullet) return false;
+	if (!zombie && !boss) return false;
 
+	//弾の処理
 	m_isHit = true;
 	nsApp::nsActor::nsBullet::BulletManager::GetInstance()->DeleteBullet(normalBullet);
-	//ゾンビのHPを減らす
-	zombie->ReduceHP(normalBullet->GetDamage());
-	//死んだなら削除要請
-	if (zombie->GetZombieStatus()->GetHP() <= 0) {
-		nsApp::nsCore::BattleManager::GetInstance()->DeleteZombie(zombie);
-		//倒した敵を加算
-		nsApp::nsFlow::BattleFlow::GetInstance()->AddEliminateEnemy();
-		//スコア加算
-		nsApp::nsFlow::ScoreCounter::GetInstance()->AddScoreEliminateZombie();
+
+	//エネミーの処理
+	if (zombie) {
+		zombie->ReduceHP(normalBullet->GetDamage());
+		//死んだなら削除要請
+		if (zombie->GetStatus()->GetHP() <= 0) {
+			nsApp::nsCore::BattleManager::GetInstance()->DeleteZombie(zombie);
+			//倒した敵を加算
+			nsApp::nsFlow::BattleFlow::GetInstance()->AddEliminateEnemy();
+			//スコア加算
+			nsApp::nsFlow::ScoreCounter::GetInstance()->AddScoreEliminateZombie();
+		}
 	}
 
+	if (boss) {
+		boss->ReduceHP(normalBullet->GetDamage());
+		//死んだなら削除要請
+		if (boss->GetStatus()->GetHP() <= 0) {
+			nsApp::nsCore::BattleManager::GetInstance()->DeleteBoss();
+			////倒した敵を加算
+			//nsApp::nsFlow::BattleFlow::GetInstance()->AddEliminateEnemy();
+			////スコア加算
+			//nsApp::nsFlow::ScoreCounter::GetInstance()->AddScoreEliminateZombie();
+		}
+	}
+		
 	return true;
-}
-
-void CollisionHitManager::BulletAndZombieHandling()
-{
-	
 }
 

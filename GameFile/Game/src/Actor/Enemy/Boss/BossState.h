@@ -1,7 +1,7 @@
 ﻿/**
- * ZombieState.h
+ * BossState.h
  * 
- * ゾンビの各ステートの処理を行う
+ * ボスの各ステートの処理を行う
  */
 #pragma once
 #include "src/Actor/IState.h"
@@ -13,27 +13,22 @@ namespace nsApp
 	{
 		namespace nsEnemy
 		{
-			class ZombieStateMachine;
-
+			class BossStateMachine;
+			
 
 			/**
-			 * 攻撃状態クラス
+			 * 投石状態クラス
 			 */
-			class ZombieMeleeAttackState : public IState
+			class BossThrowState : public IState
 			{
-				appState(ZombieMeleeAttackState);
-
-
-			private:
-				/** 残りの攻撃のクールタイム */
-				float m_currentCoolTime = 0.0f;
+				appState(BossThrowState);
 
 
 			public:
 				/** コンストラクタ */
-				ZombieMeleeAttackState(ZombieStateMachine* owner);
+				BossThrowState(BossStateMachine* owner);
 				/** デストラクタ */
-				~ZombieMeleeAttackState();
+				~BossThrowState();
 
 
 			public:
@@ -49,16 +44,16 @@ namespace nsApp
 			/** 
 			 * 歩行状態クラス 
 			 */
-			class ZombieWalkState : public IState
+			class BossWalkState : public IState
 			{
-				appState(ZombieWalkState);
+				appState(BossWalkState);
 
 
 			public:
 				/** コンストラクタ */
-				ZombieWalkState(ZombieStateMachine* owner);
+				BossWalkState(BossStateMachine* owner);
 				/** デストラクタ */
-				~ZombieWalkState();
+				~BossWalkState();
 
 
 			public:
@@ -74,23 +69,23 @@ namespace nsApp
 			/**
 			 * 待機状態クラス
 			 */
-			class ZombieIdleState : public IState
+			class BossIdleState : public IState
 			{
-				appState(ZombieIdleState);
+				appState(BossIdleState);
 
 
 			public:
 				/** コンストラクタ */
-				ZombieIdleState(ZombieStateMachine* owner);
+				BossIdleState(BossStateMachine* owner);
 				/** デストラクタ */
-				~ZombieIdleState();
+				~BossIdleState();
 
 
 			public:
 				void Enter() override;
 				void Update() override;
 				void Exit() override;
-			};
-		}
+			};			
+		}		
 	}
 }

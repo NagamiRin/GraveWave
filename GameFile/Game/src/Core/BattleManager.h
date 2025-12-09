@@ -145,6 +145,8 @@ namespace nsApp
 			}
 			/** ゾンビの削除要請 */
 			void DeleteZombie(nsApp::nsActor::nsEnemy::Zombie* zombie);
+			/** ボスの削除要請 */
+			void DeleteBoss();
 			/** 水平方向の限界値を取得 */
 			float GetVerLimitAngle();
 			/** 垂直方向の限界値を取得 */

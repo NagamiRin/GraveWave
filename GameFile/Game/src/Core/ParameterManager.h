@@ -32,6 +32,19 @@ struct MasterEnemyStatus : public IMasterParameter
     uint16_t m_hp;
     uint16_t m_attackPower;
     float m_attackFrequency;
+    float m_attackRange;
+    float m_moveSpeed;
+};
+
+//ボスステータス
+struct MasterBossStatus : public IMasterParameter
+{
+    appParameter(MasterBossStatus);
+    //
+    uint16_t m_hp;
+    uint16_t m_attackPower;
+    float m_attackFrequency;
+    float m_attackRange;
     float m_moveSpeed;
 };
 

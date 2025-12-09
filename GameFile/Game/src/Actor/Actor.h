@@ -67,8 +67,6 @@ namespace nsApp
 			ModelRender m_model;
 			/** トランスフォーム */
 			Transform m_transform;
-			/** ステータスのポインタ */
-			ActorStatus* m_status = nullptr;
 			/** キャラクターの向いている方向を表すベクトル */
 			Vector3 m_direction = Vector3::Zero;
 

@@ -1,10 +1,10 @@
 ﻿/**
- * PlayerStateMachine.cpp
+ * StateMachine.cpp
  *
- * プレイヤーの状態遷移を行うステートマシン
+ * ステートマシンの基底クラス
  */
 #include "stdafx.h"
-#include "src/Actor/StateMachine.h"
+#include "StateMachine.h"
 #include "src/Actor/IState.h"
 
 

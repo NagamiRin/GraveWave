@@ -14,6 +14,7 @@ namespace nsApp
 		namespace nsEnemy
 		{
 			class Zombie;
+			class Boss;
 
 
 			/**
@@ -36,6 +37,8 @@ namespace nsApp
 			private:
 				/** エネミーの配列 */
 				std::vector<PoolInformation<Zombie>> m_zombiePool;
+				/** ボスのインスタンス */
+				PoolInformation<Boss> m_boss;
 				/** 現在出現しているエネミーのリスト */
 				std::vector<Zombie*> m_usedEnemyList;
 				
@@ -59,15 +62,20 @@ namespace nsApp
 				/** 使える人渡す */
 				Zombie* FindUse();
 
-				/** いらなくなったやつを戻す */
+				/** いらなくなったゾンビを戻す */
 				void Restore(Zombie* target);
+				/** HPがなくなったボスを撤収 */
+				void RestoreBoss();
 
 
 			public:
 				/** 現在出現しているエネミーのリストを取得 */
 				inline const std::vector<Zombie*>& GetUsedEnemyList() { return m_usedEnemyList; }
+				/** 今使えるやつを探す */
 				void ForEachUsedEnemy(const std::function<void(Zombie*)>& func);
-
+				/** ボスを取得 */
+				inline Boss* GetBoss() { return m_boss.m_enemy; }
+				
 
 			private:
 				/** 自身のインスタンス */

@@ -66,8 +66,6 @@ public:
 	void DeleteCollisionObject(IGameObject* object);
 	/** ゲームオブジェクトのコリジョンが残っているかを確認 */
 	bool CheckCollision(IGameObject* object);
-	/** 弾とゾンビのヒット処理 */
-	void BulletAndZombieHandling();
 
 	CollisionObject* CreateCollisionObject(const uint32_t id, IGameObject* gameObject, const Vector3& position, const Quaternion& rotation, const float radisu, const float height);
 	CollisionObject* CreateCollisionObject(const uint32_t id, IGameObject* gameObject, const Vector3& position, const Quaternion& rotation, const float radisu);

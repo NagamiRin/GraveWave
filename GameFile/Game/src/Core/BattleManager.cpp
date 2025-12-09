@@ -342,6 +342,12 @@ namespace nsApp
         }
 
 
+        void BattleManager::DeleteBoss()
+        {
+            nsApp::nsActor::nsEnemy::EnemyPoolManager::GetInstance()->RestoreBoss();
+        }
+
+
         float BattleManager::GetVerLimitAngle()
         {
             auto* parameter = ParameterManager::Get().GetParameter<MasterBattleParameter>();
