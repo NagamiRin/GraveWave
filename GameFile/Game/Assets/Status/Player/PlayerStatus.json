@@ -1,8 +1,6 @@
 [
     {
         "Commnet": "プレイヤー用のパラメータ",
-        "MoveSpeed":3.0,
-        "VerticalLimitAngle": 0.7,
-        "HorizontalLimitAngle":-0.7
+        "MoveSpeed":3.0
     }
 ]
