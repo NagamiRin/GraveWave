@@ -105,7 +105,8 @@ namespace nsApp
                 GetStatus()->ResetHP();
                 SetLocalPosition(initializePosition);                
 
-                m_collisionObject = CollisionHitManager::Get().CreateCollisionObject(ID(), this, m_collisionPosition, GetRotation(), 10.0f, 30.0f);                
+                m_collisionObject = CollisionHitManager::Get().CreateCollisionObject(ID(), this, m_collisionPosition, GetRotation(), 10.0f, 30.0f);
+                m_collisionObject->GetbtCollisionObject().setUserIndex(nsApp::enCollirionEnemy);
             }
 
 

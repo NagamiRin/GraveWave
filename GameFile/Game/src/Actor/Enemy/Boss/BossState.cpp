@@ -33,7 +33,7 @@ namespace nsApp
 			{
 				BossStateMachine* stateMachine = GetOwner<BossStateMachine>();
 
-				stateMachine->GetOwner()->ThrowStone(stateMachine->GetPosition(), Vector3::Zero);
+				stateMachine->GetOwner()->ThrowStone(stateMachine->GetPosition(), Vector3(0.0f, 100.0f, 500.0f));
 			}
 
 

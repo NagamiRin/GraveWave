@@ -1,11 +1,14 @@
 ﻿#include "stdafx.h"
 #include "CollisionManager.h"
+#include "src/Actor/BackGround/BackGround.h"
 #include "src/Actor/Bullet/BulletManager.h"
 #include "src/Actor/Bullet/NormalBullet.h"
 #include "src/Actor/Enemy/Zombie.h"
 #include "src/Actor/Enemy/ZombieStatus.h"
 #include "src/Actor/Enemy/Boss/Boss.h"
+#include "src/Actor/Enemy/Boss/ThrowStone.h"
 #include "src/Actor/Enemy/EnemyBase.h"
+#include "src/Actor/Wall/Wall.h"
 #include "src/Core/BattleManager.h"
 #include "src/GameFlow/BattleFlow.h"
 #include "src/GameFlow/ScoreCounter.h"
@@ -27,7 +30,9 @@ namespace
 			//if (&m_me->GetbtCollisionObject() == convexResult.m_hitCollisionObject) return 0.0f;
 
 			//エネミー以外かつゴーストオブジェクトではない時
-			if (convexResult.m_hitCollisionObject->getUserIndex() != nsApp::enCollirionEnemy
+			const int collisionAttr = convexResult.m_hitCollisionObject->getUserIndex();
+			if ((collisionAttr != nsApp::enCollirionEnemy
+				&& collisionAttr != nsApp::enCollirionStone)
 				|| convexResult.m_hitCollisionObject->getInternalType() != btCollisionObject::CO_GHOST_OBJECT) {
 				return convexResult.m_hitFraction;
 			}
@@ -91,7 +96,6 @@ void CollisionHitManager::Update()
 				BulletCallback cb;
 				PhysicsWorld::GetInstance()->ConvexSweepTest(collisionShape, start, end, cb);
 				if (cb.isHit) {
-					
 					auto* targetInfo = FindCollisionInfo(cb.m_you);
 					if (targetInfo) {
 						m_collisionPairList.push_back(CollisionPair(bulletInfo, targetInfo));
@@ -102,29 +106,29 @@ void CollisionHitManager::Update()
 	}
 
 	// ヒットするオブジェクトのペアを作る
-	//const uint32_t colSize = static_cast<uint32_t>(m_collisionInfoList.size());
-	//for (uint32_t i = 0; i < colSize; ++i) {
-	//	for (uint32_t j = i+1; j < colSize; ++j) {
-	//		CollisionInfo* infoA = &m_collisionInfoList[i];
-	//		CollisionInfo* infoB = &m_collisionInfoList[j];
+	const uint32_t colSize = static_cast<uint32_t>(m_collisionInfoList.size());
+	for (uint32_t i = 0; i < colSize; ++i) {
+		for (uint32_t j = i+1; j < colSize; ++j) {
+			CollisionInfo* infoA = &m_collisionInfoList[i];
+			CollisionInfo* infoB = &m_collisionInfoList[j];
 
-	//		if(infoA->m_collision->IsHit(infoB->m_collision) || infoB->m_collision->IsHit(infoA->m_collision))
-	//		{
-	//			// CollisionPairの中に同じ組み合わせがないかチェック
-	//			bool exists = false;
-	//			for (const auto& pair : m_collisionPairList) {
-	//				if ((pair.m_left == infoA && pair.m_right == infoB) || (pair.m_left == infoB && pair.m_right == infoA)) {
-	//					exists = true;
-	//					break;
-	//				}
-	//			}
-	//			// すでに登録済みではないなら追加する
-	//			if (!exists) {
-	//				m_collisionPairList.push_back(CollisionPair(infoA, infoB));
-	//			}
-	//		}
-	//	}
-	//}
+			if(infoA->m_collision->IsHit(infoB->m_collision) || infoB->m_collision->IsHit(infoA->m_collision))
+			{
+				// CollisionPairの中に同じ組み合わせがないかチェック
+				bool exists = false;
+				for (const auto& pair : m_collisionPairList) {
+					if ((pair.m_left == infoA && pair.m_right == infoB) || (pair.m_left == infoB && pair.m_right == infoA)) {
+						exists = true;
+						break;
+					}
+				}
+				// すでに登録済みではないなら追加する
+				if (!exists) {
+					m_collisionPairList.push_back(CollisionPair(infoA, infoB));
+				}
+			}
+		}
+	}
 
 	// ヒットしたペアで衝突した時の処理をする
 	// 今回のゲームではないがプレイヤーの攻撃がエネミーにあたったのでHPを減らすみたいなことをする
@@ -133,7 +137,11 @@ void CollisionHitManager::Update()
 		// 弾の処理
 		if (UpdateHitBullet(pair)) {
 			continue;
-		}		
+		}
+		//岩の処理
+		if (UpdateHitStone(pair)) {
+			continue;
+		}
 	}
 	
 
@@ -198,6 +206,18 @@ CollisionObject* CollisionHitManager::CreateCollisionObject(const uint32_t id, I
 	return collisionObject;
 }
 
+
+CollisionObject* CollisionHitManager::CreateCollisionObject(const uint32_t id, IGameObject* gameObject, const Vector3& position, const Quaternion& rotation ,const Model& model,const Matrix& matrix)
+{
+	CollisionObject* collisionObject = new CollisionObject();
+	collisionObject->CreateMesh(position, rotation, model, matrix);
+
+	RegisterCollisionObject(id, gameObject, collisionObject);
+
+	return collisionObject;
+}
+
+
 void CollisionHitManager::RegisterCollisionObject(const uint32_t id, IGameObject* gameObject, CollisionObject* collisionObject)
 {
 	CollisionInfo info(id, gameObject, collisionObject);
@@ -210,16 +230,17 @@ bool CollisionHitManager::UpdateHitBullet(CollisionPair& pair)
 	nsApp::nsActor::nsBullet::NormalBullet* normalBullet = GetTargetObject<nsApp::nsActor::nsBullet::NormalBullet>(pair, nsApp::nsActor::nsBullet::NormalBullet::ID());
 	nsApp::nsActor::nsEnemy::Zombie* zombie = GetTargetObject<nsApp::nsActor::nsEnemy::Zombie>(pair, nsApp::nsActor::nsEnemy::Zombie::ID());
 	nsApp::nsActor::nsEnemy::Boss* boss = GetTargetObject<nsApp::nsActor::nsEnemy::Boss>(pair, nsApp::nsActor::nsEnemy::Boss::ID());
+	nsApp::nsActor::nsEnemy::ThrowStone* throwStone = GetTargetObject< nsApp::nsActor::nsEnemy::ThrowStone>(pair, nsApp::nsActor::nsEnemy::ThrowStone::ID());
 
 
 	if (!normalBullet) return false;
-	if (!zombie && !boss) return false;
+	if (!zombie && !boss && !throwStone) return false;
 
 	//弾の処理
 	m_isHit = true;
 	nsApp::nsActor::nsBullet::BulletManager::GetInstance()->DeleteBullet(normalBullet);
 
-	//エネミーの処理
+	//ゾンビに当たった場合
 	if (zombie) {
 		zombie->ReduceHP(normalBullet->GetDamage());
 		//死んだなら削除要請
@@ -232,6 +253,7 @@ bool CollisionHitManager::UpdateHitBullet(CollisionPair& pair)
 		}
 	}
 
+	//ボスに当たった場合
 	if (boss) {
 		boss->ReduceHP(normalBullet->GetDamage());
 		//死んだなら削除要請
@@ -243,7 +265,27 @@ bool CollisionHitManager::UpdateHitBullet(CollisionPair& pair)
 			//nsApp::nsFlow::ScoreCounter::GetInstance()->AddScoreEliminateZombie();
 		}
 	}
+
+	//投石に当たった場合
+	if (throwStone) {
+		throwStone->ReduceDurability(normalBullet->GetDamage());
+	}
 		
+	return true;
+}
+
+
+bool CollisionHitManager::UpdateHitStone(CollisionPair& pair)
+{
+	nsApp::nsActor::nsEnemy::ThrowStone* throwStone = GetTargetObject< nsApp::nsActor::nsEnemy::ThrowStone>(pair, nsApp::nsActor::nsEnemy::ThrowStone::ID());
+	nsApp::nsActor::nsWall::Wall* wall = GetTargetObject< nsApp::nsActor::nsWall::Wall>(pair, nsApp::nsActor::nsWall::Wall::ID());
+	
+
+	if (!throwStone) return false;
+	if (!wall) return false;
+
+	throwStone->BreakProcess();
+
 	return true;
 }
 

@@ -40,7 +40,7 @@ namespace nsApp
                 btScalar addSingleResult(btCollisionWorld::LocalRayResult& rayResult, bool normalInWorldSpace) override
                 {
                     // Enemyじゃない&&Gohstじゃない なら当たらない
-                    if (rayResult.m_collisionObject->getUserIndex() != nsApp::enCollirionEnemy && rayResult.m_collisionObject->getInternalType() != btCollisionObject::CO_GHOST_OBJECT) {
+                    if ((rayResult.m_collisionObject->getUserIndex() != nsApp::enCollirionEnemy || rayResult.m_collisionObject->getUserIndex() != nsApp::enCollirionStone) && rayResult.m_collisionObject->getInternalType() != btCollisionObject::CO_GHOST_OBJECT) {
                         return rayResult.m_hitFraction;
                     }
                     isHit = true;

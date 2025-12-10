@@ -40,7 +40,7 @@ namespace nsApp
 
             void FogObject::Render(RenderContext& rc)
             {
-                m_model.Draw(rc, true);
+                m_model.Draw(rc);
             }
         }
     }

@@ -5,6 +5,7 @@
  */
 #include "stdafx.h"
 #include "ThrowStone.h"
+#include "src/Actor/Enemy/Boss/BreakStone.h"
 #include "src/Collision/CollisionManager.h"
 #include "src/Core/ParameterManager.h"
 
@@ -23,6 +24,7 @@ namespace nsApp
                         p.m_landingTime = j["LandingTime"].get<float>();
                         p.m_maxDurability = j["MaxDurability"].get<float>();
                         p.m_rotSpeed = j["RotSpeed"].get<float>();
+                        p.m_divisionNum = j["DivisionNum"].get<uint8_t>();
                     });
 
                 auto* param = ParameterManager::Get().GetParameter<MasterStoneParameter>();
@@ -31,19 +33,18 @@ namespace nsApp
                 m_landingTime = param->m_landingTime;
                 m_rotSpeed = param->m_rotSpeed;
                 m_maxDurability = param->m_maxDurability;
+                m_divisionNum = param->m_divisionNum;
             }
 
 
             ThrowStone::~ThrowStone()
             {
-
+                ParameterManager::Get().UnloadParameter<MasterStoneParameter>();
             }
 
 
             bool ThrowStone::Start()
             {
-                SetDirection(Vector3(0.0f, 0.0f, -1.0f));
-
                 m_model.Init("Assets/ModelData/Zombie/Boss/Stone.tkm");
 
                 return true;
@@ -54,18 +55,19 @@ namespace nsApp
             {
                 //飛翔中でないなら処理しない
                 if (!m_isFlying) return;
-                if (m_elapsedTime >= m_landingTime) {
-                    if (!CollisionHitManager::Get().CheckCollision(this)) return;
-                    CollisionHitManager::Get().DeleteCollisionObject(this);
-                    m_isFlying = false;
+                //耐久度がなくなった、もしくは着地時間になったら破壊処理
+                if (m_durability <= 0 || m_elapsedTime >= m_landingTime) {
+                    BreakProcess();
                     return;
                 }
+
+
 
                 //岩の位置を更新
                 m_transform.m_localPosition = CalcStonePos();
 
                 //岩を回転させる
-                m_direction.Add(Vector3(m_rotSpeed, 0.0f, 0.0f));
+                m_transform.m_localRotation.AddRotationX(m_rotSpeed);
 
                 //トランスフォームの更新
                 m_transform.UpdateTransform();
@@ -74,7 +76,6 @@ namespace nsApp
                 m_collisionPosition = m_transform.m_position;
                 m_collisionObject->SetPosition(m_collisionPosition);
                 m_collisionObject->Update();
-                m_collisionObject->GetbtCollisionObject().setUserIndex(nsApp::enCollirionEnemy);
 
                 //モデルの更新
 				m_model.SetPosition(m_transform.m_position);
@@ -104,6 +105,20 @@ namespace nsApp
             }
 
 
+            void ThrowStone::BreakProcess()
+            {
+                /** 破片を出す */
+                for (uint8_t i = 0; i < m_divisionNum; i++) {
+                    auto* breakStone = NewGO<BreakStone>(enGameObjectPriority_Enemy, "BreakStone");
+                    breakStone->SetLocalPosition(m_transform.m_localPosition);
+                }
+
+                if (!CollisionHitManager::Get().CheckCollision(this)) return;
+                CollisionHitManager::Get().DeleteCollisionObject(this);
+                m_isFlying = false;
+            }
+
+
             void ThrowStone::SetThrowingInfo(const Vector3& start, const Vector3& end)
             {
                 if (m_isFlying) {
@@ -113,7 +128,9 @@ namespace nsApp
                 m_startPos = start;
                 m_endPos = end;
                 m_collisionObject = CollisionHitManager::Get().CreateCollisionObject(ID(), this, m_collisionPosition, GetRotation(), 20.0f, 0.0f);
+                m_collisionObject->GetbtCollisionObject().setUserIndex(nsApp::enCollirionStone);
                 m_elapsedTime = 0.0f;
+                m_durability = m_maxDurability;
                 m_isFlying = true;
             }
         }

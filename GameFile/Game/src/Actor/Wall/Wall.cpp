@@ -6,6 +6,7 @@
 #include "stdafx.h"
 #include "Wall.h"
 #include "src/Core/ParameterManager.h"
+#include "src/Collision/CollisionManager.h"
 
 
 namespace nsApp
@@ -29,6 +30,8 @@ namespace nsApp
 
 			Wall::~Wall()
 			{		
+				if (!CollisionHitManager::Get().CheckCollision(this)) return;
+                CollisionHitManager::Get().DeleteCollisionObject(this);
 			}
 
 
@@ -36,6 +39,8 @@ namespace nsApp
 			{				
 				m_model.Init("Assets/ModelData/Wall/Wall.tkm");
 				m_model.SetPosition(Vector3::Zero);
+
+				m_collisionObject = CollisionHitManager::Get().CreateCollisionObject(ID(), this, m_collisionPosition, GetRotation(), m_model.GetModel(), m_model.GetWorldMatrix(ID()));
 
 				return true;
 			}

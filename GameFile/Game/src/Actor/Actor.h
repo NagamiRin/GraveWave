@@ -69,6 +69,10 @@ namespace nsApp
 			Transform m_transform;
 			/** キャラクターの向いている方向を表すベクトル */
 			Vector3 m_direction = Vector3::Zero;
+			/** コリジョンの位置 */
+			Vector3 m_collisionPosition = Vector3::Zero;
+			/** コリジョンオブジェクト */
+			CollisionObject* m_collisionObject = nullptr;
 
 
 		public:

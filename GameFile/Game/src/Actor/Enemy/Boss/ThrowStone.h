@@ -36,6 +36,8 @@ namespace nsApp
 				float m_landingTime = 0.0f;
 				/** 回転速度 */
 				float m_rotSpeed = 0.0f;
+				/** 岩の分裂数 */
+				uint8_t m_divisionNum = 0;
 				/** 最大耐久度 */
 				uint16_t m_maxDurability = 0;
 				/** 現在の耐久度 */
@@ -67,11 +69,13 @@ namespace nsApp
 				 * NOTO:サインカーブを用いて、ベクトルの計算をする
 				 */
 				Vector3 CalcStonePos();
-
+				
 
 			public:
 				/** 岩を投げる */
 				void SetThrowingInfo(const Vector3& start, const Vector3& end);
+				/** 破壊時の処理 */
+				void BreakProcess();
 				/** 岩の耐久度を減らす */
 				inline void ReduceDurability(const uint16_t reduce) { m_durability -= reduce; }
 			};

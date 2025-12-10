@@ -21,10 +21,6 @@ namespace nsApp
 
 
 		protected:
-			/** コリジョンの位置 */
-			Vector3 m_collisionPosition = Vector3::Zero;
-			/** コリジョンオブジェクト */
-			CollisionObject* m_collisionObject = nullptr;
 			/** ステータスのポインタ */
 			ActorStatus* m_status = nullptr;
 			/** ステートマシンのポインタ */

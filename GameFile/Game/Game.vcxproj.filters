@@ -151,6 +151,7 @@
     <ClCompile Include="src\Actor\Enemy\Boss\BossStateMachine.cpp" />
     <ClCompile Include="src\Actor\Enemy\Boss\BossStatus.cpp" />
     <ClCompile Include="src\Actor\Enemy\Boss\ThrowStone.cpp" />
+    <ClCompile Include="src\Actor\Enemy\Boss\BreakStone.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -274,5 +275,6 @@
     <ClInclude Include="src\Actor\Enemy\Boss\BossStateMachine.h" />
     <ClInclude Include="src\Actor\Enemy\Boss\BossStatus.h" />
     <ClInclude Include="src\Actor\Enemy\Boss\ThrowStone.h" />
+    <ClInclude Include="src\Actor\Enemy\Boss\BreakStone.h" />
   </ItemGroup>
 </Project>

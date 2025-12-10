@@ -4,6 +4,7 @@
         "Altitude": 200.0,
         "LandingTime": 10.0,
         "MaxDurability": 100,
-        "RotSpeed": 5.0
+        "RotSpeed": 50.0,
+        "DivisionNum": 10
         } 
 ]

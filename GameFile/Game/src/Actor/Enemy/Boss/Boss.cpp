@@ -68,7 +68,6 @@ namespace nsApp
                 m_collisionPosition = m_transform.m_position + Vector3(0.0f, 100.0f, 0.0f);
                 m_collisionObject->SetPosition(m_collisionPosition);
                 m_collisionObject->Update();
-                m_collisionObject->GetbtCollisionObject().setUserIndex(nsApp::enCollirionEnemy);
 
 				m_model.SetPosition(m_transform.m_position);
                 m_model.SetRotation(m_transform.m_rotation);
@@ -92,6 +91,7 @@ namespace nsApp
                 SetLocalPosition(initializePosition);                
 
                 m_collisionObject = CollisionHitManager::Get().CreateCollisionObject(ID(), this, m_collisionPosition, GetRotation(), 20.0f, 100.0f);
+                m_collisionObject->GetbtCollisionObject().setUserIndex(nsApp::enCollirionEnemy);
             }
 
 

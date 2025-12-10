@@ -18,6 +18,9 @@ namespace nsApp
 			 */
 			class BackGround : public Actor
 			{
+				appGameObject(BackGround);
+
+
 			private:
 				PhysicsStaticObject* m_physicsStaticObject = nullptr;
 

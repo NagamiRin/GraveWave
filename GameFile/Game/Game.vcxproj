@@ -236,6 +236,7 @@
     <ClCompile Include="src\Actor\Enemy\Boss\BossState.cpp" />
     <ClCompile Include="src\Actor\Enemy\Boss\BossStateMachine.cpp" />
     <ClCompile Include="src\Actor\Enemy\Boss\BossStatus.cpp" />
+    <ClCompile Include="src\Actor\Enemy\Boss\BreakStone.cpp" />
     <ClCompile Include="src\Actor\Enemy\Boss\ThrowStone.cpp" />
     <ClCompile Include="src\Actor\Enemy\EnemyBase.cpp" />
     <ClCompile Include="src\Actor\Enemy\EnemyManager.cpp" />
@@ -313,6 +314,7 @@
     <ClInclude Include="src\Actor\Enemy\Boss\BossState.h" />
     <ClInclude Include="src\Actor\Enemy\Boss\BossStateMachine.h" />
     <ClInclude Include="src\Actor\Enemy\Boss\BossStatus.h" />
+    <ClInclude Include="src\Actor\Enemy\Boss\BreakStone.h" />
     <ClInclude Include="src\Actor\Enemy\Boss\ThrowStone.h" />
     <ClInclude Include="src\Actor\Enemy\EnemyBase.h" />
     <ClInclude Include="src\Actor\Enemy\EnemyManager.h" />

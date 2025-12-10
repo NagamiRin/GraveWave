@@ -75,6 +75,17 @@ struct MasterStoneParameter : public IMasterParameter
     float m_landingTime;
     float m_rotSpeed;
     uint16_t m_maxDurability;
+    uint8_t m_divisionNum;
+};
+
+//岩の破壊表現ステータス
+struct MasterBreakStoneParameter : public IMasterParameter
+{
+    appParameter(MasterBreakStoneParameter);
+    //
+    float m_altitude;
+    float m_landingTime;
+    float m_rotSpeed;
 };
 
 

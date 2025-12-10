@@ -67,15 +67,23 @@ public:
 	/** ゲームオブジェクトのコリジョンが残っているかを確認 */
 	bool CheckCollision(IGameObject* object);
 
+	/** カプセル状のコリジョンを生成 */
 	CollisionObject* CreateCollisionObject(const uint32_t id, IGameObject* gameObject, const Vector3& position, const Quaternion& rotation, const float radisu, const float height);
+	/** キューブ状のコリジョンを生成 */
 	CollisionObject* CreateCollisionObject(const uint32_t id, IGameObject* gameObject, const Vector3& position, const Quaternion& rotation, const float radisu);
+	/** メッシュ状のコリジョンを生成 */
+	CollisionObject* CreateCollisionObject(const uint32_t id, IGameObject* gameObject, const Vector3& position, const Quaternion& rotation, const Model& model, const Matrix& matrix);
+	
 
 private:
 	void RegisterCollisionObject(const uint32_t id,IGameObject* gameObject, CollisionObject* collisionObject);	
 
 
 private:
+	/** 弾関連のヒット処理 */
 	bool UpdateHitBullet(CollisionPair& pair);
+	/** 岩関連のヒット処理 */
+	bool UpdateHitStone(CollisionPair& pair);
 
 
 private:
@@ -112,8 +120,8 @@ private:
 	CollisionInfo* FindCollisionInfo(const btCollisionObject* btCollision)
 	{
 		for (auto& info : m_collisionInfoList) {
-			auto* btCollision = &info.m_collision->GetbtCollisionObject();
-			if (btCollision == btCollision) {
+			auto* targetbtCollision = &info.m_collision->GetbtCollisionObject();
+			if (btCollision == targetbtCollision) {
 				return &info;
 			}
 		}
