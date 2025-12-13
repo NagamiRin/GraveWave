@@ -19,9 +19,12 @@ namespace nsApp
         {
             ZombieStateMachine::ZombieStateMachine()
             {
-				m_stateMap.emplace(ZombieIdleState::ID(), new ZombieIdleState(this));
-                m_stateMap.emplace(ZombieWalkState::ID(), new ZombieWalkState(this));
-                m_stateMap.emplace(ZombieMeleeAttackState::ID(), new ZombieMeleeAttackState(this));
+                m_stateMap.emplace(ZombieAttackState::ID(), new ZombieAttackState(this));
+                m_stateMap.emplace(ZombieDeathState::ID(),  new ZombieDeathState(this));
+                m_stateMap.emplace(ZombieGetUpState::ID(),  new ZombieGetUpState(this));
+                m_stateMap.emplace(ZombieHitState::ID(),    new ZombieHitState(this));
+				m_stateMap.emplace(ZombieIdleState::ID(),   new ZombieIdleState(this));
+                m_stateMap.emplace(ZombieWalkState::ID(),   new ZombieWalkState(this));
             }
 
 
@@ -40,11 +43,23 @@ namespace nsApp
 
             void ZombieStateMachine::ChangeState()
             {
-                if (CanChangeToMeleeAttack()) {
-                    m_requestStateId = ZombieMeleeAttackState::ID();
+                if (CanChangeToDeath()) {
+                    m_requestStateId = ZombieDeathState::ID();
                     return;
                 }
-                else if (CanChangeToWalkState()) {
+                else if (CanChangeToHit()) {
+                    m_requestStateId = ZombieHitState::ID();
+                    return;
+                }
+                else if (CanChangeToGetUp()) {
+                    m_requestStateId = ZombieGetUpState::ID();
+                    return;
+                }
+                else if (CanChangeToAttack()) {
+                    m_requestStateId = ZombieAttackState::ID();
+                    return;
+                }
+                else if (CanChangeToWalk()) {
                     m_requestStateId = ZombieWalkState::ID();
                     return;
                 }
@@ -54,14 +69,44 @@ namespace nsApp
             }
 
 
-            bool ZombieStateMachine::CanChangeToMeleeAttack()const
+            bool ZombieStateMachine::CanChangeToDeath() const
             {
-                if (m_owner->GetLocalPosition().z == m_owner->GetStopPosition()) return true;
-                else return false;
+                if (m_ownerStatus->GetHP() <= 0) {
+                    return true;
+                }
+
+                return false;
             }
 
 
-            bool ZombieStateMachine::CanChangeToWalkState() const
+            bool ZombieStateMachine::CanChangeToHit() const
+            {
+                if (m_owner->IsHit()) {
+                    return true;
+                }
+
+                return false;
+            }
+
+
+            bool ZombieStateMachine::CanChangeToGetUp() const
+            {
+                //TODO:起き上がり状態を作る必要が出たらかく
+                if (m_isStanding) return true;
+
+                return false;
+            }
+
+
+            bool ZombieStateMachine::CanChangeToAttack()const
+            {
+                if (m_owner->IsAttackState()) return true;
+
+               return false;
+            }
+
+
+            bool ZombieStateMachine::CanChangeToWalk() const
             {
                 const float wallDistance = m_owner->GetPosition().z - m_owner->GetPlayerPosition().z;
                 if (wallDistance >= 0.0f)return true;

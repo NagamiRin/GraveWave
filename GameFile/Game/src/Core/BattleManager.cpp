@@ -40,7 +40,7 @@ namespace nsApp
                 btScalar addSingleResult(btCollisionWorld::LocalRayResult& rayResult, bool normalInWorldSpace) override
                 {
                     // Enemyじゃない&&Gohstじゃない なら当たらない
-                    if ((rayResult.m_collisionObject->getUserIndex() != nsApp::enCollirionEnemy || rayResult.m_collisionObject->getUserIndex() != nsApp::enCollirionStone) && rayResult.m_collisionObject->getInternalType() != btCollisionObject::CO_GHOST_OBJECT) {
+                    if ((rayResult.m_collisionObject->getUserIndex() != nsApp::enCollision_Enemy || rayResult.m_collisionObject->getUserIndex() != nsApp::enCollision_Stone) && rayResult.m_collisionObject->getInternalType() != btCollisionObject::CO_GHOST_OBJECT) {
                         return rayResult.m_hitFraction;
                     }
                     isHit = true;
@@ -155,6 +155,11 @@ namespace nsApp
             nsBattle::Shop::GetInstance().Update();
 			//弾管理マネージャーの更新処理
 			nsActor::nsBullet::BulletManager::GetInstance()->Update();
+            //エネミーのプールの更新処置
+            nsActor::nsEnemy::EnemyPoolManager::GetInstance()->Update();
+
+            //壁への攻撃処理
+            DealingDamage();
 
             UpdateCameraForPlayer();
 
@@ -199,7 +204,7 @@ namespace nsApp
                             return false;
                         });
                     // 赤色にする
-                    crossHairNotify->m_isHit = isHit;                    
+                    crossHairNotify->m_isHit = isHit;
                 }                
 
                 nsUI::InGameUIManager::GetInstance()->AddNotify(crossHairNotify);
@@ -321,9 +326,19 @@ namespace nsApp
                 shopNotify->m_isOpen = isOpen;
 
                 nsUI::InGameUIManager::GetInstance()->AddNotify(shopNotify);
-
-                //delete shopNotify;
             }
+
+            //フェーズ切り替えのメッセージ
+            {
+                const uint8_t currentPhase = nsFlow::GameFlowManager::GetInstance()->GetGameFlow();
+
+                PhaseSwitchNotify* phaseSwitchNotify = new PhaseSwitchNotify();
+                phaseSwitchNotify->m_currentPhase = nsFlow::GameFlowManager::GetInstance()->GetGameFlow();
+                phaseSwitchNotify->m_waveNum = nsFlow::GameFlowManager::GetInstance()->GetWaveCount();
+
+                nsUI::InGameUIManager::GetInstance()->AddNotify(phaseSwitchNotify);
+            }
+
         }
 
         
@@ -336,15 +351,18 @@ namespace nsApp
         }
 
 
-        void BattleManager::DeleteZombie(nsApp::nsActor::nsEnemy::Zombie* zombie)
-        {
-            nsApp::nsActor::nsEnemy::EnemyPoolManager::GetInstance()->Restore(zombie);
-        }
-
-
         void BattleManager::DeleteBoss()
         {
             nsApp::nsActor::nsEnemy::EnemyPoolManager::GetInstance()->RestoreBoss();
+        }
+
+
+        void BattleManager::ReportEliminateZombie()
+        {
+            //倒した敵を加算
+            nsApp::nsFlow::BattleFlow::GetInstance()->AddEliminateEnemy();
+            //スコア加算
+            nsApp::nsFlow::ScoreCounter::GetInstance()->AddScoreEliminateZombie();
         }
 
 
@@ -379,9 +397,15 @@ namespace nsApp
         }
 
 
-        void BattleManager::DealingDamage(const uint16_t damage)
+        void BattleManager::DealingDamage()
         {
-            m_wall->ReduceDurability(damage);
+            const auto& enemyList = nsActor::nsEnemy::EnemyPoolManager::GetInstance()->GetUsedEnemyList();
+            for (auto* enemy : enemyList) {
+                if (enemy->IsAttack()) {
+                    m_wall->ReduceDurability(enemy->GetStatus()->GetAttackPower());
+                    enemy->SetAttack(false);
+                }
+            }
         }
 
 

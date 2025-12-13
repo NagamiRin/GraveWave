@@ -14,6 +14,9 @@ namespace nsApp
 	namespace nsScene
 	{
 		class IScene;
+#ifdef K2_DEBUG
+		class DebugScene;
+#endif
 
 
 		/**
@@ -31,6 +34,11 @@ namespace nsApp
 			/** シーンのマップ */
 			using SceneMap = std::map<uint32_t, std::function<IScene* ()>>;
 			SceneMap m_sceneMap;
+
+#ifdef K2_DEBUG
+			/** デバッグシーンのポインタ */
+			DebugScene* m_debugScene = nullptr;
+#endif
 
 
 		private:

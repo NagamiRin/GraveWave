@@ -35,16 +35,27 @@ namespace nsApp
 				using SuperClass = EnemyBase;
 
 
-			private:
+			public:
 				enum EnAnimationVar {
+					EnAnimationVar_Attack,
+					EnAnimationVar_Death,
+					EnAnimationVar_GetUp,
+					EnAnimationVar_Hit,
+					EnAnimationVar_Idle,
 					EnAnimationVar_Walk,
 					EnAnimationVar_Max,
 				};
 
+
+			private:
 				/** アニメションクリップの種類 */
 				std::array<AnimationClip, EnAnimationVar_Max> m_animationClipList;
 				/** LODモデル */
 				nsCore::ModelLOD* m_modelLOD = nullptr;
+
+
+				/** プールに戻すフラグ */
+				bool m_canRestore = false;
 
 
 			public:
@@ -78,10 +89,16 @@ namespace nsApp
 				inline void ReduceHP(uint16_t reduceAmount)
 				{
 					uint16_t  currentHP = GetStatus()->GetHP();
-					if (currentHP <= reduceAmount) reduceAmount = currentHP;
-					uint16_t afterHP = currentHP - reduceAmount;
+					uint16_t afterHP = currentHP >= reduceAmount ?  currentHP - reduceAmount : 0;
 					GetStatus()->SetHP(afterHP);
 				}
+
+
+				nsCore::ModelLOD* GetModel();
+				/** プールに戻すフラグを取得 */
+				inline bool CanRestore() const { return m_canRestore; }
+				/** プールに戻すフラグを設定 */
+				inline void SetRestore(const bool restore) { m_canRestore = restore; }
 			};
 		}
 	}

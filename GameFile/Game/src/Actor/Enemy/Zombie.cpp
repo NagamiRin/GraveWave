@@ -10,6 +10,37 @@
 #include "src/Core/ModelLOD.h"
 
 
+namespace
+{
+    constexpr const char* MODEL_ASSET_PATH_LIST[] =
+    {
+        "Assets/ModelData/Zombie/Default/LOD1.tkm",
+        "Assets/ModelData/Zombie/Default/Default.tkm"
+    };
+
+    struct AnimationClipInfo
+    {
+        const char* m_assetPath;
+        bool m_isLoop;
+        //
+        AnimationClipInfo(const char* path, const bool isLoop)
+            : m_assetPath(path)
+            , m_isLoop(isLoop)
+        {
+        }
+    };
+
+    static const AnimationClipInfo ANIMATION_CLIP_INFO_LIST[] = {
+        AnimationClipInfo("Assets/AnimData/Zombie/Attack.tka", false),  //攻撃
+        AnimationClipInfo("Assets/AnimData/Zombie/Death.tka", false),   //死亡
+        AnimationClipInfo("Assets/AnimData/Zombie/GetUp.tka", false),   //起き上がり
+        AnimationClipInfo("Assets/AnimData/Zombie/Hit.tka", false),     //被弾
+        AnimationClipInfo("Assets/AnimData/Zombie/Idle.tka", true),     //待機
+        AnimationClipInfo("Assets/AnimData/Zombie/Walk.tka", true),     //歩き
+    };
+}
+
+
 namespace nsApp
 {
     namespace nsActor
@@ -39,31 +70,33 @@ namespace nsApp
 
 
             bool Zombie::Start()
-            {
-                m_model.SetScale(0.3f, 0.3f, 0.3f);
+            {               
                 m_transform.m_localScale = Vector3(0.3f, 0.3f, 0.3f);
                 SetDirection(Vector3(0.0f, 0.0f, -1.0f));
 
                 //LODの初期設定
                 m_modelLOD = new nsCore::ModelLOD();
-                m_modelLOD->Initialize({ "Assets/ModelData/Zombie/Default/LOD1.tkm","Assets/ModelData/Zombie/Default/Default.tkm"
-                    /*,
-                   "Assets/ModelData/Zombie/Default/LOD2.dds",
-                   "Assets/ModelData/Zombie/Default/LOD3.dds" */ },
-                    500.0f,
-                    2);
-
-                // アニメーションの初期化
-                {
-                    // 歩き
+                
+                m_modelLOD->Initialize(500.0f, [=](int index, nsCore::ModelLOD::AnimationClipInfo* animationClipInfo)
                     {
-                        auto& clip = m_animationClipList[EnAnimationVar_Walk];
-                        clip.Load("Assets/AnimData/Zombie/Walk.tka");
-                        clip.SetLoopFlag(true);
-                    }
-                }
-                m_model.Init("Assets/ModelData/Zombie/Default/Default.tkm", m_animationClipList.data(), EnAnimationVar_Max);
-                m_model.PlayAnimation(EnAnimationVar_Walk);                
+                        const char* assetPath = MODEL_ASSET_PATH_LIST[index];
+                        ModelRender* model = new ModelRender();
+                        if (index == 0) {
+                            model->Init(assetPath);
+                        }
+                        else
+                        {
+                            const int size = ARRAYSIZE(ANIMATION_CLIP_INFO_LIST);
+                            animationClipInfo->m_animationClips = new AnimationClip[size];
+                            for (int i = 0; i < size; ++i) {
+                                const auto animationInfo = ANIMATION_CLIP_INFO_LIST[i];
+                                animationClipInfo->m_animationClips[i].Load(animationInfo.m_assetPath);
+                                animationClipInfo->m_animationClips[i].SetLoopFlag(animationInfo.m_isLoop);
+                            }
+                            model->Init(assetPath, animationClipInfo->m_animationClips, size);
+                        }
+                        return model;
+                    }, 2);                
 
                 return true;
             }
@@ -76,11 +109,7 @@ namespace nsApp
                 m_collisionPosition = m_transform.m_position + Vector3(0.0f, 25.0f, 0.0f);
                 m_collisionObject->SetPosition(m_collisionPosition);
                 m_collisionObject->Update();
-                m_collisionObject->GetbtCollisionObject().setUserIndex(nsApp::enCollirionEnemy);
-
-				m_model.SetPosition(m_transform.m_position);
-                m_model.SetRotation(m_transform.m_rotation);
-                m_model.Update();
+                m_collisionObject->GetbtCollisionObject().setUserIndex(nsApp::enCollision_Enemy);
 
                 //LODのいろいろ更新
                 m_modelLOD->SetPosition(m_transform.m_localPosition);
@@ -106,7 +135,7 @@ namespace nsApp
                 SetLocalPosition(initializePosition);                
 
                 m_collisionObject = CollisionHitManager::Get().CreateCollisionObject(ID(), this, m_collisionPosition, GetRotation(), 10.0f, 30.0f);
-                m_collisionObject->GetbtCollisionObject().setUserIndex(nsApp::enCollirionEnemy);
+                m_collisionObject->GetbtCollisionObject().setUserIndex(nsApp::enCollision_Enemy);
             }
 
 
@@ -117,6 +146,12 @@ namespace nsApp
 
                 //LODをリセット
                 m_modelLOD->ResetLOD();
+            }
+
+
+            nsCore::ModelLOD* Zombie::GetModel()
+            {
+                return m_modelLOD;
             }
         }
     }

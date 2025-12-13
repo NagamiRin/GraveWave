@@ -54,6 +54,8 @@ namespace nsApp
 			bool IsClearConditions() const;
 			/** 現在のゲームフェーズを取得 */
 			inline EnInGameFlow GetGameFlow() const { return m_currentPhase; }
+			/** 現在のウェーブ数を取得 */
+			inline const uint8_t GetWaveCount() { return m_waveCount; }
 
 
 		private:

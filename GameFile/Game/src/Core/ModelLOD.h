@@ -17,9 +17,23 @@ namespace nsApp
 		 */
 		class ModelLOD : public Noncopyable
 		{
+		public:
+			struct AnimationClipInfo : Noncopyable
+			{
+				AnimationClip* m_animationClips = nullptr;		// 配列として作成してください
+				uint8_t m_animNum;								// アニメーション数
+			};
+
 		private:
-			/** LODモデルの配列 */
-			std::vector<ModelRender*> m_modelList;	// モデルリスト
+			/** モデルのリスト */ 
+			std::vector<ModelRender*> m_modelList;	
+			/** アニメーションクリップのリスト */
+			std::vector<AnimationClipInfo*> m_animationClipList;
+			/** 現在のアニメーションの番号 */
+			int m_currentAnimationNo = 0;
+			/** 補完時間 */
+			float m_interpolateTime = 0.0f;
+
 			/** 現在のモデルのインデックス */
 			uint8_t m_modelIndex = 0;
 			/** 現在描画するモデル */
@@ -51,14 +65,30 @@ namespace nsApp
 
 		public:
 			/** モデルを初期化 */
-			void Initialize(const std::vector<std::string>& modelPathList, const float switchDis, const uint8_t modelNum = 2);
+			void Initialize(const float switchDis, const std::function<ModelRender*(int, AnimationClipInfo*)>& func, uint8_t modelNum = 2);
 			/** リスポーン時のリセット処理 */
 			void ResetLOD();
+
+			// アニメーション再生
+			void PlayAnimation(int animationNo, float interpolateTime = 0.0f)
+			{
+				m_currentModel->PlayAnimation(animationNo, interpolateTime);
+				m_currentAnimationNo = animationNo;
+				m_interpolateTime = interpolateTime;
+			}
 
 
 		private:
 			/** 描画するLODモデルを切り替える */
-			void SwitchLODModel();
+			void SwitchLODModel();			
+
+
+		public:
+			/** アニメーション再生中のフラグを返す */
+			inline const bool IsPlayAnimation() const {
+				if (m_currentModel->IsPlayingAnimation()) return true;
+				return false;
+			}
 		};	
 	}
 }

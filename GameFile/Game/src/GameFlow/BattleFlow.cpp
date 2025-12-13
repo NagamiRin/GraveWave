@@ -55,7 +55,7 @@ namespace nsApp
         void BattleFlow::SetInformation(uint8_t waveCount)
         {
             const auto& paramList = ParameterManager::Get().GetParameters<MasterWaveParameter>();
-            auto param = paramList.at(waveCount);
+            auto param = paramList.at(waveCount - 1);
 
             m_spawnCountList[enSpwnerType_Left] = param->m_leftCount;
             m_spawnCountList[enSpwnerType_Center] = param->m_centerCount;
@@ -94,9 +94,9 @@ namespace nsApp
 
             auto* spawner = nsCore::BattleManager::GetInstance()->GetEnemySpawner(static_cast<EnSpwnerType>(selectSpawner));
                         
-            //spawner->ZombieCreate();
+            spawner->ZombieCreate();
 
-            if (m_bossCount >= 0 && !m_isSpawnBoss) {
+            if (m_bossCount > 0 && !m_isSpawnBoss) {
                 spawner = nsCore::BattleManager::GetInstance()->GetEnemySpawner(static_cast<EnSpwnerType>(enSpwnerType_Center));
                 spawner->BossCreate();
                 m_isSpawnBoss = true;

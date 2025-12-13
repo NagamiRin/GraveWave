@@ -33,6 +33,7 @@ namespace nsApp
 		enNotifyType_Caveat,
 		enNotifyType_Score,
 		enNotifyType_Shop,
+		enNotifyType_SwitchPhase,
 		enNotifyType_WallHP,
 		enNotifyType_None,
 	};
@@ -144,6 +145,17 @@ namespace nsApp
 		}
 	};
 
+	struct PhaseSwitchNotify :public INotify
+	{
+		uint8_t m_currentPhase;
+		uint8_t m_waveNum;
+		//
+		PhaseSwitchNotify()
+			:INotify(enNotifyType_SwitchPhase)
+		{
+		}
+	};
+
 	
 	namespace nsUI
 	{
@@ -156,6 +168,7 @@ namespace nsApp
 		class MiniMapUI;
 		class ShopUI;
 		class CaveatUI;
+		class PhaseSwitchUI;
 
 
 		class InGameUIManager
@@ -179,6 +192,8 @@ namespace nsApp
 			ShopUI* m_shopUI = nullptr;
 			/** 警告UI */
 			CaveatUI* m_caveatUI = nullptr;
+			/** フェーズ切り替えのメッセージUI */
+			PhaseSwitchUI* m_phaseSwitch = nullptr;
 
 			std::vector<INotify*> m_notifyList;
 

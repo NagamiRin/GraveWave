@@ -9,6 +9,12 @@
 #include "src/Collision/CollisionManager.h"
 
 
+namespace
+{
+	
+}
+
+
 namespace nsApp
 {
 	namespace nsActor
@@ -32,6 +38,8 @@ namespace nsApp
 			{		
 				if (!CollisionHitManager::Get().CheckCollision(this)) return;
                 CollisionHitManager::Get().DeleteCollisionObject(this);
+
+				delete m_wallDetection;
 			}
 
 
@@ -41,6 +49,9 @@ namespace nsApp
 				m_model.SetPosition(Vector3::Zero);
 
 				m_collisionObject = CollisionHitManager::Get().CreateCollisionObject(ID(), this, m_collisionPosition, GetRotation(), m_model.GetModel(), m_model.GetWorldMatrix(ID()));
+
+				m_wallDetection = new PhysicsStaticObject();
+				m_wallDetection->CreateFromModel(m_model.GetModel(), m_model.GetModel().GetWorldMatrix());
 
 				return true;
 			}

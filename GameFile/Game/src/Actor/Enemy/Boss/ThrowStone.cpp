@@ -7,7 +7,9 @@
 #include "ThrowStone.h"
 #include "src/Actor/Enemy/Boss/BreakStone.h"
 #include "src/Collision/CollisionManager.h"
+#include "src/Camera/GameCamera.h"
 #include "src/Core/ParameterManager.h"
+#include "src/Core/BattleManager.h"
 
 
 namespace nsApp
@@ -107,7 +109,12 @@ namespace nsApp
 
             void ThrowStone::BreakProcess()
             {
-                /** 破片を出す */
+                //画面揺れ
+                // 頻繁に呼ばれるものではないので例外的にFindGO
+                auto* gameCamera = FindGO<nsCamera::GameCamera>("GameCamera"); 
+                gameCamera->PlayShake(ShakeStrength::Medium, 1.0f, 3.0f);
+
+                // 破片を出す
                 for (uint8_t i = 0; i < m_divisionNum; i++) {
                     auto* breakStone = NewGO<BreakStone>(enGameObjectPriority_Enemy, "BreakStone");
                     breakStone->SetLocalPosition(m_transform.m_localPosition);
@@ -128,7 +135,7 @@ namespace nsApp
                 m_startPos = start;
                 m_endPos = end;
                 m_collisionObject = CollisionHitManager::Get().CreateCollisionObject(ID(), this, m_collisionPosition, GetRotation(), 20.0f, 0.0f);
-                m_collisionObject->GetbtCollisionObject().setUserIndex(nsApp::enCollirionStone);
+                m_collisionObject->GetbtCollisionObject().setUserIndex(nsApp::enCollision_Stone);
                 m_elapsedTime = 0.0f;
                 m_durability = m_maxDurability;
                 m_isFlying = true;

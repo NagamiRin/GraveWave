@@ -40,6 +40,12 @@ namespace nsApp
             }
 
 
+            void EnemyPoolManager::Update()
+            {
+                Restore();
+            }
+
+
             void EnemyPoolManager::CleaningUp()
             {
                 for (auto& search : m_zombiePool) {
@@ -94,27 +100,56 @@ namespace nsApp
             }
 
 
-            void EnemyPoolManager::Restore(Zombie* target)
+    //        void EnemyPoolManager::Restore(Zombie* target)
+    //        {
+    //            PoolInformation<Zombie>* info = nullptr;
+    //            for (auto& search : m_zombiePool) {
+    //                if (search.m_enemy = target) {
+    //                    info = &search;
+    //                    break;
+    //                }
+    //            }
+
+				//// 使っているエネミー一覧から削除
+    //            for(auto it = m_usedEnemyList.begin(); it != m_usedEnemyList.end(); ++it) {
+    //                if (*it == target) {
+    //                    m_usedEnemyList.erase(it);
+    //                    break;
+    //                }
+				//}
+
+    //            info->m_canUse = true;
+    //            target->Destruction();
+    //            info->m_enemy->Deactivate();
+    //        }
+
+
+            void EnemyPoolManager::Restore()
             {
                 PoolInformation<Zombie>* info = nullptr;
+                //HPがなくなっているゾンビを探す
                 for (auto& search : m_zombiePool) {
-                    if (search.m_enemy = target) {
+                    if (search.m_enemy->CanRestore()) {
                         info = &search;
+                        break;
+                    }                    
+                }                
+
+                if (!info) return;
+
+                // 使っているエネミー一覧から削除
+                for (auto it = m_usedEnemyList.begin(); it != m_usedEnemyList.end(); ++it) {
+                    if (*it == info->m_enemy) {
+                        m_usedEnemyList.erase(it);
                         break;
                     }
                 }
 
-				// 使っているエネミー一覧から削除
-                for(auto it = m_usedEnemyList.begin(); it != m_usedEnemyList.end(); ++it) {
-                    if (*it == target) {
-                        m_usedEnemyList.erase(it);
-                        break;
-                    }
-				}
-
                 info->m_canUse = true;
-                target->Destruction();
+                info->m_enemy->Destruction();
                 info->m_enemy->Deactivate();
+                info->m_enemy->SetRestore(false);
+                nsCore::BattleManager::GetInstance()->ReportEliminateZombie();
             }
 
 

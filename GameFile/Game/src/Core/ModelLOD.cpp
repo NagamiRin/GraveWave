@@ -23,6 +23,15 @@ namespace nsApp
 				model = nullptr;
 			}
 			m_modelList.clear();
+
+			for (auto* animationClips : m_animationClipList) {
+				delete[] animationClips->m_animationClips;
+				animationClips->m_animationClips = nullptr;
+
+				delete animationClips;
+				animationClips = nullptr;
+			}
+			m_animationClipList.clear();
 		}
 
 
@@ -44,14 +53,15 @@ namespace nsApp
 		}
 
 
-		void ModelLOD::Initialize(const std::vector<std::string>& modelPathList, const float switchDis, const uint8_t modelNum)
+		void ModelLOD::Initialize(const float switchDis, const std::function<ModelRender*(int, AnimationClipInfo*)>& func, uint8_t modelNum)
 		{
 			m_changeDistance = switchDis;
 			m_useLODNum = modelNum;
 			m_modelList.reserve(modelNum);
+			m_animationClipList.resize(modelNum);
 			for (int i = 0; i < modelNum; i++) {
-				ModelRender* model = new ModelRender();
-				model->Init(modelPathList.at(i).c_str());
+				m_animationClipList[i] = new nsCore::ModelLOD::AnimationClipInfo();
+				auto* model = func(i, m_animationClipList[i]);
 				m_modelList.push_back(model);
 			}
 			m_currentModel = m_modelList.front();
@@ -65,6 +75,7 @@ namespace nsApp
 			if ((g_camera3D->GetPosition() - m_position).LengthSq() <= std::powf(m_changeDistance,2.0f)) {
 				m_modelIndex++;
 				m_currentModel = m_modelList.at(m_modelIndex);
+				m_currentModel->PlayAnimation(m_currentAnimationNo, m_interpolateTime);
 			}
 		}
 

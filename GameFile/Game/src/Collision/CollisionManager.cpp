@@ -31,8 +31,8 @@ namespace
 
 			//エネミー以外かつゴーストオブジェクトではない時
 			const int collisionAttr = convexResult.m_hitCollisionObject->getUserIndex();
-			if ((collisionAttr != nsApp::enCollirionEnemy
-				&& collisionAttr != nsApp::enCollirionStone)
+			if ((collisionAttr != nsApp::enCollision_Enemy
+				&& collisionAttr != nsApp::enCollision_Stone)
 				|| convexResult.m_hitCollisionObject->getInternalType() != btCollisionObject::CO_GHOST_OBJECT) {
 				return convexResult.m_hitFraction;
 			}
@@ -243,26 +243,16 @@ bool CollisionHitManager::UpdateHitBullet(CollisionPair& pair)
 	//ゾンビに当たった場合
 	if (zombie) {
 		zombie->ReduceHP(normalBullet->GetDamage());
-		//死んだなら削除要請
-		if (zombie->GetStatus()->GetHP() <= 0) {
-			nsApp::nsCore::BattleManager::GetInstance()->DeleteZombie(zombie);
-			//倒した敵を加算
-			nsApp::nsFlow::BattleFlow::GetInstance()->AddEliminateEnemy();
-			//スコア加算
-			nsApp::nsFlow::ScoreCounter::GetInstance()->AddScoreEliminateZombie();
-		}
+		zombie->SetHit(true);
 	}
 
 	//ボスに当たった場合
 	if (boss) {
 		boss->ReduceHP(normalBullet->GetDamage());
+		boss->SetHit(true);
 		//死んだなら削除要請
 		if (boss->GetStatus()->GetHP() <= 0) {
-			nsApp::nsCore::BattleManager::GetInstance()->DeleteBoss();
-			////倒した敵を加算
-			//nsApp::nsFlow::BattleFlow::GetInstance()->AddEliminateEnemy();
-			////スコア加算
-			//nsApp::nsFlow::ScoreCounter::GetInstance()->AddScoreEliminateZombie();
+			nsApp::nsCore::BattleManager::GetInstance()->DeleteBoss();			
 		}
 	}
 
@@ -270,7 +260,7 @@ bool CollisionHitManager::UpdateHitBullet(CollisionPair& pair)
 	if (throwStone) {
 		throwStone->ReduceDurability(normalBullet->GetDamage());
 	}
-		
+	
 	return true;
 }
 

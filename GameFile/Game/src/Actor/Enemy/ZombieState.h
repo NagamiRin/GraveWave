@@ -19,21 +19,21 @@ namespace nsApp
 			/**
 			 * 攻撃状態クラス
 			 */
-			class ZombieMeleeAttackState : public IState
+			class ZombieAttackState : public IState
 			{
-				appState(ZombieMeleeAttackState);
+				appState(ZombieAttackState);
 
 
 			private:
-				/** 残りの攻撃のクールタイム */
-				float m_currentCoolTime = 0.0f;
+				/** 現在時間 */
+				float m_currentTime = 0.0f;
 
 
 			public:
 				/** コンストラクタ */
-				ZombieMeleeAttackState(ZombieStateMachine* owner);
+				ZombieAttackState(ZombieStateMachine* owner);
 				/** デストラクタ */
-				~ZombieMeleeAttackState();
+				~ZombieAttackState();
 
 
 			public:
@@ -46,19 +46,73 @@ namespace nsApp
 			/*********************************/
 
 
-			/** 
-			 * 歩行状態クラス 
+			/**
+			 * 死亡状態クラス
 			 */
-			class ZombieWalkState : public IState
+			class ZombieDeathState : public IState
 			{
-				appState(ZombieWalkState);
+				appState(ZombieDeathState);
+
+
+			private:
+				/** 現在の時間 */
+				float m_currentTime = 0.0f;
 
 
 			public:
-				/** コンストラクタ */
-				ZombieWalkState(ZombieStateMachine* owner);
-				/** デストラクタ */
-				~ZombieWalkState();
+				ZombieDeathState(ZombieStateMachine* owner);
+				~ZombieDeathState();
+
+
+			public:
+				void Enter() override;
+				void Update() override;
+				void Exit() override;
+			};
+
+
+			/*********************************/
+
+
+			/**
+			 * 起き上がり状態クラス
+			 */
+			class ZombieGetUpState : public IState
+			{
+				appState(ZombieGetUpState);
+
+
+			public:
+				ZombieGetUpState(ZombieStateMachine* owner);
+				~ZombieGetUpState();
+
+
+			public:
+				void Enter() override;
+				void Update() override;
+				void Exit() override;
+			};
+
+
+			/*********************************/
+
+
+			/**
+			 * 被弾状態クラス
+			 */
+			class ZombieHitState : public IState
+			{
+				appState(ZombieHitState);
+
+
+			private:
+				/** 現在の時間 */
+				float m_currentTime = 0.0f;
+
+
+			public:
+				ZombieHitState(ZombieStateMachine* owner);
+				~ZombieHitState();
 
 
 			public:
@@ -91,6 +145,31 @@ namespace nsApp
 				void Update() override;
 				void Exit() override;
 			};
+
+
+			/*********************************/
+
+
+			/** 
+			 * 歩行状態クラス 
+			 */
+			class ZombieWalkState : public IState
+			{
+				appState(ZombieWalkState);
+
+
+			public:
+				/** コンストラクタ */
+				ZombieWalkState(ZombieStateMachine* owner);
+				/** デストラクタ */
+				~ZombieWalkState();
+
+
+			public:
+				void Enter() override;
+				void Update() override;
+				void Exit() override;
+			};			
 		}
 	}
 }

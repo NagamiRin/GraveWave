@@ -4,12 +4,14 @@
  * ゲームカメラクラス
  */
 #pragma once
+#include "src/Camera/CameraShake.h"
 
 
 namespace nsApp
 {
 	namespace nsCamera
 	{
+		class CameraShake;
 		class ActorStatus;
 		class Player;
 
@@ -26,6 +28,8 @@ namespace nsApp
 
 
 		private:
+			/** 画面揺れクラス */
+			nsCamera::CameraShake m_cameraShake;
 			/** カメラ座標 */
 			Vector3 m_cameraPos = Vector3::Zero;
 			/** 注視点 */
@@ -73,6 +77,11 @@ namespace nsApp
 			void Update()override;
 			/** モデルの描画処理を行う関数 */
 			void Render(RenderContext& rc)override;
+
+
+		public:
+			/** 画面揺れを開始 */
+			void PlayShake(const ShakeStrength strength, const float durationTime, const float intensity, const float frequency = 5.0f);
 
 
 		public:

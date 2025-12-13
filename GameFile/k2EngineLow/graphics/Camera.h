@@ -374,6 +374,11 @@ namespace nsK2EngineLow {
 		/// <param name="worldPos">ワールド座標</param>
 		void CalcScreenPositionFromWorldPosition(Vector2& screenPos, const Vector3& worldPos) const;
 
+		/// <summary>
+		/// カメラに写っているかを判定
+		/// </summary>
+		/// <param name="pos">判定したいオブジェクトの位置</param>
+		/// <returns>カメラに写っているか</returns>
 		bool IsCaughtOnCamera(const Vector3& pos);
 
 	protected:

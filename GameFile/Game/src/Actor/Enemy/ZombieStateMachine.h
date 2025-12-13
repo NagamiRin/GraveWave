@@ -31,6 +31,8 @@ namespace nsApp
 				Zombie* m_owner = nullptr;
 				/** オーナーのステータス */
 				ZombieStatus* m_ownerStatus = nullptr;
+				/** 起き上がり中か */
+				bool m_isStanding = false;
 
 
 			public:
@@ -46,10 +48,16 @@ namespace nsApp
 			public:
 				/** 状態切り替え */
 				void ChangeState();
-				/** 近接攻撃状態に切り替えができるか */
-				bool CanChangeToMeleeAttack()const;
+				/** 死亡状態に切り替えができるか */
+				bool CanChangeToDeath()const;
+				/** 被弾状態に切り替えができるか */
+				bool CanChangeToHit()const;
+				/** 起き上がり状態に切り替えができるか */
+				bool CanChangeToGetUp()const;
+				/** 攻撃状態に切り替えができるか */
+				bool CanChangeToAttack()const;						
 				/** 歩き状態に切り替えができるか */
-				bool CanChangeToWalkState() const;
+				bool CanChangeToWalk() const;
 				/** 初期設定を行う */
 				void Setup(Zombie* zombie, ZombieStatus* zombieStatus);
 
@@ -78,6 +86,8 @@ namespace nsApp
 				void SetDirection(const Vector3& direction);
 				/** プレイヤーの位置情報を取得 */
 				const Vector3& GetPlayerPosition() const;
+				/** 起き上がり中のフラグを設定 */
+				inline void SetIsGetUp(const bool getUp) { m_isStanding = getUp; }
 			};
 		}
 	}

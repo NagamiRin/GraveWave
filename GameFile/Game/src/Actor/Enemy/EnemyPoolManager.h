@@ -46,6 +46,10 @@ namespace nsApp
 			private:
 				EnemyPoolManager();
 				~EnemyPoolManager();
+
+
+			public:
+				void Update();
 				
 
 			private:
@@ -62,15 +66,15 @@ namespace nsApp
 				/** 使える人渡す */
 				Zombie* FindUse();
 
-				/** いらなくなったゾンビを戻す */
-				void Restore(Zombie* target);
+				/** HPがなくなったゾンビ探してを戻す */
+				void Restore();
 				/** HPがなくなったボスを撤収 */
 				void RestoreBoss();
 
 
 			public:
 				/** 現在出現しているエネミーのリストを取得 */
-				inline const std::vector<Zombie*>& GetUsedEnemyList() { return m_usedEnemyList; }
+				inline const std::vector<Zombie*>& GetUsedEnemyList() const { return m_usedEnemyList; }
 				/** 今使えるやつを探す */
 				void ForEachUsedEnemy(const std::function<void(Zombie*)>& func);
 				/** ボスを取得 */

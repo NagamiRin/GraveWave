@@ -259,6 +259,7 @@
     <ClCompile Include="src\Actor\Wall\Wall.cpp" />
     <ClCompile Include="src\Battle\Inventory.cpp" />
     <ClCompile Include="src\Battle\Shop.cpp" />
+    <ClCompile Include="src\Camera\CameraShake.cpp" />
     <ClCompile Include="src\Camera\GameCamera.cpp" />
     <ClCompile Include="src\Collision\CollisionManager.cpp" />
     <ClCompile Include="src\Core\BattleManager.cpp" />
@@ -270,6 +271,7 @@
     <ClCompile Include="src\GameFlow\GameFlowManager.cpp" />
     <ClCompile Include="src\GameFlow\PreparationFlow.cpp" />
     <ClCompile Include="src\GameFlow\ScoreCounter.cpp" />
+    <ClCompile Include="src\Scene\DebugScene.cpp" />
     <ClCompile Include="src\Scene\InGameScene.cpp" />
     <ClCompile Include="src\Scene\IScene.cpp" />
     <ClCompile Include="src\Scene\ResultScene.cpp" />
@@ -279,6 +281,7 @@
     <ClCompile Include="src\UI\CountdownUI.cpp" />
     <ClCompile Include="src\UI\LateResultScreen.cpp" />
     <ClCompile Include="src\UI\MiniMapUI.cpp" />
+    <ClCompile Include="src\UI\PhaseSwitchUI.cpp" />
     <ClCompile Include="src\UI\RemainingEnemyUI.cpp" />
     <ClCompile Include="src\UI\ResultScreen.cpp" />
     <ClCompile Include="src\UI\ResultUIManager.cpp" />
@@ -337,6 +340,7 @@
     <ClInclude Include="src\Actor\Wall\Wall.h" />
     <ClInclude Include="src\Battle\Inventory.h" />
     <ClInclude Include="src\Battle\Shop.h" />
+    <ClInclude Include="src\Camera\CameraShake.h" />
     <ClInclude Include="src\Camera\GameCamera.h" />
     <ClInclude Include="src\Collision\CollisionManager.h" />
     <ClInclude Include="src\Core\BattleManager.h" />
@@ -348,6 +352,7 @@
     <ClInclude Include="src\GameFlow\GameFlowManager.h" />
     <ClInclude Include="src\GameFlow\PreparationFlow.h" />
     <ClInclude Include="src\GameFlow\ScoreCounter.h" />
+    <ClInclude Include="src\Scene\DebugScene.h" />
     <ClInclude Include="src\Scene\InGameScene.h" />
     <ClInclude Include="src\Scene\IScene.h" />
     <ClInclude Include="src\Scene\ResultScene.h" />
@@ -357,6 +362,7 @@
     <ClInclude Include="src\UI\CountdownUI.h" />
     <ClInclude Include="src\UI\LateResultScreen.h" />
     <ClInclude Include="src\UI\MiniMapUI.h" />
+    <ClInclude Include="src\UI\PhaseSwitchUI.h" />
     <ClInclude Include="src\UI\RemainingEnemyUI.h" />
     <ClInclude Include="src\UI\ResultScreen.h" />
     <ClInclude Include="src\UI\ResultUIManager.h" />

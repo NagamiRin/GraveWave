@@ -143,10 +143,10 @@ namespace nsApp
 			{
 				m_notifyList.push_back(notify);
 			}
-			/** ゾンビの削除要請 */
-			void DeleteZombie(nsApp::nsActor::nsEnemy::Zombie* zombie);
 			/** ボスの削除要請 */
 			void DeleteBoss();
+			/** ゾンビを倒した報告 */
+			void ReportEliminateZombie();
 			/** 水平方向の限界値を取得 */
 			float GetVerLimitAngle();
 			/** 垂直方向の限界値を取得 */
@@ -156,7 +156,7 @@ namespace nsApp
 			/** エネミーが進行を止める距離を取得 */
 			float GetEnemyStopPosition();
 			/** 防壁にダメージを与える */
-			void DealingDamage(const uint16_t damage);
+			void DealingDamage();
 			/** リザルトへ移行していいか */
 			bool IsBattleFinish()const;
 			/** ゲームで勝ったか */

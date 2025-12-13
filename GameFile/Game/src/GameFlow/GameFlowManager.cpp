@@ -35,7 +35,7 @@ namespace nsApp
 
         GameFlowManager::~GameFlowManager()
         {
-            //各フェーズのクラスを生成
+            //各フェーズのクラスを削除
             nsFlow::BattleFlow::DeleteInstance();
             nsFlow::PreparationFlow::DeleteInstance();
             //スコアカウンターを削除

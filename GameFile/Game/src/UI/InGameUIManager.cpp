@@ -10,6 +10,7 @@
 #include "src/UI/RemainingBulletsUI.h"
 #include "src/UI/ScoreUI.h"
 #include "src/UI/ShopUI.h"
+#include "src/UI/PhaseSwitchUI.h"
 #include "src/UI/RemainingEnemyUI.h"
 #include "src/UI/WallHPUI.h"
 #include "src/UI/MiniMapUI.h"
@@ -43,6 +44,8 @@ namespace nsApp
 			m_shopUI = NewGO<ShopUI>(enGameObjectPriority_UI, "ShopUI");
             //警告UI生成
             m_caveatUI = NewGO<CaveatUI>(enGameObjectPriority_UI, "CaveatUI");
+            //フェーズ切り替えのメッセージUI生成
+            m_phaseSwitch = NewGO<PhaseSwitchUI>(enGameObjectPriority_UI, "PhaseSwitchUI");
         }
 
 
@@ -57,6 +60,7 @@ namespace nsApp
             DeleteGO(m_miniMapUI);
 			DeleteGO(m_shopUI);
             DeleteGO(m_caveatUI);
+            DeleteGO(m_phaseSwitch);
         }
 
 
@@ -146,6 +150,16 @@ namespace nsApp
 
                         m_shopUI->SetIndex(shopNotify->m_menuIndex);
                         m_shopUI->SetIsOpen(shopNotify->m_isOpen);
+
+                        break;
+                    }
+
+                    case enNotifyType_SwitchPhase:
+                    {
+                        const  auto* phaseSwitchNotify = static_cast<const PhaseSwitchNotify*>(notify);
+
+                        m_phaseSwitch->ChangePhase(phaseSwitchNotify->m_currentPhase);
+                        m_phaseSwitch->SetWaveNum(phaseSwitchNotify->m_waveNum);
 
                         break;
                     }

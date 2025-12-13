@@ -25,7 +25,7 @@ namespace nsApp
 				uint16_t m_maxHp = 0;
 				/** 攻撃力 */
 				uint16_t m_attackPower = 0;
-				/** 近接攻撃の攻撃速度 */
+				/** 近接攻撃の攻撃頻度 */
 				float m_attackFrequency = 0.0f;
 				/** 攻撃範囲 */
 				float m_attackRange = 0.0f;

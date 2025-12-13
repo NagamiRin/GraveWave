@@ -67,6 +67,8 @@ namespace nsApp
         void GameCamera::Update()
         {
             SetCameraTarget();
+            //画面揺れクラスの更新
+            m_cameraShake.Update(g_gameTime->GetFrameDeltaTime(), m_cameraPos, m_targetPos);
             CameraUpdate();
         }
 
@@ -92,6 +94,12 @@ namespace nsApp
 
         void GameCamera::Render(RenderContext& rc)
         {
+        }
+
+
+        void GameCamera::PlayShake(const ShakeStrength strength, const float durationTime, const float intensity, const float frequency)
+        {
+            m_cameraShake.StartShake(strength, durationTime, intensity, frequency);
         }
     }
 }

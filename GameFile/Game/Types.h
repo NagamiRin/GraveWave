@@ -40,10 +40,11 @@ namespace nsApp
 {
 	enum EnCollisionAttr
 	{
-		enCollirionEnemy = enCollisionAttr_User,
-		enCollirionStone,
+		enCollision_Enemy = enCollisionAttr_User,
 		// ここに追加していく
-		enCollisionMax,
+		enCollision_Stone,
+		enCollision_Wall,
+		enCollision_Max,
 	};
 }
 

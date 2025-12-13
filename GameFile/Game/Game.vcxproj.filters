@@ -152,6 +152,9 @@
     <ClCompile Include="src\Actor\Enemy\Boss\BossStatus.cpp" />
     <ClCompile Include="src\Actor\Enemy\Boss\ThrowStone.cpp" />
     <ClCompile Include="src\Actor\Enemy\Boss\BreakStone.cpp" />
+    <ClCompile Include="src\Camera\CameraShake.cpp" />
+    <ClCompile Include="src\UI\PhaseSwitchUI.cpp" />
+    <ClCompile Include="src\Scene\DebugScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -276,5 +279,8 @@
     <ClInclude Include="src\Actor\Enemy\Boss\BossStatus.h" />
     <ClInclude Include="src\Actor\Enemy\Boss\ThrowStone.h" />
     <ClInclude Include="src\Actor\Enemy\Boss\BreakStone.h" />
+    <ClInclude Include="src\Camera\CameraShake.h" />
+    <ClInclude Include="src\UI\PhaseSwitchUI.h" />
+    <ClInclude Include="src\Scene\DebugScene.h" />
   </ItemGroup>
 </Project>
