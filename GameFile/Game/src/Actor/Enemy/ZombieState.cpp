@@ -62,6 +62,11 @@ namespace nsApp
 					owner->GetModel()->PlayAnimation(Zombie::EnAnimationVar_Attack);
 					m_currentTime = 0.0f;
 				}
+
+				//攻撃アニメーションが再生し終わっているなら待機アニメーション
+				if (!owner->GetModel()->IsPlayAnimation()) {
+					owner->GetModel()->PlayAnimation(Zombie::EnAnimationVar_Idle);
+				}
 			}
 
 
@@ -266,7 +271,9 @@ namespace nsApp
 							return false;
 						});
 					// 攻撃させる
-					owner->SetAttackState(true);
+					if (isHit) {
+						owner->SetAttackState(true);
+					}
 				}
 			}
 
@@ -276,8 +283,7 @@ namespace nsApp
 				auto* stateMachine = GetOwner<ZombieStateMachine>();
 				stateMachine->SetMoveDirection(Vector3::Zero);
 
-				auto* owner = GetOwner<ZombieStateMachine>()->GetOwner();
-				owner->SetAttackState(false);
+				auto* owner = GetOwner<ZombieStateMachine>()->GetOwner();				
 			}			
 		}
 	}

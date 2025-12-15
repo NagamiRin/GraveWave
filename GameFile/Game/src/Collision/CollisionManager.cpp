@@ -236,7 +236,7 @@ bool CollisionHitManager::UpdateHitBullet(CollisionPair& pair)
 	if (!normalBullet) return false;
 	if (!zombie && !boss && !throwStone) return false;
 
-	//弾の処理
+	//弾の削除
 	m_isHit = true;
 	nsApp::nsActor::nsBullet::BulletManager::GetInstance()->DeleteBullet(normalBullet);
 

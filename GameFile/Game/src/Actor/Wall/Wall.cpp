@@ -49,6 +49,7 @@ namespace nsApp
 				m_model.SetPosition(Vector3::Zero);
 
 				m_collisionObject = CollisionHitManager::Get().CreateCollisionObject(ID(), this, m_collisionPosition, GetRotation(), m_model.GetModel(), m_model.GetWorldMatrix(ID()));
+				m_collisionObject->GetbtCollisionObject().setUserIndex(nsApp::enCollision_Wall);
 
 				m_wallDetection = new PhysicsStaticObject();
 				m_wallDetection->CreateFromModel(m_model.GetModel(), m_model.GetModel().GetWorldMatrix());

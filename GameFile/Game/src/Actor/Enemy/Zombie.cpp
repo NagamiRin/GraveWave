@@ -144,6 +144,8 @@ namespace nsApp
                 if (!CollisionHitManager::Get().CheckCollision(this)) return;
                 CollisionHitManager::Get().DeleteCollisionObject(this);
 
+                SetAttackState(false);
+
                 //LODをリセット
                 m_modelLOD->ResetLOD();
             }
