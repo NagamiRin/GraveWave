@@ -51,6 +51,8 @@ namespace nsApp
 				Vector3 m_adjustPosition = Vector3::Zero;
 				/** プレイヤーの位置 */
 				Vector3 m_playerPosition = Vector3::Zero;
+				/** 銃の名前 */
+				std::string m_gunName;
 
 				// @todo for あとでコメント
 				Vector3 m_offsetPosition = Vector3::Zero;
@@ -58,7 +60,6 @@ namespace nsApp
 
 			public:
 				using SuperClass = GunBase;
-
 
 
 			public:
@@ -137,6 +138,8 @@ namespace nsApp
 				inline uint8_t GetRemainingAmmo() { return m_remainingAmmo; }
 				/** 最大弾数を取得 */
 				inline uint8_t GetMaxAmmo() { return m_maxAmmo; }
+				/** 銃の名前を取得 */
+				inline const std::string& GetGunName() const { return m_gunName; }
 			};
 		}
 	}

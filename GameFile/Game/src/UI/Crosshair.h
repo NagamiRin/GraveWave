@@ -20,6 +20,8 @@ namespace nsApp{
 			ImageUI* m_hitEffect = nullptr;
 			/** クロスヘア画像 */
 			ImageUI* m_crosshairImage = nullptr;
+			/** 照準があっているか */
+			bool m_isAiming = false;
 			/** 弾がヒットしたか */
 			bool m_isHit = false;
 			/** 弾がヒットしてからの経過時間 */
@@ -43,8 +45,10 @@ namespace nsApp{
 
 
 		public:
-			/** 弾のヒットフラグを設定 */
-			inline void SetIsHit(const bool isHit) { m_isHit = isHit; }
+			/** 照準が合っているかのフラグを設定 */
+			inline void SetAiming(const bool aim) { m_isAiming = aim; }
+			/** 弾ヒットフラグを設定 */
+			inline void SetHit(const bool hit) { m_isHit = hit; }
 		};
 	}
 }

@@ -203,6 +203,8 @@ namespace nsApp
 
 			/** 記憶する数列 */
 			uint16_t m_number = 0;
+			/** 文字の横幅 */
+			float m_wide = 0.0f;
 
 
 		public:

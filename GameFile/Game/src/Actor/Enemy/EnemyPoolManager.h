@@ -79,6 +79,8 @@ namespace nsApp
 				void ForEachUsedEnemy(const std::function<void(Zombie*)>& func);
 				/** ボスを取得 */
 				inline Boss* GetBoss() { return m_boss.m_enemy; }
+				/** ボスの生存状態を取得 */
+				inline bool IsBossAlive() { return !m_boss.m_canUse; }
 				
 
 			private:

@@ -54,6 +54,7 @@ struct MasterGunParameter :public IMasterParameter
 {
     appParameter(MasterGunParameter);
     //
+    std::string m_gunName;
     uint8_t m_damage;
     uint8_t m_maxAmmo;
     float m_bulletSpeed;
@@ -161,7 +162,7 @@ struct MasterWaveParameter :public IMasterParameter
     uint16_t m_leftCount;
     uint16_t m_centerCount;
     uint16_t m_rightCount;
-    uint8_t m_bossCount;
+    bool m_isBossSpawn;
     float m_spawnInterval;
 };
 

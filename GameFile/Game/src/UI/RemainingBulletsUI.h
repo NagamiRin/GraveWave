@@ -20,14 +20,20 @@ namespace nsApp
 		private:
 			/** キャンバス */
 			std::unique_ptr<UICanvas> m_uiCanvas;
-			/** 文字UI */
+			/** 残弾数UI */
 			NumberUI* m_ammoUI = nullptr;
-			/** 弾アイコンのリスト */
-			std::vector<ImageUI> m_bulletsIconList;
+			/** 予備弾数UI */
+			NumberUI* m_spareAmmoUI = nullptr;
+			/** 銃のアイコン */
+			ImageUI* m_gunIcon = nullptr;
 			/** 残弾数 */
 			uint8_t m_remainingAmmo = 0;
-			/** 最大弾数 */
-			uint8_t m_maxAmmo = 0;
+			/** 予備弾数 */
+			uint8_t m_spareAmmo = 0;
+			/** 現在装備している銃の名前 */
+			std::string m_gunName;
+			/** 切り替えたい銃の名前 */
+			std::string m_changeGunName;
 
 
 		public:
@@ -46,16 +52,13 @@ namespace nsApp
 			void Render(RenderContext& rc) override;
 
 
-		private:
-			/** 弾アイコンの配置を決める */
-			void DecidePlace();
-
-
 		public:
 			/** 現在の弾数を設定 */
 			inline void SetAmmo(const uint8_t ammo) { m_remainingAmmo = ammo; }
 			/** 最大弾数を取得 */
-			inline void SetMaxAmmo(const uint8_t ammo) { m_maxAmmo = ammo; }
+			inline void SetSpareAmmo(const uint8_t ammo) { m_spareAmmo = ammo; }
+			/** 銃の名前を設定 */
+			inline void SetGunName(const std::string& name) { m_changeGunName = name; }
 		};
 	}
 }

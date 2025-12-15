@@ -6,6 +6,13 @@
 #pragma once
 
 
+enum EnWaveType {
+	enWaveType_Normal,
+	enWaveType_Boss,
+	enWaveType_None,
+};
+
+
 namespace nsApp
 {
 	namespace nsFlow
@@ -23,7 +30,7 @@ namespace nsApp
 			/** 出現させる残りのエネミーの数 */
 			uint8_t m_remainingEnemiesNum = 0;
 			/** 出現させるボスの数 */
-			uint8_t m_bossCount = 0;
+			bool m_isBossSpawn = 0;
 			/** 倒したエネミーの数 */
 			uint8_t m_eliminateEnemyNum = 0;
 			/** エネミーの生成間隔 */
@@ -32,6 +39,8 @@ namespace nsApp
 			float m_currentTime = 0.0f;
 			/** ボスを出現させたか */
 			bool m_isSpawnBoss = false;
+			/** ウェーブのタイプ */
+			EnWaveType m_waveType = enWaveType_None;
 
 
 		private:

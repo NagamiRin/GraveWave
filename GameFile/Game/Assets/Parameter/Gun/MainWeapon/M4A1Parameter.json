@@ -1,6 +1,7 @@
 [
     {
         "Commnet": "M4M1用のパラメータ",
+        "GunName" : "M4A1",
         "Damage": 5,
         "MaxAmmo": 30,
         "ReloadTime": 3.0,

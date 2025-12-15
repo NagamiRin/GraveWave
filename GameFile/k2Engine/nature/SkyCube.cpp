@@ -23,6 +23,7 @@ namespace nsK2Engine {
 		m_textureFilePaths[enSkyCubeType_SunriseToon] = L"Assets/ModelData/preset/skyCubeMapSunrise_Toon.dds";
 		//m_textureFilePaths[enSkyCubeType_SpaceToon] = L"Assets/ModelData/preset/skyCubeMapSpace_Toon.dds";
 		m_textureFilePaths[enSkyCubeType_SpaceToon_2] = L"Assets/ModelData/preset/skyCubeMapSpace_Toon_2.dds";
+		m_textureFilePaths[enSkyCubeType_Sunset] = L"Assets/Image/SkyCube.dds";
 	}
 
 	SkyCube::~SkyCube()

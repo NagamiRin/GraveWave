@@ -73,11 +73,6 @@ CollisionHitManager::~CollisionHitManager()
 
 void CollisionHitManager::Update()
 {
-	if (m_isHit)
-	{
-		m_isHit = false;
-	}
-
 	m_collisionPairList.clear();
 
 	// 別処理でペアをつくる

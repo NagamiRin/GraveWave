@@ -26,7 +26,7 @@ namespace nsApp
                     p.m_leftCount = j["LeftCount"].get<uint16_t>();
                     p.m_centerCount = j["CenterCount"].get<uint16_t>();
                     p.m_rightCount = j["RightCount"].get<uint16_t>();
-                    p.m_bossCount = j["BossCount"].get<uint16_t>();
+                    p.m_isBossSpawn = j["BossSpawn"].get<bool>();
                     p.m_spawnInterval = j["SpawnInterval"].get<float>();
                 });
         }
@@ -60,50 +60,87 @@ namespace nsApp
             m_spawnCountList[enSpwnerType_Left] = param->m_leftCount;
             m_spawnCountList[enSpwnerType_Center] = param->m_centerCount;
             m_spawnCountList[enSpwnerType_Right] = param->m_rightCount;
-            m_bossCount = param->m_bossCount;
+            m_isBossSpawn = param->m_isBossSpawn;
             m_spawnInterval = param->m_spawnInterval;
 
             m_waveEnemyNum = m_spawnCountList[enSpwnerType_Left] + m_spawnCountList[enSpwnerType_Center] + m_spawnCountList[enSpwnerType_Right];
-
             m_remainingEnemiesNum = m_waveEnemyNum;
-
             m_eliminateEnemyNum;
+
+            //ウェーブのタイプをセット
+            if (m_isBossSpawn) m_waveType = enWaveType_Boss;
+            else m_waveType = enWaveType_Normal;
         }
 
 
         void BattleFlow::EnemySpawn()
         {
-            if (m_remainingEnemiesNum == 0 || m_currentTime > 0.0f) {
-                return;
-            }
-            uint8_t selectSpawner = rand() % enSpwnerType_Num;
-            // 対象の場所が出るまで繰り返す
-            uint8_t count = m_spawnCountList[selectSpawner];
-            if (count == 0) {
-                // 既に生成できない状態なら適当な場所からとってくる
-                for (int type = enSpwnerType_Left; type < enSpwnerType_Num; ++type) {
-                    if (selectSpawner != type) {
-                        selectSpawner = type;
-                        count = m_spawnCountList[selectSpawner];
-                        if (count >= 1) {
-                            break;
+            //通常ウェーブ
+            if (m_waveType == enWaveType_Normal) {
+
+
+                if (m_remainingEnemiesNum == 0 || m_currentTime > 0.0f) {
+                    return;
+                }
+                uint8_t selectSpawner = rand() % enSpwnerType_Num;
+                // 対象の場所が出るまで繰り返す
+                uint8_t count = m_spawnCountList[selectSpawner];
+                if (count == 0) {
+                    // 既に生成できない状態なら適当な場所からとってくる
+                    for (int type = enSpwnerType_Left; type < enSpwnerType_Num; ++type) {
+                        if (selectSpawner != type) {
+                            selectSpawner = type;
+                            count = m_spawnCountList[selectSpawner];
+                            if (count >= 1) {
+                                break;
+                            }
                         }
                     }
                 }
+
+                auto* spawner = nsCore::BattleManager::GetInstance()->GetEnemySpawner(static_cast<EnSpwnerType>(selectSpawner));
+
+                spawner->ZombieCreate();                
+
+                m_currentTime = m_spawnInterval;
+                m_remainingEnemiesNum--;
             }
+            //ボスウェーブ
+            else if (m_waveType == enWaveType_Boss) {
+                //ボスを出現
+                if (m_isBossSpawn && !m_isSpawnBoss) {
+                    auto* spawner = nsCore::BattleManager::GetInstance()->GetEnemySpawner(static_cast<EnSpwnerType>(enSpwnerType_Center));
+                    spawner->BossCreate();
+                    m_isSpawnBoss = true;
+                }
 
-            auto* spawner = nsCore::BattleManager::GetInstance()->GetEnemySpawner(static_cast<EnSpwnerType>(selectSpawner));
-                        
-            spawner->ZombieCreate();
+                //ボスの生存中は継続的にゾンビを出現
+                if (nsCore::BattleManager::GetInstance()->IsBossAlive() || m_currentTime > 0.0f) {
+                    return;
+                }
+                uint8_t selectSpawner = rand() % enSpwnerType_Num - 1;
+                // 対象の場所が出るまで繰り返す
+                uint8_t count = m_spawnCountList[selectSpawner];
+                if (count == 0) {
+                    // 既に生成できない状態なら適当な場所からとってくる
+                    for (int type = enSpwnerType_Left; type < enSpwnerType_Num; ++type) {
+                        if (selectSpawner != type) {
+                            selectSpawner = type;
+                            count = m_spawnCountList[selectSpawner];
+                            if (count >= 1) {
+                                break;
+                            }
+                        }
+                    }
+                }
 
-            if (m_bossCount > 0 && !m_isSpawnBoss) {
-                spawner = nsCore::BattleManager::GetInstance()->GetEnemySpawner(static_cast<EnSpwnerType>(enSpwnerType_Center));
-                spawner->BossCreate();
-                m_isSpawnBoss = true;
+                auto* spawner = nsCore::BattleManager::GetInstance()->GetEnemySpawner(static_cast<EnSpwnerType>(selectSpawner));
+
+                spawner->ZombieCreate();
+
+                m_currentTime = m_spawnInterval;
+                m_remainingEnemiesNum--;
             }
-
-            m_currentTime = m_spawnInterval;
-            m_remainingEnemiesNum--;           
         }
 
 

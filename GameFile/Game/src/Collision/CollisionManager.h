@@ -73,6 +73,13 @@ public:
 	CollisionObject* CreateCollisionObject(const uint32_t id, IGameObject* gameObject, const Vector3& position, const Quaternion& rotation, const float radisu);
 	/** メッシュ状のコリジョンを生成 */
 	CollisionObject* CreateCollisionObject(const uint32_t id, IGameObject* gameObject, const Vector3& position, const Quaternion& rotation, const Model& model, const Matrix& matrix);
+
+
+public:
+	/** 弾ヒットのフラグを取得 */
+	inline bool IsHit() { return m_isHit; }
+	/** 弾ヒットのフラグをリセット */
+	inline void ResetHit() { m_isHit = false; }
 	
 
 private:

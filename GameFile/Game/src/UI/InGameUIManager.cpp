@@ -74,15 +74,19 @@ namespace nsApp
                     {
                         const auto* crossHairNotify= static_cast<const CrossHairNotify*>(notify);
 
-                        m_crosshairUI->SetIsHit(crossHairNotify->m_isHit);
+                        m_crosshairUI->SetAiming(crossHairNotify->m_isAiming);
+                        if(crossHairNotify->m_isHit) m_crosshairUI->SetHit(crossHairNotify->m_isHit);
+
+                        break;
                     }
 
                     case enNotifyType_RemainingBullets:
                     {
                         const auto* remainingNotify = static_cast<const RemainingBulletsNotify*>(notify);
                         
-                        m_remainingBulletsUI->SetMaxAmmo(remainingNotify->m_maxNum);
+                        m_remainingBulletsUI->SetSpareAmmo(remainingNotify->m_maxNum);
                         m_remainingBulletsUI->SetAmmo(remainingNotify->m_remainingNum);
+                        m_remainingBulletsUI->SetGunName(remainingNotify->m_gunName);
 
                         break;
                     }

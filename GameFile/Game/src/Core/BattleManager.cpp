@@ -40,9 +40,13 @@ namespace nsApp
                 btScalar addSingleResult(btCollisionWorld::LocalRayResult& rayResult, bool normalInWorldSpace) override
                 {
                     // Enemyじゃない&&Gohstじゃない なら当たらない
-                    if ((rayResult.m_collisionObject->getUserIndex() != nsApp::enCollision_Enemy || rayResult.m_collisionObject->getUserIndex() != nsApp::enCollision_Stone) && rayResult.m_collisionObject->getInternalType() != btCollisionObject::CO_GHOST_OBJECT) {
+                    if (rayResult.m_collisionObject->getInternalType() != btCollisionObject::CO_GHOST_OBJECT) {
                         return rayResult.m_hitFraction;
                     }
+                    if (rayResult.m_collisionObject->getUserIndex() != nsApp::enCollision_Enemy && rayResult.m_collisionObject->getUserIndex() != nsApp::enCollision_Stone) {
+                        return rayResult.m_hitFraction;
+                    }
+                    
                     isHit = true;
                     return rayResult.m_hitFraction;
                 }
@@ -204,8 +208,14 @@ namespace nsApp
                             return false;
                         });
                     // 赤色にする
-                    crossHairNotify->m_isHit = isHit;
-                }                
+                    crossHairNotify->m_isAiming = isHit;
+                }
+
+                if (CollisionHitManager::Get().IsHit()) {
+                    crossHairNotify->m_isHit = true;
+                    CollisionHitManager::Get().ResetHit();
+                }
+                else crossHairNotify->m_isHit = false;
 
                 nsUI::InGameUIManager::GetInstance()->AddNotify(crossHairNotify);
 
@@ -216,10 +226,13 @@ namespace nsApp
             {
                 const uint8_t remainingAmmo = m_player->GetGun()->GetRemainingAmmo();
                 const uint8_t maxAmmo = m_player->GetGun()->GetMaxAmmo();
+                const std::string& gunName = m_player->GetGun()->GetGunName();
 
                 RemainingBulletsNotify* remainingBulletsNotify = new RemainingBulletsNotify();
                 remainingBulletsNotify->m_remainingNum = remainingAmmo;
                 remainingBulletsNotify->m_maxNum = maxAmmo;
+                remainingBulletsNotify->m_gunName = gunName;
+                
 
                 nsUI::InGameUIManager::GetInstance()->AddNotify(remainingBulletsNotify);
 
@@ -387,6 +400,14 @@ namespace nsApp
             auto* parameter = ParameterManager::Get().GetParameter<MasterBattleParameter>();
 
             return parameter->m_gravityAmount;
+        }
+
+
+        bool BattleManager::IsBossAlive()
+        {
+            nsActor::nsEnemy::EnemyPoolManager::GetInstance()->IsBossAlive();
+
+            return false;
         }
 
 

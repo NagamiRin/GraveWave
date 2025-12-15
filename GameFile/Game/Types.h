@@ -22,8 +22,8 @@ enum EnGameObjectPriority
 enum EnSpwnerType
 {
 	enSpwnerType_Left = 0,
-	enSpwnerType_Center,
 	enSpwnerType_Right,
+	enSpwnerType_Center,
 	enSpwnerType_Num
 };
 

@@ -4,7 +4,7 @@
         "LeftCount": 0,
         "CenterCount": 1,
         "RightCount": 0,
-        "BossCount": 0,
+        "BossSpawn": false,
         "SpawnInterval": 3.0
     },
     {
@@ -12,7 +12,7 @@
         "LeftCount": 0,
         "CenterCount": 0,
         "RightCount": 1,
-        "BossCount": 0,
+        "BossSpawn": false,
         "SpawnInterval": 1.8
     }
 ]

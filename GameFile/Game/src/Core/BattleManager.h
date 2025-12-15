@@ -153,6 +153,8 @@ namespace nsApp
 			float GetHorLimitAngle();
 			/** 重力量を取得 */
 			float GetGravityAmount();
+			/** ボスの生存状態を取得 */
+			bool IsBossAlive();
 			/** エネミーが進行を止める距離を取得 */
 			float GetEnemyStopPosition();
 			/** 防壁にダメージを与える */

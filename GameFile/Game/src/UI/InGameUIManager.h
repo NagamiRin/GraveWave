@@ -48,6 +48,7 @@ namespace nsApp
 
 	struct CrossHairNotify : public INotify
 	{
+		bool m_isAiming;
 		bool m_isHit;
 		//
 		CrossHairNotify()
@@ -60,6 +61,7 @@ namespace nsApp
 	{
 		uint8_t m_remainingNum;
 		uint8_t m_maxNum;
+		std::string m_gunName;
 		//
 		RemainingBulletsNotify()
 			: INotify(enNotifyType_RemainingBullets)
