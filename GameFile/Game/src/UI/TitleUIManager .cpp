@@ -6,6 +6,7 @@
 #include "stdafx.h"
 #include "TitleUIManager.h"
 #include "src/UI/TitleScreen.h"
+#include "src/UI/PressButtonUI.h"
 
 
 namespace nsApp
@@ -18,12 +19,14 @@ namespace nsApp
         TitleUIManager::TitleUIManager()
         {
             m_titleScreen = NewGO<TitleScreen>(enGameObjectPriority_UI, "TitleScreen");
+            m_pressButton = NewGO<PressButtonUI>(enGameObjectPriority_UI, "PressButton");
         }
 
 
         TitleUIManager::~TitleUIManager()
         {
             DeleteGO(m_titleScreen);
+            DeleteGO(m_pressButton);
         }
 
 

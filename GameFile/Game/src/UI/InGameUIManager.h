@@ -28,6 +28,7 @@ namespace nsApp
 		enNotifyType_CrossHair,
 		enNotifyType_Countdown,
 		enNotifyType_RemainingBullets,
+		enNotifyType_Reloading,
 		enNotifyType_RemainingEnemies,
 		enNotifyType_Enemies,
 		enNotifyType_Caveat,
@@ -65,6 +66,17 @@ namespace nsApp
 		//
 		RemainingBulletsNotify()
 			: INotify(enNotifyType_RemainingBullets)
+		{
+		}
+	};
+
+	struct ReloadingNotify : public INotify
+	{
+		float m_reloadTime;
+		float m_currentReloadTime;
+		//
+		ReloadingNotify()
+			: INotify(enNotifyType_Reloading)
 		{
 		}
 	};
@@ -171,6 +183,7 @@ namespace nsApp
 		class ShopUI;
 		class CaveatUI;
 		class PhaseSwitchUI;
+		class ReloadingUI;
 
 
 		class InGameUIManager
@@ -196,6 +209,9 @@ namespace nsApp
 			CaveatUI* m_caveatUI = nullptr;
 			/** フェーズ切り替えのメッセージUI */
 			PhaseSwitchUI* m_phaseSwitch = nullptr;
+			/** リロード時間UI */
+			ReloadingUI* m_reloadingUI = nullptr;
+
 
 			std::vector<INotify*> m_notifyList;
 

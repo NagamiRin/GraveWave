@@ -15,6 +15,7 @@
 #include "src/UI/WallHPUI.h"
 #include "src/UI/MiniMapUI.h"
 #include "src/UI/CaveatUI.h"
+#include "src/UI/ReloadingUI.h"
 
 
 namespace nsApp
@@ -46,6 +47,8 @@ namespace nsApp
             m_caveatUI = NewGO<CaveatUI>(enGameObjectPriority_UI, "CaveatUI");
             //フェーズ切り替えのメッセージUI生成
             m_phaseSwitch = NewGO<PhaseSwitchUI>(enGameObjectPriority_UI, "PhaseSwitchUI");
+            //リロード時間UIを生成
+            m_reloadingUI = NewGO<ReloadingUI>(enGameObjectPriority_UI, "ReloadingUI");
         }
 
 
@@ -61,6 +64,7 @@ namespace nsApp
 			DeleteGO(m_shopUI);
             DeleteGO(m_caveatUI);
             DeleteGO(m_phaseSwitch);
+            DeleteGO(m_reloadingUI);
         }
 
 
@@ -87,6 +91,16 @@ namespace nsApp
                         m_remainingBulletsUI->SetSpareAmmo(remainingNotify->m_maxNum);
                         m_remainingBulletsUI->SetAmmo(remainingNotify->m_remainingNum);
                         m_remainingBulletsUI->SetGunName(remainingNotify->m_gunName);
+
+                        break;
+                    }
+
+                    case enNotifyType_Reloading:
+                    {
+                        const auto* reloadingNotify = static_cast<const ReloadingNotify*>(notify);
+
+                        m_reloadingUI->SetReloadTime(reloadingNotify->m_reloadTime);
+                        m_reloadingUI->SetCurrentReloadTime(reloadingNotify->m_currentReloadTime);
 
                         break;
                     }
