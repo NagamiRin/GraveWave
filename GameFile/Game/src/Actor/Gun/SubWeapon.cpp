@@ -18,10 +18,10 @@ namespace nsApp
 		{
 			SubWeapon::SubWeapon()
 			{
-				constexpr const char* MODEL_PATH = "Assets/ModelData/Gun/HundGun/HundGun.tkm";
+				constexpr const char* MODEL_PATH = "Assets/ModelData/Gun/SubWeapon/GZ75.tkm";
 				m_model.Init(MODEL_PATH);
 
-				ParameterManager::Get().LoadParameter<MasterGunParameter>("Assets/Parameter/Gun/SubWeapon/CZ75Parameter.json", [](const nlohmann::json& j, MasterGunParameter& p)
+				ParameterManager::Get().LoadParameter<MasterSubWeaponParameter>("Assets/Parameter/Gun/SubWeapon/CZ75Parameter.json", [](const nlohmann::json& j, MasterSubWeaponParameter& p)
 					{
 						p.m_gunName = j["GunName"].get<std::string>();
 						p.m_damage = j["Damage"].get<uint8_t>();
@@ -35,7 +35,7 @@ namespace nsApp
 						p.m_newPositionZ = j["NewPositionZ"].get<float>();
 					});
 
-				auto* parameter = ParameterManager::Get().GetParameter<MasterGunParameter>();
+				auto* parameter = ParameterManager::Get().GetParameter<MasterSubWeaponParameter>();
 				m_gunName = parameter->m_gunName;
 				m_damage = parameter->m_damage;
 				m_maxAmmo = parameter->m_maxAmmo;
@@ -45,7 +45,7 @@ namespace nsApp
 				m_fireCoolTime = parameter->m_fireCoolTime;
 
 				m_offsetPosition = Vector3(parameter->m_newPositionX, parameter->m_newPositionY, parameter->m_newPositionZ);
-				m_transform.m_localScale = Vector3::One * 0.5f;
+				m_transform.m_localScale = Vector3::One * 2.0f;
 
 				m_remainingAmmo = m_maxAmmo;
 			}

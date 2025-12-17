@@ -140,6 +140,10 @@ namespace nsApp
 				inline uint8_t GetMaxAmmo() { return m_maxAmmo; }
 				/** 銃の名前を取得 */
 				inline const std::string& GetGunName() const { return m_gunName; }
+				/** リロード時間を取得 */
+				inline float GetReloadTime() { return m_reloadTime; }
+				/** 現在のリロード時間を取得 */
+				inline float GetCurrentReloadTime() { return m_currentReloadTime; }
 			};
 		}
 	}

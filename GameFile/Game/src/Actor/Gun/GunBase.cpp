@@ -47,6 +47,7 @@ namespace nsApp
 
 				m_model.SetPosition(m_transform.m_localPosition);
 				m_model.SetRotation(m_transform.m_localRotation);
+				m_model.SetScale(m_transform.m_localScale);
 				m_model.Update();
 			}
 
@@ -76,7 +77,10 @@ namespace nsApp
 				if (m_isReloading || m_currentReloadTime < 0.0f || m_remainingAmmo == m_maxAmmo)return;
 
 				m_isReloading = true;
-				m_currentReloadTime = m_reloadTime;				
+				m_currentReloadTime = m_reloadTime;		
+
+				//SE
+				SoundManager::Get().PlaySE(enSoundKind_HandGun_Reload);
 			}
 
 
@@ -99,8 +103,8 @@ namespace nsApp
 					t = m_currentReloadTime / (m_reloadTime / 2);
 				}
 
-				const float adjustPosition = -20.0f * t;
-				m_transform.m_localPosition += Vector3(0.0f, adjustPosition, 0.0f);
+				m_adjustPosition.y = -20.0f * t;
+				//m_transform.m_localPosition += Vector3(0.0f, adjustPosition, 0.0f);
 				
 				if (m_currentReloadTime <= 0.0f)ReloadCompletion();
 			}
