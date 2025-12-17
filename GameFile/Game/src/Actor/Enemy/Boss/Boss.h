@@ -15,6 +15,15 @@ namespace nsApp {
 	}
 }
 
+enum EnAnimationVar {
+	EnAnimationVar_Idle,
+	EnAnimationVar_Walk,
+	EnAnimationVar_Throw,
+	EnAnimationVar_Hit,
+	EnAnimationVar_Death,
+	EnAnimationVar_Max,
+};
+
 namespace nsApp
 {
 	namespace nsActor
@@ -37,11 +46,6 @@ namespace nsApp
 
 
 			private:
-				enum EnAnimationVar {
-					EnAnimationVar_Walk,
-					EnAnimationVar_Max,
-				};
-
 				/** アニメションクリップの種類 */
 				std::array<AnimationClip, EnAnimationVar_Max> m_animationClipList;
 				/** ゾンビのステートマシンのポインタ */
@@ -88,6 +92,14 @@ namespace nsApp
 				}
 				/** 岩を飛ばす */
 				void ThrowStone(const Vector3& start, const Vector3& end);
+				/** アニメーションを再生 */
+				inline void PlayAnimation(const EnAnimationVar var, const float complement = 0.0f) {
+					m_model.PlayAnimation(var, complement);
+				}
+				/** アニメーションを再生中か */
+				inline bool IsPlayAnimation() { 
+					return m_model.IsPlayingAnimation();
+				}
 			};
 		}
 	}

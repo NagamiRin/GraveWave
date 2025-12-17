@@ -31,6 +31,10 @@ namespace nsApp
 				Boss* m_owner = nullptr;
 				/** オーナーのステータス */
 				BossStatus* m_ownerStatus = nullptr;
+				/** ヒットアニメーション中か */
+				bool m_isHitting = false;
+				/** ヒットリアクションを行った回数 */
+				uint8_t m_reactionNum = 0;
 
 
 			public:
@@ -46,8 +50,12 @@ namespace nsApp
 			public:
 				/** 状態切り替え */
 				void ChangeState();
-				/** 近接攻撃状態に切り替えができるか */
-				bool CanChangeToThrowState()const;
+				/** 死亡状態に切り替えができるか */
+				bool CanChangeToDeathState()const;
+				/** 被弾状態に切り替えができるか */
+				bool CanChangeToHitState()const;
+				/** 岩投げ状態に切り替えができるか */
+				bool CanChangeToThrowState()const;				
 				/** 歩き状態に切り替えができるか */
 				bool CanChangeToWalkState() const;
 				/** 初期設定を行う */
@@ -80,6 +88,11 @@ namespace nsApp
 				void SetDirection(const Vector3& direction);
 				/** プレイヤーの位置情報を取得 */
 				const Vector3& GetPlayerPosition() const;
+
+				/** ヒットアニメーション中のフラグを設定 */
+				inline void SetHitting(const bool hit) { m_isHitting = hit; }
+				/** ヒットリアクションの回数を加算 */
+				inline void AddReactionNum() { m_reactionNum++; }
 			};
 		}
 	}

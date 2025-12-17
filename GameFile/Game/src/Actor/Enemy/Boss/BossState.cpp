@@ -10,6 +10,11 @@
 #include "src/Core/BattleManager.h"
 
 
+namespace {
+	constexpr float HIT_ANIMATION_INTERVAL = 2.0f;
+	constexpr float ANIMATION_COMPLEMENT = 1.0f;
+}
+
 namespace nsApp
 {
 	namespace nsActor
@@ -32,6 +37,9 @@ namespace nsApp
 			void BossThrowState::Enter()
 			{
 				BossStateMachine* stateMachine = GetOwner<BossStateMachine>();
+				Boss* owner = GetOwner<BossStateMachine>()->GetOwner();
+
+				owner->PlayAnimation(EnAnimationVar_Throw, ANIMATION_COMPLEMENT);
 
 				stateMachine->GetOwner()->ThrowStone(stateMachine->GetPosition(), Vector3(0.0f, 100.0f, 500.0f));
 			}
@@ -72,6 +80,9 @@ namespace nsApp
 				BossStateMachine* stateMachine = GetOwner<BossStateMachine>();
 				stateMachine->SetMoveDirection(Vector3::Back);
 				stateMachine->SetDirection(Vector3::Back);
+
+				Boss* owner = GetOwner<BossStateMachine>()->GetOwner();
+				owner->PlayAnimation(EnAnimationVar_Walk, ANIMATION_COMPLEMENT);
 			}
 
 
@@ -108,6 +119,8 @@ namespace nsApp
 
 			void BossIdleState::Enter()
 			{
+				Boss* owner = GetOwner<BossStateMachine>()->GetOwner();
+				owner->PlayAnimation(EnAnimationVar_Idle, ANIMATION_COMPLEMENT);
 			}
 
 
@@ -119,6 +132,87 @@ namespace nsApp
 			void BossIdleState::Exit()
 			{
 			}
-		}
+
+
+			/**********************************************************/
+
+
+			BossHitState::BossHitState(BossStateMachine* owner)
+				:IState(owner)
+			{
+			}
+
+
+			BossHitState::~BossHitState()
+			{
+			}
+
+
+			void BossHitState::Enter()
+			{
+				auto* stateMachine = GetOwner<BossStateMachine>();
+
+				Boss* owner = GetOwner<BossStateMachine>()->GetOwner();
+				owner->PlayAnimation(EnAnimationVar_Hit, ANIMATION_COMPLEMENT);
+				stateMachine->SetHitting(true);
+				stateMachine->AddReactionNum();
+			}
+
+
+			void BossHitState::Update()
+			{
+				auto* stateMachine = GetOwner<BossStateMachine>();
+				auto* owner = GetOwner<BossStateMachine>()->GetOwner();
+
+				if (!owner->IsPlayAnimation()) {
+					stateMachine->SetHitting(false);
+				}
+			}
+
+
+			void BossHitState::Exit()
+			{
+				auto* stateMachine = GetOwner<BossStateMachine>();
+
+				stateMachine->SetHitting(false);
+			}
+
+
+			/**********************************************************/
+
+
+			BossDeathState::BossDeathState(BossStateMachine* owner)
+				:IState(owner)
+			{
+			}
+
+
+			BossDeathState::~BossDeathState()
+			{
+			}
+
+
+			void BossDeathState::Enter()
+			{
+				Boss* owner = GetOwner<BossStateMachine>()->GetOwner();
+				owner->PlayAnimation(EnAnimationVar_Death, ANIMATION_COMPLEMENT);
+			}
+
+
+			void BossDeathState::Update()
+			{
+				Boss* owner = GetOwner<BossStateMachine>()->GetOwner();
+
+				if (!owner->IsPlayAnimation())
+				{
+					owner->Destruction();
+				}
+			}
+
+
+			void BossDeathState::Exit()
+			{
+			}
+}
 	}
 }

@@ -41,6 +41,61 @@ namespace nsApp
 			/*********************************/
 
 
+			/**
+			 * 被弾状態クラス
+			 */
+			class BossHitState : public IState
+			{
+				appState(BossHitState);
+
+
+			private:
+				/** 現在のアニメーション時間 */
+				float m_currentTime = 0.0f;
+
+			public:
+				/** コンストラクタ */
+				BossHitState(BossStateMachine* owner);
+				/** デストラクタ */
+				~BossHitState();
+
+
+			public:
+				void Enter() override;
+				void Update() override;
+				void Exit() override;
+			};
+
+
+			/*********************************/
+
+
+			/**
+			 * 死亡状態クラス
+			 */
+			class BossDeathState : public IState
+			{
+				appState(BossDeathState);
+
+
+			private:
+			public:
+				/** コンストラクタ */
+				BossDeathState(BossStateMachine* owner);
+				/** デストラクタ */
+				~BossDeathState();
+
+
+			public:
+				void Enter() override;
+				void Update() override;
+				void Exit() override;
+			};
+
+
+			/*********************************/
+
+
 			/** 
 			 * 歩行状態クラス 
 			 */

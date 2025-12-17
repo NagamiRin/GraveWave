@@ -11,6 +11,11 @@
 #include "src/Actor/Enemy/Boss/BossState.h"
 
 
+namespace {
+    constexpr float HIT_REACTION_RAITO = 0.2f;
+}
+
+
 namespace nsApp
 {
     namespace nsActor
@@ -19,9 +24,11 @@ namespace nsApp
         {
             BossStateMachine::BossStateMachine()
             {
+                m_stateMap.emplace(BossDeathState::ID(), new BossDeathState(this));
+                m_stateMap.emplace(BossHitState::ID(), new BossHitState(this));
                 m_stateMap.emplace(BossThrowState::ID(), new BossThrowState(this));
-				m_stateMap.emplace(BossIdleState::ID(), new BossIdleState(this));
                 m_stateMap.emplace(BossWalkState::ID(), new BossWalkState(this));
+                m_stateMap.emplace(BossIdleState::ID(), new BossIdleState(this));
             }
 
 
@@ -32,6 +39,10 @@ namespace nsApp
 
             void BossStateMachine::Update()
             {
+                //todo for test
+                if (m_ownerStatus->GetHP() <= 0.0f) {
+                    return;
+                }
                 ChangeState();
 
                 SuperClass::Update();
@@ -40,7 +51,15 @@ namespace nsApp
 
             void BossStateMachine::ChangeState()
             {
-                if (CanChangeToThrowState()) {
+                if (CanChangeToDeathState()) {
+                    m_requestStateId = BossDeathState::ID();
+                    return;
+                }
+                else if (CanChangeToHitState()) {
+                    m_requestStateId = BossHitState::ID();
+                    return;
+                }
+                else if (CanChangeToThrowState()) {
                     m_requestStateId = BossThrowState::ID();
                     return;
                 }
@@ -51,6 +70,30 @@ namespace nsApp
                 else {
 					m_requestStateId = BossIdleState::ID();
                 }
+            }
+
+
+            bool BossStateMachine::CanChangeToDeathState() const
+            {
+                if (m_ownerStatus->GetHP() <= 0.0f) {
+                    return true;
+                }
+
+                return false;
+            }
+
+
+            bool BossStateMachine::CanChangeToHitState() const
+            {
+                const float hp = m_ownerStatus->GetHP();
+                const float reduceHp = m_ownerStatus->GetMaxHP() - m_ownerStatus->GetHP();
+                const float reactionHp = m_ownerStatus->GetMaxHP() * (HIT_REACTION_RAITO * (m_reactionNum + 1));
+
+                if (reduceHp >= reactionHp || m_isHitting) {
+                    return true;
+                }
+
+                return false;
             }
 
 

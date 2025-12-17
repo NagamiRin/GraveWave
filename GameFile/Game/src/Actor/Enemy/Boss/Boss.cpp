@@ -47,16 +47,27 @@ namespace nsApp
 
                 // アニメーションの初期化
                 {
-                    // 歩き
-                    {
-                        auto& clip = m_animationClipList[EnAnimationVar_Walk];
-                        clip.Load("Assets/AnimData/Zombie/Walk.tka");
-                        clip.SetLoopFlag(true);
-                    }
-                }
-                m_model.Init("Assets/ModelData/Zombie/Default/Default.tkm", m_animationClipList.data(), EnAnimationVar_Max);
-                m_model.PlayAnimation(EnAnimationVar_Walk);                
+                    auto* clip = &m_animationClipList[EnAnimationVar_Idle];
+                    clip->Load("Assets/AnimData/Boss/Idle.tka");
+                    clip->SetLoopFlag(true);
 
+                    clip = &m_animationClipList[EnAnimationVar_Walk];
+                    clip->Load("Assets/AnimData/Boss/Walk.tka");
+                    clip->SetLoopFlag(true);
+
+                    clip = &m_animationClipList[EnAnimationVar_Throw];
+                    clip->Load("Assets/AnimData/Boss/Throw.tka");
+                    clip->SetLoopFlag(false);
+
+                    clip = &m_animationClipList[EnAnimationVar_Hit];
+                    clip->Load("Assets/AnimData/Boss/Hit.tka");
+                    clip->SetLoopFlag(false);
+
+                    clip = &m_animationClipList[EnAnimationVar_Death];
+                    clip->Load("Assets/AnimData/Boss/Death.tka");
+                    clip->SetLoopFlag(false);
+                }
+                m_model.Init("Assets/ModelData/Zombie/Boss/Boss.tkm", m_animationClipList.data(), EnAnimationVar_Max);
                 return true;
             }
             
@@ -72,6 +83,11 @@ namespace nsApp
 				m_model.SetPosition(m_transform.m_position);
                 m_model.SetRotation(m_transform.m_rotation);
                 m_model.Update();
+
+                //todo for test
+                if (GetStatus()->GetHP() <= 0.0f) {
+                    int hoge;
+                }
 
                 m_stateMachine->Update();
 
