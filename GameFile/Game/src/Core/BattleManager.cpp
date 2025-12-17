@@ -6,7 +6,6 @@
 #include "stdafx.h"
 #include "BattleManager.h"
 #include "src/Actor/BackGround/BackGround.h"
-#include "src/Actor/BackGround/FogObject.h"
 #include "src/Actor/Bullet/BulletManager.h"
 #include "src/Actor/Player/Player.h"
 #include "src/Actor/Enemy/EnemyManager.h"
@@ -61,7 +60,8 @@ namespace nsApp
             //インゲーム共通のパラメーターを読み込み
             ParameterManager::Get().LoadParameter<MasterBattleParameter>("Assets/Parameter/BattleParameter.json", [](const nlohmann::json& j, MasterBattleParameter& p)
                 {
-                    p.m_maxEnemyNum = j["MaxEnemyNum"].get<uint8_t>();                
+                    p.m_maxEnemyNum = j["MaxEnemyNum"].get<uint8_t>();           
+                    p.m_clearWaveNum = j["ClearWaveNum"].get<uint8_t>();
                     p.m_verticalLimitAngle = j["VerticalLimitAngle"].get<float>();
                     p.m_horizontalLimitAngle = j["HorizontalLimitAngle"].get<float>();
                     p.m_gravityAmount = j["GravityAmount"].get<float>();
@@ -90,7 +90,7 @@ namespace nsApp
             }
 
             //ヒット判定のマネージャーを生成
-            CollisionHitManager::Create();
+            m_hitManagerObject = NewGO<CollisionHitManagerObject>(enGameObjectPriority_HitManager, "CollisionHitManagerObject");
 
             //弾管理のマネージャーを生成
 			nsActor::nsBullet::BulletManager::CreateInstance();
@@ -100,9 +100,6 @@ namespace nsApp
 
             //背景を生成
             m_backGround = NewGO<nsActor::nsBackGround::BackGround>(enGameObjectPriority_BackGround, "BackGround");
-
-            //フォグのボックスを生成
-            m_fogObject = NewGO<nsActor::nsBackGround::FogObject>(enGameObjectPriority_BackGround, "FogObject");
 
             //防壁を生成
             m_wall = NewGO<nsActor::nsWall::Wall>(enGameObjectPriority_Wall, "Wall");
@@ -131,8 +128,6 @@ namespace nsApp
             nsActor::nsBullet::BulletManager::DeleteInstance();
             //背景を削除
             DeleteGO(m_backGround);
-            //フォグを削除
-            DeleteGO(m_fogObject);
             //防壁を削除
             DeleteGO(m_wall);
             //プレイヤーを削除
@@ -146,7 +141,7 @@ namespace nsApp
             //ゲーム進行のマネージャーを削除
             nsFlow::GameFlowManager::DeleteInstance();
             //ヒット判定のマネージャーを削除
-            CollisionHitManager::Get().Delete();
+            DeleteGO(m_hitManagerObject);
         }
 
 
@@ -231,12 +226,23 @@ namespace nsApp
                 RemainingBulletsNotify* remainingBulletsNotify = new RemainingBulletsNotify();
                 remainingBulletsNotify->m_remainingNum = remainingAmmo;
                 remainingBulletsNotify->m_maxNum = maxAmmo;
-                remainingBulletsNotify->m_gunName = gunName;
-                
+                remainingBulletsNotify->m_gunName = gunName;                
 
                 nsUI::InGameUIManager::GetInstance()->AddNotify(remainingBulletsNotify);
 
                 //delete remainingBulletsNotify;
+            }
+
+            //リロード
+            {
+                const float reloadTime = m_player->GetGun()->GetReloadTime();
+                const float currentReloadTime = m_player->GetGun()->GetCurrentReloadTime();
+
+                ReloadingNotify* reloadingNotify = new ReloadingNotify();
+                reloadingNotify->m_reloadTime = reloadTime;
+                reloadingNotify->m_currentReloadTime = currentReloadTime;
+
+                nsUI::InGameUIManager::GetInstance()->AddNotify(reloadingNotify);
             }
 
             //スコア

@@ -36,6 +36,8 @@ namespace nsApp
 
 
 			public:
+				/** エネミーの最大HPを取得 */
+				inline float GetMaxHP()const { return m_maxHp; }
 				/** エネミーのHPを取得 */
 				inline uint16_t GetHP() const { return m_hp; }
 				/** エネミーのHPを設定 */

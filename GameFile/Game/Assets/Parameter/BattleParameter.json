@@ -1,7 +1,8 @@
 [
     {
         "Comment": "ゲーム共通のパラメータ",
-        "MaxEnemyNum": 50,        
+        "MaxEnemyNum": 50,   
+        "ClearWaveNum":2,     
         "VerticalLimitAngle": 0.9,
         "HorizontalLimitAngle":0.0,
         "GravityAmount": -9.8,

@@ -50,7 +50,7 @@ namespace nsApp
 				SetDirection(Vector3::Front);
 
 				//初期装備
-				m_gun = NewGO<nsGun::MainWeapon>(enGameObjectPriority_Gun, "HandGun");
+				m_gun = NewGO<nsGun::SubWeapon>(enGameObjectPriority_Gun, "HandGun");
 				m_gun->SetIsEquipment(true);
 
 				return true;

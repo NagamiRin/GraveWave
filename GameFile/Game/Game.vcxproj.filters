@@ -144,7 +144,6 @@
     <ClCompile Include="src\Core\ModelLOD.cpp" />
     <ClCompile Include="src\Actor\Gun\MainWeapon.cpp" />
     <ClCompile Include="src\Actor\Gun\SubWeapon.cpp" />
-    <ClCompile Include="src\Actor\BackGround\FogObject.cpp" />
     <ClCompile Include="src\UI\CaveatUI.cpp" />
     <ClCompile Include="src\Actor\Enemy\Boss\Boss.cpp" />
     <ClCompile Include="src\Actor\Enemy\Boss\BossState.cpp" />
@@ -155,6 +154,8 @@
     <ClCompile Include="src\Camera\CameraShake.cpp" />
     <ClCompile Include="src\UI\PhaseSwitchUI.cpp" />
     <ClCompile Include="src\Scene\DebugScene.cpp" />
+    <ClCompile Include="src\UI\ReloadingUI.cpp" />
+    <ClCompile Include="src\UI\PressButtonUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -271,7 +272,6 @@
     <ClInclude Include="src\Core\ModelLOD.h" />
     <ClInclude Include="src\Actor\Gun\MainWeapon.h" />
     <ClInclude Include="src\Actor\Gun\SubWeapon.h" />
-    <ClInclude Include="src\Actor\BackGround\FogObject.h" />
     <ClInclude Include="src\UI\CaveatUI.h" />
     <ClInclude Include="src\Actor\Enemy\Boss\Boss.h" />
     <ClInclude Include="src\Actor\Enemy\Boss\BossState.h" />
@@ -282,5 +282,7 @@
     <ClInclude Include="src\Camera\CameraShake.h" />
     <ClInclude Include="src\UI\PhaseSwitchUI.h" />
     <ClInclude Include="src\Scene\DebugScene.h" />
+    <ClInclude Include="src\UI\ReloadingUI.h" />
+    <ClInclude Include="src\UI\PressButtonUI.h" />
   </ItemGroup>
 </Project>

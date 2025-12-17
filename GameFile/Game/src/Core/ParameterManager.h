@@ -66,6 +66,22 @@ struct MasterGunParameter :public IMasterParameter
     float m_newPositionZ;
 };
 
+struct MasterSubWeaponParameter :public IMasterParameter
+{
+    appParameter(MasterSubWeaponParameter);
+    //
+    std::string m_gunName;
+    uint8_t m_damage;
+    uint8_t m_maxAmmo;
+    float m_bulletSpeed;
+    float m_fireCoolTime;
+    float m_reloadTime;
+    float m_switchTime;
+    float m_newPositionX;
+    float m_newPositionY;
+    float m_newPositionZ;
+};
+
 
 //ボスが投げる岩のステータス
 struct MasterStoneParameter : public IMasterParameter
@@ -133,6 +149,7 @@ struct MasterBattleParameter :public IMasterParameter
     appParameter(MasterBattleParameter);
 
     uint8_t m_maxEnemyNum;
+    uint8_t m_clearWaveNum;
     float m_baseSpawnTime;
     float m_spawnPositionZ;
     float m_besideLimitPosition;

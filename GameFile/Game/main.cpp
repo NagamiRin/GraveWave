@@ -70,12 +70,12 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		K2Engine::GetInstance()->Execute();
 	}
 
+	K2Engine::DeleteInstance();
+
 	//パラメーターマネージャーのインスタンスを破棄。
 	ParameterManager::DestroyInstance();
 	//セーブデータを削除
 	nsApp::nsCore::SaveData::Delete();
-
-	K2Engine::DeleteInstance();
 
 #ifdef _DEBUG
 	ReportLiveObjects();

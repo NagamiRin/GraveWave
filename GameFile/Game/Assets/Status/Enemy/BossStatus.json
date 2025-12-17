@@ -1,8 +1,8 @@
 [
     {
         "Comment": "ボス用のパラメータ",
-        "MoveSpeed":3.0,
-        "HP":500,
+        "MoveSpeed":0.3,
+        "HP":300,
         "AttackPower":10,
         "AttackFrequency":10.0,
         "AttackRange":500.0

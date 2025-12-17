@@ -77,7 +77,7 @@ namespace nsApp
                 //LODの初期設定
                 m_modelLOD = new nsCore::ModelLOD();
                 
-                m_modelLOD->Initialize(500.0f, [=](int index, nsCore::ModelLOD::AnimationClipInfo* animationClipInfo)
+                m_modelLOD->Initialize(700.0f, [=](int index, nsCore::ModelLOD::AnimationClipInfo* animationClipInfo)
                     {
                         const char* assetPath = MODEL_ASSET_PATH_LIST[index];
                         ModelRender* model = new ModelRender();

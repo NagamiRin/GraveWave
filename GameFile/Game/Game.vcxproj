@@ -227,7 +227,6 @@
     <ClCompile Include="src\Actor\Actor.cpp" />
     <ClCompile Include="src\Actor\ActorStatus.cpp" />
     <ClCompile Include="src\Actor\BackGround\BackGround.cpp" />
-    <ClCompile Include="src\Actor\BackGround\FogObject.cpp" />
     <ClCompile Include="src\Actor\Bullet\BulletBase.cpp" />
     <ClCompile Include="src\Actor\Bullet\BulletManager.cpp" />
     <ClCompile Include="src\Actor\Bullet\NormalBullet.cpp" />
@@ -282,6 +281,8 @@
     <ClCompile Include="src\UI\LateResultScreen.cpp" />
     <ClCompile Include="src\UI\MiniMapUI.cpp" />
     <ClCompile Include="src\UI\PhaseSwitchUI.cpp" />
+    <ClCompile Include="src\UI\PressButtonUI.cpp" />
+    <ClCompile Include="src\UI\ReloadingUI.cpp" />
     <ClCompile Include="src\UI\RemainingEnemyUI.cpp" />
     <ClCompile Include="src\UI\ResultScreen.cpp" />
     <ClCompile Include="src\UI\ResultUIManager.cpp" />
@@ -308,7 +309,6 @@
     <ClInclude Include="src\Actor\Actor.h" />
     <ClInclude Include="src\Actor\ActorStatus.h" />
     <ClInclude Include="src\Actor\BackGround\BackGround.h" />
-    <ClInclude Include="src\Actor\BackGround\FogObject.h" />
     <ClInclude Include="src\Actor\Bullet\BulletBase.h" />
     <ClInclude Include="src\Actor\Bullet\BulletManager.h" />
     <ClInclude Include="src\Actor\Bullet\NormalBullet.h" />
@@ -363,6 +363,8 @@
     <ClInclude Include="src\UI\LateResultScreen.h" />
     <ClInclude Include="src\UI\MiniMapUI.h" />
     <ClInclude Include="src\UI\PhaseSwitchUI.h" />
+    <ClInclude Include="src\UI\PressButtonUI.h" />
+    <ClInclude Include="src\UI\ReloadingUI.h" />
     <ClInclude Include="src\UI\RemainingEnemyUI.h" />
     <ClInclude Include="src\UI\ResultScreen.h" />
     <ClInclude Include="src\UI\ResultUIManager.h" />

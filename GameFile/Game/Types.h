@@ -15,6 +15,7 @@ enum EnGameObjectPriority
 	enGameObjectPriority_UI,
 	enGameObjectPriority_SceneManager,
 	enGameObjectPriority_EffectManager,
+	enGameObjectPriority_HitManager,
 	enGameObjectPriority_SkyCube,
 };
 
@@ -22,9 +23,9 @@ enum EnGameObjectPriority
 enum EnSpwnerType
 {
 	enSpwnerType_Left = 0,
-	enSpwnerType_Right,
 	enSpwnerType_Center,
-	enSpwnerType_Num
+	enSpwnerType_Right,
+	enSpwnerType_None = enSpwnerType_Right ,
 };
 
 
