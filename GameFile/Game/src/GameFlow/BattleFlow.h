@@ -24,7 +24,7 @@ namespace nsApp
 		{
 		private:
 			/** スポナーのリスト */
-			std::array<uint16_t, enSpwnerType_Num> m_spawnCountList;
+			std::array<uint16_t, enSpwnerType_None + 1> m_spawnCountList;
 			/** ウェーブで出現するエネミーの総数 */
 			uint8_t m_waveEnemyNum = 0;
 			/** 出現させる残りのエネミーの数 */

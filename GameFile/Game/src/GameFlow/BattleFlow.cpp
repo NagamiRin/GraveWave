@@ -82,12 +82,12 @@ namespace nsApp
                 if (m_remainingEnemiesNum == 0 || m_currentTime > 0.0f) {
                     return;
                 }
-                uint8_t selectSpawner = rand() % enSpwnerType_Num;
+                uint8_t selectSpawner = rand() % enSpwnerType_None;
                 // 対象の場所が出るまで繰り返す
                 uint8_t count = m_spawnCountList[selectSpawner];
                 if (count == 0) {
                     // 既に生成できない状態なら適当な場所からとってくる
-                    for (int type = enSpwnerType_Left; type < enSpwnerType_Num; ++type) {
+                    for (int type = enSpwnerType_Left; type < enSpwnerType_None; ++type) {
                         if (selectSpawner != type) {
                             selectSpawner = type;
                             count = m_spawnCountList[selectSpawner];
@@ -118,12 +118,13 @@ namespace nsApp
                 if (nsCore::BattleManager::GetInstance()->IsBossAlive() || m_currentTime > 0.0f) {
                     return;
                 }
-                uint8_t selectSpawner = rand() % enSpwnerType_Num - 1;
+                uint8_t selectSpawner = rand() % enSpwnerType_None;
+                if (selectSpawner == enSpwnerType_Center) selectSpawner = enSpwnerType_Right;
                 // 対象の場所が出るまで繰り返す
                 uint8_t count = m_spawnCountList[selectSpawner];
                 if (count == 0) {
                     // 既に生成できない状態なら適当な場所からとってくる
-                    for (int type = enSpwnerType_Left; type < enSpwnerType_Num; ++type) {
+                    for (int type = enSpwnerType_Left; type < enSpwnerType_None; ++type) {
                         if (selectSpawner != type) {
                             selectSpawner = type;
                             count = m_spawnCountList[selectSpawner];
@@ -137,9 +138,8 @@ namespace nsApp
                 auto* spawner = nsCore::BattleManager::GetInstance()->GetEnemySpawner(static_cast<EnSpwnerType>(selectSpawner));
 
                 spawner->ZombieCreate();
-
+                m_waveEnemyNum++;
                 m_currentTime = m_spawnInterval;
-                m_remainingEnemiesNum--;
             }
         }
 
