@@ -274,3 +274,15 @@ bool CollisionHitManager::UpdateHitStone(CollisionPair& pair)
 	return true;
 }
 
+
+
+CollisionHitManagerObject::CollisionHitManagerObject()
+{
+	CollisionHitManager::Create();
+}
+
+
+CollisionHitManagerObject::~CollisionHitManagerObject()
+{
+	CollisionHitManager::Delete();
+}

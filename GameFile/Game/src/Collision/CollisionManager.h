@@ -172,3 +172,28 @@ public:
 		}
 	}
 };
+
+
+/** コリジョンマネージャーのゲームオブジェクト */
+class CollisionHitManagerObject :public IGameObject
+{
+private:
+	/** ヒットマネージャーを消してよいか */
+	bool m_canDelete = false;
+
+
+public:
+	CollisionHitManagerObject();
+	~CollisionHitManagerObject();
+
+
+public:
+	bool Start()override { return true; };
+	void Update()override {};
+	void Render(RenderContext& rc)override {};
+
+
+public:
+	/** マネージャー削除のフラグを設定 */
+	inline void SetDelete(const bool isDelete) { m_canDelete = isDelete; }
+};
