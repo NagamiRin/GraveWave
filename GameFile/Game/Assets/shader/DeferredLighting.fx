@@ -285,7 +285,7 @@ float3 CalcSpotLight(
             smooth,
             specColor
         );
-        // 3. ‰e‹¿—¦‚ğŒvZ‚·‚éB‰e‹¿—¦‚Í0.0`1.0‚Ì”ÍˆÍ‚ÅA
+        // 3.‰e‹¿—¦‚ğŒvZ‚·‚éB‰e‹¿—¦‚Í0.0`1.0‚Ì”ÍˆÍ‚ÅA
         //     w’è‚µ‚½‹——£ipointsLights[i].rangej‚ğ’´‚¦‚½‚çA‰e‹¿—¦‚Í0.0‚É‚È‚é
         float affect = pow( 1.0f - min(1.0f, distance / light.spotLight[ligNo].range), light.spotLight[ligNo].rangePow.x);
 
@@ -398,6 +398,17 @@ float4 PSMainCore(PSInput In, uniform int isSoftShadow)
         // ŠÂ‹«Œõ‚É‚æ‚é’êã‚°
         lig += light.ambientLight * albedoColor;
     }
+    
+    float distanceToPixel = length(worldPos - light.eyePos);
+ 
+    float fogStart = light.fogStart;
+    float fogEnd = light.fogEnd;
+
+    float fogFactor = saturate((distanceToPixel - fogStart) / (fogEnd - fogStart));
+
+    float3 fogColor = light.fogColor;
+ 
+    lig = lerp(lig, fogColor, fogFactor);
    
     float4 finalColor = 1.0f;
     finalColor.xyz = lig;
