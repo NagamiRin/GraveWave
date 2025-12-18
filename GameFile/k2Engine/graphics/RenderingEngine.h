@@ -81,11 +81,6 @@ namespace nsK2Engine {
             int m_isIBL;                // IBLを行う。
             int m_isEnableRaytracing;   // レイトレが行われている。
 
-            //フォグ用変数。
-            float m_fogStart;           // フォグ開始距離
-            Vector3 m_fogColor;         // フォグの色
-            float m_fogEnd;             // フォグ終了距離
-            //追加ここまで。
         };
         /// <summary>
         /// レイトレ用のライトデータ。

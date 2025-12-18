@@ -57,10 +57,5 @@ struct LightCB{
     int isIBL;              // IBLを行う。
     int isEnableRaytracing; // レイトレが有効。
 
-    //フォグ用変数。パディングしなくていいように順序変更済み。
-    float fogStart;
-    float3 fogColor;
-    float fogEnd;
-    //追加ここまで。
 };
 #endif // _PBRLIGHTING_STRUCT_H_

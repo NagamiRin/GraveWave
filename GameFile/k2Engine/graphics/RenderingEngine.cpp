@@ -542,11 +542,7 @@ namespace nsK2Engine {
         }
         m_deferredLightingCB.m_light.mViewProjInv.Inverse(g_camera3D->GetViewProjectionMatrix());
 
-        // ここにフォグのパラメータ設定を追加！
-        m_deferredLightingCB.m_fogStart = 900.0f;          // フォグの開始距離 (適宜調整)
-        m_deferredLightingCB.m_fogEnd = 1100.0f;         // フォグの終了距離 (適宜調整)
-        m_deferredLightingCB.m_fogColor = { 0.8f, 0.8f, 0.8f }; // フォグの色 (少し青みがかったグレーなど)
-        
+              
 
         // レンダリング先をメインレンダリングターゲットにする
         // メインレンダリングターゲットを設定

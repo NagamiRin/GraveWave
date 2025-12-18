@@ -399,17 +399,7 @@ float4 PSMainCore(PSInput In, uniform int isSoftShadow)
         lig += light.ambientLight * albedoColor;
     }
     
-    float distanceToPixel = length(worldPos - light.eyePos);
- 
-    float fogStart = light.fogStart;
-    float fogEnd = light.fogEnd;
-
-    float fogFactor = saturate((distanceToPixel - fogStart) / (fogEnd - fogStart));
-
-    float3 fogColor = light.fogColor;
- 
-    lig = lerp(lig, fogColor, fogFactor);
-   
+      
     float4 finalColor = 1.0f;
     finalColor.xyz = lig;
     return finalColor;
