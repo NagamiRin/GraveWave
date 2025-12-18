@@ -109,7 +109,7 @@ namespace nsApp
                     {
                         const auto* scoreNotify = static_cast<const ScoreNotify*>(notify);
 
-                        m_scoreUI->SetScore(scoreNotify->m_score);
+                        m_scoreUI->SetMoney(scoreNotify->m_score);
 
                         break;
                     }

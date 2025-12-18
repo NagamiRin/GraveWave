@@ -11,7 +11,7 @@ namespace nsApp
 	namespace nsUI
 	{
 		class UICanvas;
-		class StringUI;
+		class NumberUI;
 
 
 		/**
@@ -22,11 +22,11 @@ namespace nsApp
 		private:
 			/** キャンバス */
 			std::unique_ptr<UICanvas> m_uiCanvas;
-			/** 文字UI */
-			StringUI* m_scoreUI = nullptr;
+			/** 所持金の数列 */
+			NumberUI* m_money = nullptr;
 
-			/** 現在の合計スコア */
-			uint16_t m_score = 0;
+			/** 現在所持金 */
+			uint16_t m_currentMoney = 0;
 
 		public:
 			/** コンストラクタ */
@@ -37,7 +37,7 @@ namespace nsApp
 
 		public:
 			/** スコアを設定 */
-			inline void SetScore(const uint16_t score) { m_score = score; }
+			inline void SetMoney(const uint16_t score) { m_currentMoney = score; }
 
 
 		public:
