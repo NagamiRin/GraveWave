@@ -245,10 +245,6 @@ bool CollisionHitManager::UpdateHitBullet(CollisionPair& pair)
 	if (boss) {
 		boss->ReduceHP(normalBullet->GetDamage());
 		boss->SetHit(true);
-		//死んだなら削除要請
-		if (boss->GetStatus()->GetHP() <= 0) {
-			nsApp::nsCore::BattleManager::GetInstance()->DeleteBoss();			
-		}
 	}
 
 	//投石に当たった場合

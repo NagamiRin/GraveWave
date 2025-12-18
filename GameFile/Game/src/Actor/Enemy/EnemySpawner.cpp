@@ -47,6 +47,7 @@ namespace nsApp
                 auto* boss = EnemyPoolManager::GetInstance()->GetBoss();
                 boss->Initialize(m_baseSpawnPosition);
                 boss->Activate();
+                EnemyPoolManager::GetInstance()->UseToBoss();
             }
 
 

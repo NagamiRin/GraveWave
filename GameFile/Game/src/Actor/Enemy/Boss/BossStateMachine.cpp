@@ -39,10 +39,6 @@ namespace nsApp
 
             void BossStateMachine::Update()
             {
-                //todo for test
-                if (m_ownerStatus->GetHP() <= 0.0f) {
-                    return;
-                }
                 ChangeState();
 
                 SuperClass::Update();

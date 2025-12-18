@@ -43,6 +43,7 @@ namespace nsApp
             void EnemyPoolManager::Update()
             {
                 Restore();
+                ReturnBoss();
             }
 
 
@@ -50,6 +51,15 @@ namespace nsApp
             {
                 for (auto& search : m_zombiePool) {
                     search.m_enemy->Destruction();
+                }
+            }
+
+
+            void EnemyPoolManager::ReturnBoss()
+            {
+                const float bossHp = m_boss.m_enemy->GetStatus()->GetHP();
+                if (bossHp <= 0.0f && !m_boss.m_canUse) {
+                    RestoreBoss();
                 }
             }
 

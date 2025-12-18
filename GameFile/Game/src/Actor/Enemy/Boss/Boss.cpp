@@ -77,17 +77,13 @@ namespace nsApp
                 m_transform.UpdateTransform();
 
                 m_collisionPosition = m_transform.m_position + Vector3(0.0f, 100.0f, 0.0f);
-                m_collisionObject->SetPosition(m_collisionPosition);
-                m_collisionObject->Update();
-
+                if (m_collisionObject) {
+                    m_collisionObject->SetPosition(m_collisionPosition);
+                    m_collisionObject->Update();
+                }
 				m_model.SetPosition(m_transform.m_position);
                 m_model.SetRotation(m_transform.m_rotation);
                 m_model.Update();
-
-                //todo for test
-                if (GetStatus()->GetHP() <= 0.0f) {
-                    int hoge;
-                }
 
                 m_stateMachine->Update();
 
@@ -115,6 +111,7 @@ namespace nsApp
             {
                 if (!CollisionHitManager::Get().CheckCollision(this)) return;
                 CollisionHitManager::Get().DeleteCollisionObject(this);
+                m_collisionObject = nullptr;
             }
 
 

@@ -57,6 +57,8 @@ namespace nsApp
 				PoolInformation<Zombie>* FindInformation();
 				/** プールマネージャー削除時の後始末 */
 				void CleaningUp();
+				/** ボスをプールに引っ込める */
+				void ReturnBoss();
 
 
 			public:
@@ -81,6 +83,8 @@ namespace nsApp
 				inline Boss* GetBoss() { return m_boss.m_enemy; }
 				/** ボスの生存状態を取得 */
 				inline bool IsBossAlive() { return !m_boss.m_canUse; }
+				/** ボスを使用中にする */
+				inline void UseToBoss() { m_boss.m_canUse = false; }
 				
 
 			private:
