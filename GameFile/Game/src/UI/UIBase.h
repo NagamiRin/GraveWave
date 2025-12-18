@@ -79,6 +79,8 @@ namespace nsApp
 			inline bool IsDraw() const { return m_isDraw; }
 			/** 位置を更新 */
 			inline void SetPosition(const Vector3& position) { m_transform.m_localPosition = position; }
+			/** 回転を更新 */
+			inline void SetRotation(const Quaternion& rot) { m_transform.m_localRotation = rot; }
 		};
 
 
