@@ -94,5 +94,11 @@ namespace nsApp
 
             return false;
         }
+
+
+        EnWaveType GameFlowManager::GetWaveType()
+        {
+            return BattleFlow::GetInstance()->GetWaveType();
+        }
     }
 }

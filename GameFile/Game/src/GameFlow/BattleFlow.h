@@ -6,13 +6,6 @@
 #pragma once
 
 
-enum EnWaveType {
-	enWaveType_Normal,
-	enWaveType_Boss,
-	enWaveType_None,
-};
-
-
 namespace nsApp
 {
 	namespace nsFlow
@@ -67,6 +60,8 @@ namespace nsApp
 			inline void AddEliminateEnemy() { m_eliminateEnemyNum++; }
 			/** エネミーの残数を取得 */
 			inline uint8_t GetRemainingEnemy() { return m_waveEnemyNum - m_eliminateEnemyNum; }
+			/** ウェーブのタイプを取得 */
+			inline EnWaveType GetWaveType() { return m_waveType; }
 
 
 		private:

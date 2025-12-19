@@ -28,6 +28,12 @@ enum EnSpwnerType
 	enSpwnerType_None = enSpwnerType_Right ,
 };
 
+enum EnWaveType {
+	enWaveType_Normal,
+	enWaveType_Boss,
+	enWaveType_None,
+};
+
 
 enum EnResultType
 {

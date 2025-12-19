@@ -233,6 +233,8 @@ namespace nsApp
 
         void NumberUI::Render(RenderContext& rc)
         {
+            if (!m_isDraw) return;
+
             for (auto* number : m_numbers) {
                 number->Draw(rc);
             }

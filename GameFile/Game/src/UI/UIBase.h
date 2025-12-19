@@ -207,6 +207,8 @@ namespace nsApp
 			uint16_t m_number = 0;
 			/** 文字の横幅 */
 			float m_wide = 0.0f;
+			/** 描画のフラグ */
+			bool m_isDraw = true;
 
 
 		public:
@@ -226,11 +228,13 @@ namespace nsApp
 			/** 数列を更新 */
 			void NumberUpdate(const char* assetName, const uint16_t drawNumber, const float width, const float height);
 			/** 色を設定 */
-			inline void SetColor(const Vector4& color) {for (auto* number : m_numbers)number->SetMulColor(color);}
+			inline void SetColor(const Vector4& color) { for (auto* number : m_numbers)number->SetMulColor(color); }
 			/** 位置を更新 */
 			inline void SetPosition(const Vector3& pos) { m_transform.m_localPosition = pos; }
 			/** 指定した桁の数字をとる */
 			uint8_t GetNumberOfDigits(const uint16_t number, const uint8_t digit);
+			/** 描画 */
+			inline void SetDraw(const bool draw) { m_isDraw = draw; }
 		};
 	}
 }
