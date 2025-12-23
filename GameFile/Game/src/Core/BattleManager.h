@@ -195,16 +195,12 @@ namespace nsApp
 			/** BattleManagerクラスのインスタンスを作成 */
 			static void CreateInstance()
 			{
-				if (m_instance == nullptr)
-				{
-					m_instance = new BattleManager();
-				}
+				if (!m_instance) m_instance = new BattleManager();
 			}
 			/** BattleManagerクラスのインスタンスを削除 */
 			static void DeleteInstance()
 			{
-				if (m_instance != nullptr)
-				{
+				if (m_instance) {
 					delete m_instance;
 					m_instance = nullptr;
 				}

@@ -112,6 +112,8 @@ namespace nsApp
                 if (!CollisionHitManager::Get().CheckCollision(this)) return;
                 CollisionHitManager::Get().DeleteCollisionObject(this);
                 m_collisionObject = nullptr;
+                Deactivate();
+
             }
 
 

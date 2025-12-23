@@ -165,7 +165,6 @@ namespace nsApp
 
             void EnemyPoolManager::RestoreBoss()
             {
-                m_boss.m_enemy->Deactivate();
                 m_boss.m_canUse = true;
             }
 
