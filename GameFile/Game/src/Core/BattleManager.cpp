@@ -284,7 +284,19 @@ namespace nsApp
                         nsUI::InGameUIManager::GetInstance()->AddNotify(enemiesNotify);
 
                         //delete enemiesNotify;
-                    });               
+                    });              
+
+                {
+                    bool isAlive = nsApp::nsActor::nsEnemy::EnemyPoolManager::GetInstance()->IsBossAlive();
+                    Vector3 pos = nsApp::nsActor::nsEnemy::EnemyPoolManager::GetInstance()->GetBoss()->GetLocalPosition();
+
+                    BossNotify* bossNotify = new BossNotify();
+                    bossNotify->m_alive = isAlive;
+                    bossNotify->m_position = pos;
+
+                    nsUI::InGameUIManager::GetInstance()->AddNotify(bossNotify);
+                }
+
             }
 
             //警告表示
