@@ -331,6 +331,23 @@ namespace nsApp
                 //delete wallHPNotify;
             }
 
+            //ボスのHP
+            {
+                const uint16_t maxHP = nsActor::nsEnemy::EnemyPoolManager::GetInstance()->GetBoss()->GetStatus()->GetMaxHP();
+                const uint16_t HP= nsActor::nsEnemy::EnemyPoolManager::GetInstance()->GetBoss()->GetStatus()->GetHP();
+                const bool isAlive = nsActor::nsEnemy::EnemyPoolManager::GetInstance()->IsBossAlive();
+                const Vector3 pos = nsActor::nsEnemy::EnemyPoolManager::GetInstance()->GetBoss()->GetLocalPosition();
+
+                BossHPNotify* bossHPNotify = new BossHPNotify();
+
+                bossHPNotify->m_maxBossHP = maxHP;
+                bossHPNotify->m_BossHP = HP;
+                bossHPNotify->m_isAlive = isAlive;
+                bossHPNotify->m_bossPosition = pos;
+
+                nsUI::InGameUIManager::GetInstance()->AddNotify(bossHPNotify);
+            }
+
             //カウントダウン            
             {
                 const float specifiedSeconds = nsFlow::PreparationFlow::GetInstance()->GetSpecifiedSeconds();
