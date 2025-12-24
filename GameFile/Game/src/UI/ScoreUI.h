@@ -46,9 +46,7 @@ namespace nsApp
 			void Render(RenderContext& rc)override;
 
 
-		public:
-			/** ゾンビ討伐時のスコア加算 */
-			inline void AddScoreZombieKill() {};
+			private:
 		};
 	}
 }

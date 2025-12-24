@@ -6,6 +6,7 @@
 #include "stdafx.h"
 #include "ScoreCounter.h"
 #include "src/Core/ParameterManager.h"
+#include "src/Core/BattleManager.h"
 
 
 namespace nsApp
@@ -24,7 +25,7 @@ namespace nsApp
 
             auto* param = ParameterManager::Get().GetParameter<MasterScoreParameter>();
 
-            m_eliminateZombieScore = param->m_eliminateZombieScore;
+            m_scoreVar.emplace(enScoreType_EliminateZombie, param->m_eliminateZombieScore);
         }
 
 
@@ -35,6 +36,15 @@ namespace nsApp
 
         void ScoreCounter::Update()
         {
+        }
+
+
+        void ScoreCounter::AddScore(const EnScoreType type)
+        {
+            uint16_t add = m_scoreVar.find(type)->second;
+
+            m_score += add;
+            nsCore::BattleManager::GetInstance()->AddMoney(add);
         }
     }
 }

@@ -31,11 +31,13 @@ namespace nsApp
 		enNotifyType_Reloading,
 		enNotifyType_RemainingEnemies,
 		enNotifyType_Enemies,
+		enNotifyType_Boss,
 		enNotifyType_Caveat,
 		enNotifyType_Score,
 		enNotifyType_Shop,
 		enNotifyType_SwitchPhase,
 		enNotifyType_WallHP,
+		enNotifyType_BossHP,
 		enNotifyType_None,
 	};
 
@@ -103,6 +105,17 @@ namespace nsApp
 		}
 	};
 
+	struct BossNotify :public INotify
+	{
+		Vector3 m_position;
+		bool m_alive;
+		//
+		BossNotify()
+			: INotify(enNotifyType_Boss)
+		{
+		}
+	};
+
 	struct CaveatNotify :public INotify
 	{
 		uint64_t m_caveatId;
@@ -122,6 +135,19 @@ namespace nsApp
 		//
 		WallHPNotify()
 			: INotify(enNotifyType_WallHP)
+		{
+		}
+	};
+
+	struct BossHPNotify :public INotify
+	{
+		uint16_t m_maxBossHP;
+		uint16_t m_BossHP;
+		Vector3 m_bossPosition;
+		bool m_isAlive;
+		//
+		BossHPNotify()
+			: INotify(enNotifyType_BossHP)
 		{
 		}
 	};
@@ -184,6 +210,7 @@ namespace nsApp
 		class CaveatUI;
 		class PhaseSwitchUI;
 		class ReloadingUI;
+		class BossHPUI;
 
 
 		class InGameUIManager
@@ -201,6 +228,8 @@ namespace nsApp
 			RemainingEnemyUI* m_remainingEnemyUI = nullptr;
 			/** 防壁のHP */
 			WallHPUI* m_wallHPUI = nullptr;
+			/** ボスのHPバー */
+			BossHPUI* m_bossHPUI;
 			/** ミニマップ */
 			MiniMapUI* m_miniMapUI = nullptr;
 			/** ショップUI */

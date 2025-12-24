@@ -56,8 +56,11 @@ namespace nsApp
 
 			/** 所持金を加算 */
 			inline void AddMoney(const uint16_t money) { m_money += money; }
+			/** 所持金を減らす */
+			inline void ReduceMoney(const uint16_t money) { m_money -= money; }
 			/** 所持金を取得 */
 			inline uint16_t GetMoney() { return m_money; }
+			
 
 			
 		private:

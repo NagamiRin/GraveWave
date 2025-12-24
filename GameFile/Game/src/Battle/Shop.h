@@ -24,7 +24,8 @@ namespace nsApp
 			int8_t m_menuIndexMax = 0;
 			/** メニューを開いているか */
 			bool m_isOpenMenu = false;
-
+			/** 商品の価格 */
+			std::map<EnProductType, uint16_t> m_priceVar;
 
 		public:
 			Shop();

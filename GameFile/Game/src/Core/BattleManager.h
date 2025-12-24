@@ -146,6 +146,12 @@ namespace nsApp
 			void DeleteBoss();
 			/** ゾンビを倒した報告 */
 			void ReportEliminateZombie();
+			/** 所持金を加算 */
+			void AddMoney(const uint16_t money);
+			/** 所持金を減算 */
+			void ReduceMoney(const uint16_t money);
+			/** 所持金を取得 */
+			uint16_t GetMoney();
 			/** 水平方向の限界値を取得 */
 			float GetVerLimitAngle();
 			/** 垂直方向の限界値を取得 */
@@ -164,6 +170,7 @@ namespace nsApp
 			bool IsBattleWin()const;
 			/** ゲームで負けたか */
 			bool IsBattleLose()const;
+			
 
 			//todo for test
 			/** サブ武器のIDリストを取得 */

@@ -13,6 +13,7 @@
 #include "src/UI/PhaseSwitchUI.h"
 #include "src/UI/RemainingEnemyUI.h"
 #include "src/UI/WallHPUI.h"
+#include "src/UI/BossHPUI.h"
 #include "src/UI/MiniMapUI.h"
 #include "src/UI/CaveatUI.h"
 #include "src/UI/ReloadingUI.h"
@@ -39,6 +40,8 @@ namespace nsApp
             m_remainingEnemyUI = NewGO<RemainingEnemyUI>(enGameObjectPriority_UI, "RemainingEnemyUI");
             //防壁のHPバーを生成
             m_wallHPUI = NewGO<WallHPUI>(enGameObjectPriority_UI, "WallHPUI");
+            //ボスのHPバーを生成
+            m_bossHPUI = NewGO<BossHPUI>(enGameObjectPriority_UI, "BossHPUI");
             //ミニマップ生成
             m_miniMapUI = NewGO<MiniMapUI>(enGameObjectPriority_UI, "MiniMap");
             //ショップ生成
@@ -60,6 +63,7 @@ namespace nsApp
             DeleteGO(m_scoreUI);
             DeleteGO(m_remainingEnemyUI);
             DeleteGO(m_wallHPUI);
+            DeleteGO(m_bossHPUI);
             DeleteGO(m_miniMapUI);
 			DeleteGO(m_shopUI);
             DeleteGO(m_caveatUI);
@@ -127,7 +131,16 @@ namespace nsApp
                     {
                         const auto* enemiesNotify = static_cast<const EnemiesNotify*>(notify);
 
-                        m_miniMapUI->UpdateIconInformation(enemiesNotify->m_iconId, enemiesNotify->m_id, enemiesNotify->m_position);                        
+                        m_miniMapUI->UpdateIconInformation(enemiesNotify->m_iconId, enemiesNotify->m_id, enemiesNotify->m_position);           
+
+                        break;
+                    }
+
+                    case enNotifyType_Boss:
+                    {
+                        const auto* bossBotify = static_cast<const BossNotify*>(notify);
+
+                        m_miniMapUI->SetBossInformation(bossBotify->m_alive, bossBotify->m_position);
 
                         break;
                     }
@@ -159,6 +172,18 @@ namespace nsApp
                         m_wallHPUI->SetMaxDurability(wallHPNotify->m_maxWallHP);
                         m_wallHPUI->SetDurability(wallHPNotify->m_wallHP);
 
+                        break;
+                    }
+
+                    case enNotifyType_BossHP:
+                    {
+                        const auto* bossHPNotify= static_cast<const BossHPNotify*>(notify);
+
+                        m_bossHPUI->SetMaxHP(bossHPNotify->m_maxBossHP);
+                        m_bossHPUI->SetHP(bossHPNotify->m_BossHP);
+                        m_bossHPUI->SetBossPosition(bossHPNotify->m_bossPosition);
+                        m_bossHPUI->SetAlive(bossHPNotify->m_isAlive);
+                            
                         break;
                     }
 

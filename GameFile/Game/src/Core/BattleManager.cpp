@@ -12,6 +12,7 @@
 #include "src/Actor/Enemy/EnemyPoolManager.h"
 #include "src/Actor/Enemy/EnemySpawner.h"
 #include "src/Actor/Enemy/Zombie.h"
+#include "src/Actor/Enemy/Boss/Boss.h"
 #include "src/Actor/Gun/GunBase.h"
 #include "src/Battle/Inventory.h"
 #include "src/Battle/Shop.h"
@@ -247,7 +248,7 @@ namespace nsApp
 
             //スコア
             {
-                const uint16_t score = nsApp::nsFlow::ScoreCounter::GetInstance()->GetScore();
+                const uint16_t score = nsBattle::Inventory::GetInstance().GetMoney();
 
                 ScoreNotify* scoreNotify = new ScoreNotify();
                 scoreNotify->m_score = score;
@@ -410,7 +411,24 @@ namespace nsApp
             //倒した敵を加算
             nsApp::nsFlow::BattleFlow::GetInstance()->AddEliminateEnemy();
             //スコア加算
-            nsApp::nsFlow::ScoreCounter::GetInstance()->AddScoreEliminateZombie();
+            nsApp::nsFlow::ScoreCounter::GetInstance()->AddScore(enScoreType_EliminateZombie);
+        }
+
+        void BattleManager::AddMoney(const uint16_t money)
+        {
+            nsBattle::Inventory::GetInstance().AddMoney(money);
+        }
+
+
+        void BattleManager::ReduceMoney(const uint16_t money)
+        {
+            nsBattle::Inventory::GetInstance().ReduceMoney(money);
+        }
+
+
+        uint16_t BattleManager::GetMoney()
+        {
+            return nsBattle::Inventory::GetInstance().GetMoney();
         }
 
 

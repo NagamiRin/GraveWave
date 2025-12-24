@@ -18,8 +18,8 @@ namespace nsApp
 		private:
 			/** 現在の合計スコア */
 			uint16_t m_score = 0;
-			/** ゾンビを倒した時のスコア */
-			uint8_t m_eliminateZombieScore = 0;
+			/** スコア加算の種類 */
+			std::map< EnScoreType, uint16_t> m_scoreVar;
 
 
 		private:
@@ -35,8 +35,8 @@ namespace nsApp
 		public:
 			/** スコアを取得 */
 			inline uint16_t GetScore() { return m_score; }
-			/** ゾンビ討伐時のスコア加算 */
-			inline void AddScoreEliminateZombie() { m_score += m_eliminateZombieScore; }
+			/** スコアを加算 */
+			void AddScore(const EnScoreType type);
 
 
 		private:

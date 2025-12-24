@@ -82,6 +82,23 @@ struct MasterSubWeaponParameter :public IMasterParameter
     float m_newPositionZ;
 };
 
+struct MasterShopParameter :public IMasterParameter
+{
+    appParameter(MasterShopParameter);
+    //
+    uint16_t m_GZ75;
+    uint16_t m_R8;
+    uint16_t m_M1911;
+    uint16_t m_TEC9;
+    uint16_t m_ACR;
+    uint16_t m_AK47;
+    uint16_t m_G36;
+    uint16_t m_HAMR;
+    uint16_t m_L86A2;
+    uint16_t m_M4A1;
+    uint16_t m_SCAR;
+};
+
 
 //ボスが投げる岩のステータス
 struct MasterStoneParameter : public IMasterParameter
