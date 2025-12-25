@@ -52,7 +52,7 @@ namespace nsApp
 
             //ウェーブ数
             m_wave = m_uiCanvas->CreateUI<NumberUI>();
-            m_wave->Initialize("Assets/UI/Numbers/Classic", 0, NUMBER_WIDE_SIZE, NUMBER_VERTICAL_SIZE, Vector3(60.0f, 30.0f, 0.0f), Vector3::One, Quaternion::Identity);
+            m_wave->Initialize("Assets/UI/Numbers/Classic", 0, NUMBER_WIDE_SIZE, NUMBER_VERTICAL_SIZE, Vector3(60.0f, 33.0f, 0.0f), Vector3::One, Quaternion::Identity);
 
             //状況ごとのメッセージ
             m_massage = m_uiCanvas->CreateUI<ImageUI>();

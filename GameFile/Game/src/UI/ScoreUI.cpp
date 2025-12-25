@@ -43,7 +43,7 @@ namespace nsApp
 
             //数列
             m_money = m_uiCanvas->CreateUI<NumberUI>();
-            m_money->Initialize("Assets/UI/Numbers/Classic", 0, NUMBER_WIDE_SIZE, NUMBER_VERTICAL_SIZE, Vector3(20.0f, -10.0f, 0.0f), Vector3::One, Quaternion::Identity);
+            m_money->Initialize("Assets/UI/Numbers/Classic", 0, NUMBER_WIDE_SIZE, NUMBER_VERTICAL_SIZE, Vector3(100.0f, 0.0f, 0.0f), Vector3::One, Quaternion::Identity);
 
             return true;
         }
