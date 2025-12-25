@@ -94,27 +94,6 @@ namespace nsApp
 				void SetDirection(const Vector3& direction) override
 				{
 					m_direction = direction;
-					Quaternion t;
-					t = GetLocalRotation();
-
-					// Y軸回転(横方向)
-					t.SetRotationYFromDirectionXZ(m_direction);
-
-					//// XZ軸回転(縦)
-					//// 軸を求める
-					//Vector3 xz;
-					//xz.Cross(Vector3::Up, Vector3(direction.x, 0.0f, direction.z));
-
-					//Vector3 temp = Vector3::Front;
-					//const float shita = temp.Dot(Vector3(0.0f, direction.y, direction.z));
-					//const float xzRotValue = acosf(shita);
-					//K2_LOG("XRotValue: %f \n", Math::RadToDeg(xzRotValue));
-					//Quaternion xzQ;
-					//xzQ.SetRotation(xz, xzRotValue);
-
-					//t.Multiply(xzQ);
-
-					SetLocalRotation(t);
 				}
 
 
@@ -128,6 +107,8 @@ namespace nsApp
 
 
 			public:
+				/** トランスフォームの親を設定 */
+				inline void SetParent(Transform* t) { m_transform.SetParent(t); }
 				/** 銃装備の状態を取得 */
 				inline bool IsEquipment() const { return m_isEquipment; }
 				/** 銃装備の状態を設定 */

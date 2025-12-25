@@ -52,6 +52,7 @@ namespace nsApp
 				//初期装備
 				m_gun = NewGO<nsGun::SubWeapon>(enGameObjectPriority_Gun, "HandGun");
 				m_gun->SetIsEquipment(true);
+				m_gun->SetParent(&m_transform);				
 
 				return true;
 			}
@@ -168,6 +169,10 @@ namespace nsApp
 
 				// 切り替え
 				m_gun = createGun;
+
+				//親設定
+				m_gun->SetParent(&m_transform);
+
 
 				return createGun;
 			}

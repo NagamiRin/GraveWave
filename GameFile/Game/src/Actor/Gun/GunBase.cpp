@@ -43,10 +43,11 @@ namespace nsApp
 
 				if (m_currentReloadTime >= 0.0f && m_isReloading)ReloadAnimation();
 
-				m_transform.m_localPosition = m_playerPosition + m_offsetPosition + m_adjustPosition;
+				m_transform.m_localPosition = m_offsetPosition + m_adjustPosition;
+				m_transform.UpdateTransform();
 
-				m_model.SetPosition(m_transform.m_localPosition);
-				m_model.SetRotation(m_transform.m_localRotation);
+				m_model.SetPosition(m_transform.m_position);
+				m_model.SetRotation(m_transform.m_rotation);
 				m_model.SetScale(m_transform.m_localScale);
 				m_model.Update();
 			}
@@ -58,7 +59,7 @@ namespace nsApp
 
 				nsBullet::NormalBullet* bullet = nullptr;
 				// 弾を生成
-				nsBullet::BulletManager::GetInstance()->CreatBullet<nsBullet::NormalBullet>(m_transform.m_localPosition, m_injectionDirection, m_bulletSpeed, m_damage);			
+				nsBullet::BulletManager::GetInstance()->CreatBullet<nsBullet::NormalBullet>(m_transform.m_position, m_injectionDirection, m_bulletSpeed, m_damage);			
 
 				//効果音、エフェクト
 				SoundManager::Get().PlaySE(enSoundKind_HandGun_Fire);
