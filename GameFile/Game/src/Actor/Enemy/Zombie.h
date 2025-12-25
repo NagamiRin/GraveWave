@@ -35,18 +35,27 @@ namespace nsApp
 				using SuperClass = EnemyBase;
 
 
-			private:
+			public:
 				enum EnAnimationVar {
+					EnAnimationVar_Attack,
+					EnAnimationVar_Death,
+					EnAnimationVar_GetUp,
+					EnAnimationVar_Hit,
+					EnAnimationVar_Idle,
 					EnAnimationVar_Walk,
 					EnAnimationVar_Max,
 				};
 
+
+			private:
 				/** アニメションクリップの種類 */
 				std::array<AnimationClip, EnAnimationVar_Max> m_animationClipList;
-				/** ゾンビのステートマシンのポインタ */
-				std::unique_ptr<ZombieStateMachine> m_stateMachine;
 				/** LODモデル */
 				nsCore::ModelLOD* m_modelLOD = nullptr;
+
+
+				/** プールに戻すフラグ */
+				bool m_canRestore = false;
 
 
 			public:
@@ -58,11 +67,11 @@ namespace nsApp
 
 			public:
 				/** オブジェクト生成時に一度だけ実行される関数 */
-				virtual bool Start()override;
+				bool Start()override;
 				/** 毎フレーム呼び出される関数 */
-				virtual void Update()override;
+				void Update()override;
 				/** モデルの描画処理を行う関数 */
-				virtual void Render(RenderContext& rc)override;
+				void Render(RenderContext& rc)override;
 
 
 			public:
@@ -70,19 +79,26 @@ namespace nsApp
 				void Initialize(const Vector3& initializePosition);
 				/** ゾンビを破棄する（非アクティブ状態に） */
 				void Destruction();
+				
+
+			public:
+				/** ステータスを取得 */
+				inline ZombieStatus* GetStatus() { return dynamic_cast<ZombieStatus*>(m_status); }
+
 				/** HPを減らす */
 				inline void ReduceHP(uint16_t reduceAmount)
 				{
-					uint16_t  currentHP = GetZombieStatus()->GetHP();
-					if (currentHP <= reduceAmount) reduceAmount = currentHP;
-					uint16_t afterHP = currentHP - reduceAmount;
-					GetZombieStatus()->SetHP(afterHP);
+					uint16_t  currentHP = GetStatus()->GetHP();
+					uint16_t afterHP = currentHP >= reduceAmount ?  currentHP - reduceAmount : 0;
+					GetStatus()->SetHP(afterHP);
 				}
 
 
-			public:
-				/** ゾンビのステータスをキャスト */
-				inline ZombieStatus* GetZombieStatus() { return dynamic_cast<ZombieStatus*>(m_status); }
+				nsCore::ModelLOD* GetModel();
+				/** プールに戻すフラグを取得 */
+				inline bool CanRestore() const { return m_canRestore; }
+				/** プールに戻すフラグを設定 */
+				inline void SetRestore(const bool restore) { m_canRestore = restore; }
 			};
 		}
 	}

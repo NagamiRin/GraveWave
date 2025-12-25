@@ -22,6 +22,7 @@ namespace nsApp
 						p.m_hp = j["HP"].get<uint16_t>();
 						p.m_attackPower = j["AttackPower"].get<uint16_t>();
 						p.m_attackFrequency = j["AttackFrequency"].get<float>();
+						p.m_attackRange = j["AttackRange"].get<float>();
 					});
 
 				auto* parameter = ParameterManager::Get().GetParameter<MasterEnemyStatus>();
@@ -30,6 +31,7 @@ namespace nsApp
 				m_maxHp = parameter->m_hp;
 				m_attackPower = parameter->m_attackPower;
 				m_attackFrequency = parameter->m_attackFrequency;
+				m_attackRange = parameter->m_attackRange;
 			}
 
 

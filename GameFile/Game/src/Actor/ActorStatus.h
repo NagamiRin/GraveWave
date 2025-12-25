@@ -1,4 +1,4 @@
-/**
+﻿/**
  * ActorStatus.h
  * 
  * アクターステータス
@@ -16,9 +16,6 @@ namespace nsApp
 		 */
 		class ActorStatus
 		{
-		private:
-
-
 		public:
 			/** コンストラクタ */
 			ActorStatus();
@@ -26,10 +23,8 @@ namespace nsApp
 			~ActorStatus();
 
 
-			/**
-			 * セットアップ
-			 * NOTE: 必ず継承先で実装すること
-			 */
+		public:
+			/** 初期化 */
 			virtual void Setup() = 0;
 		};
 	}

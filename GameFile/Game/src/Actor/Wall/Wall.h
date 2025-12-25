@@ -13,7 +13,6 @@ namespace nsApp
 	{
 		namespace nsWall
 		{
-			class WallStatus;
 			/** 
 			 * 防壁クラス 
 			 */
@@ -29,6 +28,8 @@ namespace nsApp
 				uint16_t m_maxDurability = 0;
 				/** 耐久度 */
 				uint16_t m_durability = 0;
+				/** 防壁の静的な当たり判定 */
+				PhysicsStaticObject* m_wallDetection = nullptr;
 
 
 			public:

@@ -12,6 +12,7 @@ namespace nsApp
 	{
 		class UICanvas;
 		class ImageUI;
+		class NumberUI;
 
 
 		/**
@@ -24,6 +25,8 @@ namespace nsApp
 			std::unique_ptr<UICanvas> m_uiCanvas;
 			/** HPバーの本体 */
 			ImageUI* m_HPBar = nullptr;
+			/** 防壁の耐久度の％表示 */
+			NumberUI* m_rate = nullptr;
 			/** 最大耐久度 */
 			uint16_t m_maxDurability = 0;
 			/** 耐久度 */

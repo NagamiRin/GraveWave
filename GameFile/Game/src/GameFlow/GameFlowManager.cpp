@@ -12,6 +12,11 @@
 #include "src/Core/BattleManager.h"
 
 
+namespace {
+    constexpr uint8_t CLEAR_WAVE_NUM = 2;
+}
+
+
 namespace nsApp
 {
     namespace nsFlow
@@ -35,7 +40,7 @@ namespace nsApp
 
         GameFlowManager::~GameFlowManager()
         {
-            //各フェーズのクラスを生成
+            //各フェーズのクラスを削除
             nsFlow::BattleFlow::DeleteInstance();
             nsFlow::PreparationFlow::DeleteInstance();
             //スコアカウンターを削除
@@ -82,12 +87,18 @@ namespace nsApp
         {
             // 全ウェーブが終わって敵を倒したか
             {
-                if (m_waveCount == 2 && m_currentPhase == enPreparation) {
+                if (m_waveCount == CLEAR_WAVE_NUM && m_currentPhase == enPreparation) {
                     return true;
                 }
             }
 
             return false;
+        }
+
+
+        EnWaveType GameFlowManager::GetWaveType()
+        {
+            return BattleFlow::GetInstance()->GetWaveType();
         }
     }
 }

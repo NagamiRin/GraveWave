@@ -10,6 +10,10 @@
 #include "src/Scene/InGameScene.h"
 #include "src/Scene/ResultScene.h"
 
+#ifdef K2_DEBUG
+#include "src/Scene/DebugScene.h"
+#endif
+
 
 namespace nsApp
 {
@@ -24,6 +28,9 @@ namespace nsApp
             AddSceneMap<TitleScene>();
             AddSceneMap<InGameScene>();
             AddSceneMap<ResultScene>();
+#ifdef K2_DEBUG
+            AddSceneMap<DebugScene>();
+#endif
         }
 
 
@@ -51,7 +58,7 @@ namespace nsApp
             if (it == m_sceneMap.end()) {
                 K2_ASSERT(false, "新規シーンが追加されていません。\n");
             }
-            auto& createSceneFunc = it->second;
+            auto& createSceneFunc = it->second; 
             m_currentScene = createSceneFunc();
             m_currentScene->Start();
         }
@@ -74,9 +81,13 @@ namespace nsApp
 
         bool SceneManagerObject::Start()
         {
+#if 0
+            SceneManager::GetInstance()->CreateScene(DebugScene::ID());
+#endif
+#if 1
             //最初のシーンを生成
             SceneManager::GetInstance()->CreateScene(TitleScene::ID());
-
+#endif
             return true;
         }
 

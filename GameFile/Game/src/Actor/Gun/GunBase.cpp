@@ -43,10 +43,12 @@ namespace nsApp
 
 				if (m_currentReloadTime >= 0.0f && m_isReloading)ReloadAnimation();
 
-				m_transform.m_localPosition = m_playerPosition + m_offsetPosition + m_adjustPosition;
+				m_transform.m_localPosition = m_offsetPosition + m_adjustPosition;
+				m_transform.UpdateTransform();
 
-				m_model.SetPosition(m_transform.m_localPosition);
-				m_model.SetRotation(m_transform.m_localRotation);
+				m_model.SetPosition(m_transform.m_position);
+				m_model.SetRotation(m_transform.m_rotation);
+				m_model.SetScale(m_transform.m_localScale);
 				m_model.Update();
 			}
 
@@ -57,7 +59,7 @@ namespace nsApp
 
 				nsBullet::NormalBullet* bullet = nullptr;
 				// 弾を生成
-				nsBullet::BulletManager::GetInstance()->CreatBullet<nsBullet::NormalBullet>(m_transform.m_localPosition, m_injectionDirection, m_bulletSpeed, m_damage);			
+				nsBullet::BulletManager::GetInstance()->CreatBullet<nsBullet::NormalBullet>(m_transform.m_position, m_injectionDirection, m_bulletSpeed, m_damage);			
 
 				//効果音、エフェクト
 				SoundManager::Get().PlaySE(enSoundKind_HandGun_Fire);
@@ -76,7 +78,10 @@ namespace nsApp
 				if (m_isReloading || m_currentReloadTime < 0.0f || m_remainingAmmo == m_maxAmmo)return;
 
 				m_isReloading = true;
-				m_currentReloadTime = m_reloadTime;				
+				m_currentReloadTime = m_reloadTime;		
+
+				//SE
+				SoundManager::Get().PlaySE(enSoundKind_HandGun_Reload);
 			}
 
 
@@ -99,8 +104,8 @@ namespace nsApp
 					t = m_currentReloadTime / (m_reloadTime / 2);
 				}
 
-				const float adjustPosition = -20.0f * t;
-				m_transform.m_localPosition += Vector3(0.0f, adjustPosition, 0.0f);
+				m_adjustPosition.y = -20.0f * t;
+				//m_transform.m_localPosition += Vector3(0.0f, adjustPosition, 0.0f);
 				
 				if (m_currentReloadTime <= 0.0f)ReloadCompletion();
 			}

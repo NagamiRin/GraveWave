@@ -37,6 +37,7 @@ namespace nsApp
 
 				const Vector3 moveAmount = m_flyDirection * m_bulletSpeed;
 				m_transform.m_localPosition = m_transform.m_localPosition + moveAmount;
+				m_transform.UpdateTransform();
 			}
 
 

@@ -5,7 +5,7 @@
  */
 #pragma once
 
-
+class CollisionHitManagerObject;
 
 namespace nsApp
 {
@@ -36,6 +36,7 @@ namespace nsApp
 		{
 			class Player;
 		}		
+
 		namespace nsWall
 		{
 			class Wall;
@@ -92,15 +93,17 @@ namespace nsApp
 
 		private:
 			/** 背景 */
-			nsApp::nsActor::nsBackGround::BackGround* m_backGround = nullptr;
+			nsActor::nsBackGround::BackGround* m_backGround = nullptr;
 			/** 防壁 */
-			nsApp::nsActor::nsWall::Wall* m_wall = nullptr;
+			nsActor::nsWall::Wall* m_wall = nullptr;
 			/** カメラ */
-			nsApp::nsCamera::GameCamera* m_camera = nullptr;
+			nsCamera::GameCamera* m_camera = nullptr;
 			/** プレイヤー */
-			nsApp::nsActor::nsPlayer::Player* m_player = nullptr;
+			nsActor::nsPlayer::Player* m_player = nullptr;
 			/** エネミーのスポナー(右) */
-			std::array<EnemySpawnerPtr, enSpwnerType_Num> m_enemySpawner;
+			std::array<EnemySpawnerPtr, enSpwnerType_None + 1> m_enemySpawner;
+			/** ヒット判定のマネージャー */
+			CollisionHitManagerObject* m_hitManagerObject = nullptr;
 
 
 		private:
@@ -139,24 +142,35 @@ namespace nsApp
 			{
 				m_notifyList.push_back(notify);
 			}
-			/** ゾンビの削除要請 */
-			void DeleteZombie(nsApp::nsActor::nsEnemy::Zombie* zombie);
+			/** ボスの削除要請 */
+			void DeleteBoss();
+			/** ゾンビを倒した報告 */
+			void ReportEliminateZombie();
+			/** 所持金を加算 */
+			void AddMoney(const uint16_t money);
+			/** 所持金を減算 */
+			void ReduceMoney(const uint16_t money);
+			/** 所持金を取得 */
+			uint16_t GetMoney();
 			/** 水平方向の限界値を取得 */
 			float GetVerLimitAngle();
 			/** 垂直方向の限界値を取得 */
 			float GetHorLimitAngle();
 			/** 重力量を取得 */
 			float GetGravityAmount();
+			/** ボスの生存状態を取得 */
+			bool IsBossAlive();
 			/** エネミーが進行を止める距離を取得 */
 			float GetEnemyStopPosition();
 			/** 防壁にダメージを与える */
-			void DealingDamage(const uint16_t damage);
+			void DealingDamage();
 			/** リザルトへ移行していいか */
 			bool IsBattleFinish()const;
 			/** ゲームで勝ったか */
 			bool IsBattleWin()const;
 			/** ゲームで負けたか */
 			bool IsBattleLose()const;
+			
 
 			//todo for test
 			/** サブ武器のIDリストを取得 */
@@ -188,16 +202,12 @@ namespace nsApp
 			/** BattleManagerクラスのインスタンスを作成 */
 			static void CreateInstance()
 			{
-				if (m_instance == nullptr)
-				{
-					m_instance = new BattleManager();
-				}
+				if (!m_instance) m_instance = new BattleManager();
 			}
 			/** BattleManagerクラスのインスタンスを削除 */
 			static void DeleteInstance()
 			{
-				if (m_instance != nullptr)
-				{
+				if (m_instance) {
 					delete m_instance;
 					m_instance = nullptr;
 				}

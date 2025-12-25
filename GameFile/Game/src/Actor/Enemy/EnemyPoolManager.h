@@ -14,6 +14,7 @@ namespace nsApp
 		namespace nsEnemy
 		{
 			class Zombie;
+			class Boss;
 
 
 			/**
@@ -36,6 +37,8 @@ namespace nsApp
 			private:
 				/** エネミーの配列 */
 				std::vector<PoolInformation<Zombie>> m_zombiePool;
+				/** ボスのインスタンス */
+				PoolInformation<Boss> m_boss;
 				/** 現在出現しているエネミーのリスト */
 				std::vector<Zombie*> m_usedEnemyList;
 				
@@ -43,6 +46,10 @@ namespace nsApp
 			private:
 				EnemyPoolManager();
 				~EnemyPoolManager();
+
+
+			public:
+				void Update();
 				
 
 			private:
@@ -50,6 +57,8 @@ namespace nsApp
 				PoolInformation<Zombie>* FindInformation();
 				/** プールマネージャー削除時の後始末 */
 				void CleaningUp();
+				/** ボスをプールに引っ込める */
+				void ReturnBoss();
 
 
 			public:
@@ -59,15 +68,24 @@ namespace nsApp
 				/** 使える人渡す */
 				Zombie* FindUse();
 
-				/** いらなくなったやつを戻す */
-				void Restore(Zombie* target);
+				/** HPがなくなったゾンビ探してを戻す */
+				void Restore();
+				/** HPがなくなったボスを撤収 */
+				void RestoreBoss();
 
 
 			public:
 				/** 現在出現しているエネミーのリストを取得 */
-				inline const std::vector<Zombie*>& GetUsedEnemyList() { return m_usedEnemyList; }
+				inline const std::vector<Zombie*>& GetUsedEnemyList() const { return m_usedEnemyList; }
+				/** 今使えるやつを探す */
 				void ForEachUsedEnemy(const std::function<void(Zombie*)>& func);
-
+				/** ボスを取得 */
+				inline Boss* GetBoss() { return m_boss.m_enemy; }
+				/** ボスの生存状態を取得 */
+				inline bool IsBossAlive() { return !m_boss.m_canUse; }
+				/** ボスを使用中にする */
+				inline void UseToBoss() { m_boss.m_canUse = false; }
+				
 
 			private:
 				/** 自身のインスタンス */

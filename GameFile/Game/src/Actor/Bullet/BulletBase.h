@@ -58,6 +58,10 @@ namespace nsApp
 				}
 				/** 現在の飛翔時間を取得 */
 				inline float GetCurrentFlyTime()const { return m_currentFlyTime; };
+				/** 弾の飛翔方向を取得 */
+				inline const Vector3& GetFlyDirection() const { return m_flyDirection; }
+				/** 弾の飛翔速度を取得 */
+				inline const float GetBulletSpeed() const { return m_bulletSpeed; }
 				/** 弾のダメージ量を取得 */
 				inline const uint8_t GetDamage() { return m_damage; }
 			};

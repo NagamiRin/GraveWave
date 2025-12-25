@@ -11,7 +11,8 @@ namespace nsApp
 	namespace nsUI
 	{
 		class UICanvas;
-		class StringUI;
+		class NumberUI;
+		class ImageUI;
 
 
 		/**
@@ -22,11 +23,18 @@ namespace nsApp
 		private:
 			/** キャンバス */
 			std::unique_ptr<UICanvas> m_uiCanvas;
-			/** 文字UI */
-			StringUI* m_enemyCountUI = nullptr;
-
 			/** エネミーの残数 */
-			uint8_t m_enemyCount = 0;
+			NumberUI* m_enemyCount = nullptr;
+			/** ウエーブ表示の数列 */
+			NumberUI* m_wave = nullptr;
+			/** UIの枠 */
+			ImageUI* m_lightFrame = nullptr;
+			/** フェーズごとのメッセージ文 */
+			ImageUI* m_massage = nullptr;
+			/** エネミーの残数 */
+			uint8_t m_count = 0;
+			/** 現在のフェーズの種類 */
+			uint8_t m_currentPhase = 0;
 
 		public:
 			/** コンストラクタ */
@@ -37,7 +45,7 @@ namespace nsApp
 
 		public:
 			/** エネミーの残数を設定 */
-			inline void SetEnemyCount(const uint8_t count) { m_enemyCount = count; }
+			inline void SetEnemyCount(const uint8_t count) { m_count = count; }
 
 
 		public:

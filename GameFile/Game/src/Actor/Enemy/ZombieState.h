@@ -3,6 +3,7 @@
  * 
  * ゾンビの各ステートの処理を行う
  */
+#pragma once
 #include "src/Actor/IState.h"
 
 
@@ -18,21 +19,21 @@ namespace nsApp
 			/**
 			 * 攻撃状態クラス
 			 */
-			class MeleeAttackState : public IState
+			class ZombieAttackState : public IState
 			{
-				appState(MeleeAttackState);
+				appState(ZombieAttackState);
 
 
 			private:
-				/** 残りの攻撃のクールタイム */
-				float m_currentCoolTime = 0.0f;
+				/** 現在時間 */
+				float m_currentTime = 0.0f;
 
 
 			public:
 				/** コンストラクタ */
-				MeleeAttackState(ZombieStateMachine* owner);
+				ZombieAttackState(ZombieStateMachine* owner);
 				/** デストラクタ */
-				~MeleeAttackState();
+				~ZombieAttackState();
 
 
 			public:
@@ -45,19 +46,73 @@ namespace nsApp
 			/*********************************/
 
 
-			/** 
-			 * 歩行状態クラス 
+			/**
+			 * 死亡状態クラス
 			 */
-			class WalkState : public IState
+			class ZombieDeathState : public IState
 			{
-				appState(WalkState);
+				appState(ZombieDeathState);
+
+
+			private:
+				/** 現在の時間 */
+				float m_currentTime = 0.0f;
 
 
 			public:
-				/** コンストラクタ */
-				WalkState(ZombieStateMachine* owner);
-				/** デストラクタ */
-				~WalkState();
+				ZombieDeathState(ZombieStateMachine* owner);
+				~ZombieDeathState();
+
+
+			public:
+				void Enter() override;
+				void Update() override;
+				void Exit() override;
+			};
+
+
+			/*********************************/
+
+
+			/**
+			 * 起き上がり状態クラス
+			 */
+			class ZombieGetUpState : public IState
+			{
+				appState(ZombieGetUpState);
+
+
+			public:
+				ZombieGetUpState(ZombieStateMachine* owner);
+				~ZombieGetUpState();
+
+
+			public:
+				void Enter() override;
+				void Update() override;
+				void Exit() override;
+			};
+
+
+			/*********************************/
+
+
+			/**
+			 * 被弾状態クラス
+			 */
+			class ZombieHitState : public IState
+			{
+				appState(ZombieHitState);
+
+
+			private:
+				/** 現在の時間 */
+				float m_currentTime = 0.0f;
+
+
+			public:
+				ZombieHitState(ZombieStateMachine* owner);
+				~ZombieHitState();
 
 
 			public:
@@ -73,16 +128,16 @@ namespace nsApp
 			/**
 			 * 待機状態クラス
 			 */
-			class IdleState : public IState
+			class ZombieIdleState : public IState
 			{
-				appState(IdleState);
+				appState(ZombieIdleState);
 
 
 			public:
 				/** コンストラクタ */
-				IdleState(ZombieStateMachine* owner);
+				ZombieIdleState(ZombieStateMachine* owner);
 				/** デストラクタ */
-				~IdleState();
+				~ZombieIdleState();
 
 
 			public:
@@ -95,26 +150,26 @@ namespace nsApp
 			/*********************************/
 
 
-			/**
-			 * 非出現状態クラス
+			/** 
+			 * 歩行状態クラス 
 			 */
-			class NotAppearState : public IState
+			class ZombieWalkState : public IState
 			{
-				appState(NotAppearState);
+				appState(ZombieWalkState);
 
 
 			public:
 				/** コンストラクタ */
-				NotAppearState(ZombieStateMachine* owner);
+				ZombieWalkState(ZombieStateMachine* owner);
 				/** デストラクタ */
-				~NotAppearState();
+				~ZombieWalkState();
 
 
 			public:
 				void Enter() override;
 				void Update() override;
 				void Exit() override;
-			};
-		}		
+			};			
+		}
 	}
 }

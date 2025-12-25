@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Grave Wave　ポートフォリオ.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<link rel="stylesheet" href="style.css">
+# 「Grave Wave」　ポートフォリオ
+<img src="Title.png" width="1000">
+<h2 id="font-color%22ff0000%22%E6%A6%82%E8%A6%81%E7%B4%B9%E4%BB%8Bfont"><font color="#ff0000">概要紹介</font></h2>
+<h3 id="font-color%22ff0000%22%E4%BD%9C%E5%93%81%E6%A6%82%E8%A6%81font"><font color="#ff0000">作品概要</font></h3>
+<hr>
+<ul>
+<li>
+<p><font color="#ffff00">ゲームタイトル</font>
+　　　　　　Grave Wave</p>
+</li>
+<li>
+<p><font color="#ffff00">ゲームジャンル</font>
+　　　　　　FPSタワーディフェンス</p>
+</li>
+<li>
+<p><font color="#ffff00">プレイ人数</font>
+　　　　　　1人</p>
+</li>
+<li>
+<p><font color="#ffff00">開発期間</font>
+　　　　　　４か月</p>
+</li>
+</ul>
+<h3 id="font-color%22ff0000%22%E9%96%8B%E7%99%BA%E7%92%B0%E5%A2%83font"><font color="#ff0000">開発環境</font></h3>
+<hr>
+<ul>
+<li>
+<p><font color="#ffff00">使用言語</font>
+　　　　　　C++（C++14）</p>
+</li>
+<li>
+<p><font color="#ffff00">使用エンジン</font>
+　　　　　　学内エンジン（DirectX12）</p>
+</li>
+<li>
+<p><font color="#ffff00">プラットフォーム</font>
+　　　　　　Windows11</p>
+</li>
+<li>
+<p><font color="#ffff00">使用ツール</font>
+　　　　　　Visual Studio 2022,GitHub</p>
+</li>
+</ul>
+<h2 id="font-color%22ff0000%22%E3%82%B2%E3%83%BC%E3%83%A0%E5%86%85%E5%AE%B9%E7%B4%B9%E4%BB%8Bfont"><font color="#ff0000">ゲーム内容紹介</font></h2>
+<h3 id="font-color%22ff0000%22%E3%82%B2%E3%83%BC%E3%83%A0%E3%81%AE%E6%B5%81%E3%82%8Cfont"><font color="#ff0000">ゲームの流れ</font></h3>
+<hr>
+<img src="ゲーム紹介01.png" width="500">
+<p>荒野の奥から大量のゾンビが迫ってくる！！
+<br>
+<br></p>
+<img src="ゲーム紹介02.png" width="500">
+<p>銃でゾンビを撃退！！
+<br>
+<br></p>
+<img src="ゲーム紹介03.png" width="500">
+<p>最終ウェーブのボスを撃破すると、ゲームクリア！！！
+<br>
+<br></p>
+<h2 id="font-color%22ff0000%22%E6%8A%80%E8%A1%93%E7%B4%B9%E4%BB%8Bfont"><font color="#ff0000">技術紹介</font></h2>
+<h3 id="font-color%22ff0000%22%E7%96%8E%E7%B5%90%E5%90%88%E5%8C%96font"><font color="#ff0000">疎結合化</font></h3>
+<hr>
+<p>モジュール間の疎結合化を意識してクラス設計を行った。</p>
+<p>**<font color="#ffff00">実装方法</font></p>
+<img src="技術紹介01.png" width="500">
+<p>モジュールが他のモジュールを直接知らなくても実装できるような形で実装進め、
+他の管理クラスが必要となる情報だけを教えるなど、「必要最低限のことしか教えない設計」で実装を行った。
+１か箇所の変更で他クラスに影響することがなくなり、保守性、拡張性の高い設計にすることができた。</p>
+<p><font color="#ffff00">実装の意図</font></p>
+<img src="技術紹介02.png" width="500">
+<p>過去のゲーム制作では、結合度をあまり意識せず、モジュール間の繋がりが強い状態で実装を進めていた。
+その結果、一つの変更が他に影響してしまう結果に。デバッグや新規実装が非効率なものとなってしまった。
+今回の制作では、長期的な開発効率を意識した実装を行った。
+「今だけのコード」ではなく、「後々見返したときに修正、拡張がしやすいか」を始めから意識するように心がけた。</p>
+<h3 id="font-color%22ff0000%22%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%83%97%E3%83%BC%E3%83%ABfont"><font color="#ff0000">オブジェクトプール</font></h3>
+<hr>
+<p>ゾンビのスポーンをオブジェクトプールにて行った。</p>
+<p><font color="#ffff00">実装方法</font></p>
+<img src="技術紹介07.png" width="700">
+<p>↑オブジェクトプール実装イメージ↑</p>
+<p>実装の流れは以下の通り</p>
+<ol>
+<li>インゲームに入る際、そのゲーム中で出現するであろうゾンビの最大数をあらかじめ生成。</li>
+<li>インゲーム中は生成削除を行わず、プールとフィールドを行き来させる。</li>
+</ol>
+<p>この実装方法では、インゲーム中にゾンビの生成削除を行わない。
+そのため、ゲーム中はCPUへの負荷を安定させ、フレームレートを一定に保てるだけでなく、
+メモリの断片化を防ぎ、メモリ不足に陥るリスクを抑えることもできた。</p>
+<p><font color="#ffff00">実装の意図</font></p>
+<img src="技術紹介03-1.gif" width="500">
+<p>↑new、deleteの瞬間にメモリ使用量が多くなっている様子（イメージ）↑
+<br></p>
+<img src="技術紹介04-1.gif" width="500">
+<p>↑メモリの断片化（イメージ）↑
+<br></p>
+<p>実装前はゲーム中にゾンビの生成と削除を繰り返していた。
+その結果、生成、削除の瞬間だけ、フレームレートが著しく低下し、ユーザー体験を損ねてしまっていた。
+また、メモリの断片化が起き、動作環境によってはメモリ不足に陥ってしまう可能性があった。</p>
+<h3 id="font-color%22ff0000%22lodfont"><font color="#ff0000">LOD</font></h3>
+<hr>
+<p>ゾンビの描画処理にLOD処理を加えた。</p>
+<p>==<font color="#ffff00">実装方法</font>==</p>
+<img src="技術紹介10.png" width="600">
+<p>↑LODの実装イメージ↑
+<br>
+<br></p>
+<p>実装手順は以下の通り</p>
+<ol>
+<li>ゾンビのスポーン時はLOWモデル（板ポリ）で描画。</li>
+<li>カメラとゾンビとの距離が一定距離になったら、、、</li>
+<li>通常のメッシュモデルに切り替える。</li>
+</ol>
+<p>この実装手段を取ることで、インゲーム中のGPUへの負荷を一定に保つことができた。
+ユーザーからの見た目を一定に保ちつつ、フレームレートの低下を抑えることができた。</p>
+<img src="LOD_befor.gif" width="600">
+<p>↑LODを実装する前の実行画面の様子↑
+<br>
+<br></p>
+<img src="LOD_after.gif" width="600">
+<p>↑LODを実装した後の実行画面の様子↑
+<br>
+<br></p>
+<p><font color="#ffff00">実装の意図</font></p>
+<p>対策を施さずにゾンビを大量生成すると、GPUへの負荷が高くなってしまった。
+その結果、フレームレートの低下が目立つ結果となり、プレイ体験を損ねてしまっていた。
+また、動作環境によっては少ない生成数でも負荷がかかってしまうと考えた。</p>
+<br>
+<h3 id="font-color%22ff0000%22%E8%A1%9D%E7%AA%81%E5%88%A4%E5%AE%9Afont"><font color="#ff0000">衝突判定</font></h3>
+<hr>
+<p>弾丸と目標物との当たり判定をSweepTestを用いて行った。</p>
+<p><font color="#ffff00">実装方法</font></p>
+<img src="技術紹介12.png" width="600">
+<p>↑SweepTestで処理を行い、衝突判定が安定した図（イメージ）↑</p>
+<br>
+<p>SweepTestの処理手順は以下の通り
+（学内エンジンで簡易的に使用できるようにはされている）</p>
+<ol>
+<li>弾丸の現在位置（始点）を取得する。</li>
+<li>弾丸の次のフレームに移動する位置（終点）を計算する。（移動ベクトル　×　移動速度）</li>
+<li>始点から終点までの大きさのコリジョンを置く。（指定した太さで）</li>
+<li>コリジョンにヒットしたものがある場合trueを返す。</li>
+</ol>
+<p>この手段を取ることで、弾の速さ、大きさに関わらず、衝突判定を取ることができた。</p>
+<p>また、SweepTestを用いるにあたって、内部では多くのゲームでも使用されているBulletPhysicsを使用している。
+だが、そのままの状態では「衝突判定」はとれるものの、「何に衝突したか」は取得できないものとなっている。
+「どの弾が、どのゾンビに衝突したか」という対象物の情報が取れるような改造を施した。</p>
+<p>修正箇所は以下の通り</p>
+<pre class="hljs"><code><div><span class="hljs-function">btScalar <span class="hljs-title">addSingleResult</span><span class="hljs-params">(btCollisionWorld::LocalConvexResult&amp; convexResult, <span class="hljs-keyword">bool</span> normalInWorldSpace)</span> <span class="hljs-keyword">override</span>
+</span>{
+    <span class="hljs-comment">//自分自身を弾く</span>
+    <span class="hljs-keyword">if</span> (&amp;m_me-&gt;GetbtCollisionObject() == convexResult.m_hitCollisionObject) <span class="hljs-keyword">return</span> <span class="hljs-number">0.0f</span>;
+    <span class="hljs-comment">//エネミー以外かつゴーストオブジェクトではない時</span>
+    <span class="hljs-keyword">if</span> (convexResult.m_hitCollisionObject-&gt;getUserIndex() != nsApp::enCollirionEnemy
+        &amp;&amp; convexResult.m_hitCollisionObject-&gt;getInternalType() != btCollisionObject::CO_GHOST_OBJECT) {
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0.0f</span>;
+    }
+    isHit = <span class="hljs-literal">true</span>;
+    m_you = convexResult.m_hitCollisionObject;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0.0f</span>;
+</div></code></pre>
+<br>
+<p><font color="#ffff00">実装の意図</font></p>
+<p><img src="技術紹介11.png" alt="alt text"></p>
+<p>↑実装前に弾の当たり判定が安定しなかった図（イメージ）↑</p>
+<br>
+<p>コリジョンだけののシンプルな衝突判定では、フレームごとのコリジョンの位置でしか判定を取ることができない。
+そのため、弾の速さ、大きさによっては目標物を飛び越えてしまい、安定した判定を取得できなかった。
+弾のステータスに関わらず、安定した判定を取れ、弾の太さも考慮したSweepTestを用いることで、プレイ体験はそのままに、安定した判定を取得できるようになるのではと考えた。</p>
+<h3 id="font-color%22ff0000%22%E3%81%9D%E3%81%AE%E4%BB%96%E3%81%AE%E6%8A%80%E8%A1%93%E7%B4%B9%E4%BB%8Bfont"><font color="#ff0000">その他の技術紹介</font></h3>
+<hr>
+<h4 id="font-color%22ffff00%22%E3%83%87%E3%83%BC%E3%82%BF%E9%A7%86%E5%8B%95font"><font color="#ffff00">データ駆動</font></h4>
+<p>数値調整時のイテレーション速度の向上のため、
+「ゾンビのHP」「弾の速さ」といった情報をjsonファイルにて調整できるようにした。</p>
+<p>ゲーム起動時に情報を外部から読み込むようにすることで、
+数値調整を施しても、ビルドをする必要がなくなった。</p>
+<pre class="hljs"><code><div><span class="hljs-string">"Comment"</span>: <span class="hljs-string">"ゾンビ用のパラメータ"</span>,
+<span class="hljs-string">"MoveSpeed"</span>:<span class="hljs-number">0.3</span>,
+<span class="hljs-string">"HP"</span>:<span class="hljs-number">10</span>,
+<span class="hljs-string">"AttackPower"</span>:<span class="hljs-number">3</span>,
+<span class="hljs-string">"AttackFrequency"</span>:<span class="hljs-number">3.0</span>,
+<span class="hljs-string">"AttackRange"</span>:<span class="hljs-number">50.0</span>
+</div></code></pre>
+<p>↑ゾンビのステータスを記載したjsonファイル↑</p>
+<br>
+<h4 id="font-color%22ffff00%22%E3%82%B9%E3%83%86%E3%83%BC%E3%83%88%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3font"><font color="#ffff00">ステートパターン</font></h4>
+<p>エネミーなどのキャラクターの状態ごとの処理を分離し、実装、デバッグをしやすくするため、
+ステートパターンで状態遷移、及び状態ごとの処理を行った。</p>
+<p>実装することで、状態の処理が分離され、一クラスごとの責任を分散することができた。
+状態ごとの処理が干渉しにくくなり、保守性、拡張性が高い実装になった。</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">StateMachine::Update</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">if</span> (m_currentStateId != m_requestStateId)
+    {
+        IState* nextState = FindState(m_requestStateId);
+        K2_ASSERT(nextState, <span class="hljs-string">"次の状態が見つからない"</span>);
+        <span class="hljs-keyword">if</span> (nextState) {
+            <span class="hljs-keyword">if</span> (m_currentState) {
+                m_currentState-&gt;Exit();
+            }
+            nextState-&gt;Enter();
+            m_currentState = nextState;
+        }
+        m_currentStateId = m_requestStateId;
+    }
+    <span class="hljs-keyword">if</span> (m_currentState) {
+        m_currentState-&gt;Update();
+    }
+}
+</div></code></pre>
+<p>↑StateMachineでの、各Stateへの遷移の処理↑</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ZombieDeathState::Enter</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">auto</span>* owner = GetOwner&lt;ZombieStateMachine&gt;()-&gt;GetOwner();
+    owner-&gt;GetModel()-&gt;PlayAnimation(Zombie::EnAnimationVar_Death);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ZombieDeathState::Update</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">auto</span>* owner = GetOwner&lt;ZombieStateMachine&gt;()-&gt;GetOwner();
+
+    <span class="hljs-comment">//一定時間後にプールに戻す</span>
+    m_currentTime += g_gameTime-&gt;GetFrameDeltaTime();
+    <span class="hljs-keyword">if</span> (m_currentTime &gt;= RESTORE_TIME) owner-&gt;SetRestore(<span class="hljs-literal">true</span>);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ZombieDeathState::Exit</span><span class="hljs-params">()</span>
+</span>{
+}
+</div></code></pre>
+<p>↑DeathState時の処理↑</p>
+<br>
+<h4 id="font-color%22ffff00%22%E3%82%B7%E3%83%B3%E3%82%B0%E3%83%AB%E3%83%88%E3%83%B3%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3font"><font color="#ffff00">シングルトンパターン</font></h4>
+<p>管理クラスが複数生成されることによって発生する、不具合の抑制、
+及び、管理クラスへのアクセスの簡略化を目的に、
+シングルトンパターンを用いて、管理クラスの生成を行った。</p>
+<p>管理クラスの唯一性を保つことができ、クラスが複数を生成されてしまうリスクを防ぐだけでなく、
+グローバルアクセスになるため、各クラスが管理クラスへとアクセスできなくなる。
+（かといって、多くのクラスが管理クラスを知らなくてもいいようなクラス設計をしている）</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">private</span>:
+    <span class="hljs-comment">/** 自身のインスタンス */</span>
+    <span class="hljs-keyword">static</span> BattleManager* m_instance;
+
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-comment">/** BattleManagerクラスのインスタンスを作成 */</span>
+    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">CreateInstance</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-keyword">if</span> (!m_instance) m_instance = <span class="hljs-keyword">new</span> BattleManager();
+    }
+    <span class="hljs-comment">/** BattleManagerクラスのインスタンスを削除 */</span>
+    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DeleteInstance</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-keyword">if</span> (m_instance) {
+            <span class="hljs-keyword">delete</span> m_instance;
+            m_instance = <span class="hljs-literal">nullptr</span>;
+        }
+    }
+    <span class="hljs-comment">/** BattleManagerクラスのインスタンスを取得 */</span>
+    <span class="hljs-function"><span class="hljs-keyword">static</span> BattleManager* <span class="hljs-title">GetInstance</span><span class="hljs-params">()</span> </span>{ <span class="hljs-keyword">return</span> m_instance; }
+</div></code></pre>
+<p>↑管理クラスのヘッダーファイルの一部↑</p>
+<h2 id="font-color%22ff0000%22%E4%BB%8A%E5%BE%8C%E3%81%AE%E5%B1%95%E6%9C%9Bfont"><font color="#ff0000">今後の展望</font></h2>
+<h4 id="font-color%22ffff00%22%E3%81%95%E3%82%89%E3%81%AA%E3%82%8B%E3%83%87%E3%83%BC%E3%82%BF%E9%A7%86%E5%8B%95%E8%A8%AD%E8%A8%88font"><font color="#ffff00">さらなるデータ駆動設計</font></h4>
+<p>イテレーション速度上げていき、さらなる開発の効率化へ！！
+今後は数値だけではなく、「行動パターン」や「オブジェクトの配置」なども調整できるようにしたいと考えている。
+（オブジェクト配置は外部GUIツールを用いて視覚的に行えるように）</p>
+<br>
+<h4 id="font-color%22ffff00%22%E3%83%A1%E3%83%A2%E3%83%AA%E3%82%A2%E3%83%AD%E3%82%B1%E3%83%BC%E3%82%BF%E3%83%BCfont"><font color="#ffff00">メモリアロケーター</font></h4>
+<p>今回のオブジェクトプール実装に伴い、メモリ管理を意識するようになった。
+だが、すべてのオブジェクトのnewなどでは活用できていない。
+今後はメモリアロケーターを自身で作成して、自身でメモリ管理を行い、
+メモリへの理解をさらに深めていきたい。</p>
+
+</body>
+</html>

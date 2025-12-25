@@ -92,7 +92,7 @@ namespace nsApp
 				/** プレイヤーのLスティックの入力量を取得 */
 				inline Vector2 GetInputRStick() const { return m_inputRStick; };
 				/** プレイヤーの右トリガーの入力情報を取得 */
-				inline bool GetInputRTrigger()const { return m_isInputRTrigger; }				
+				inline bool GetInputRTrigger() const { return m_isInputRTrigger; }				
 				/** 装備している銃を取得 */
 				inline nsGun::GunBase* GetGun() const { return m_gun; }
 				/** 装備する銃を切り替え */

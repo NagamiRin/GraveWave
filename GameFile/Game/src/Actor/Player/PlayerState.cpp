@@ -4,8 +4,8 @@
  * プレイヤーの各ステートの処理を行う
  */
 #include "stdafx.h"
+#include "PlayerState.h"
 #include "src/Actor/Player/Player.h"
-#include "src/Actor/Player/PlayerState.h"
 #include "src/Actor/Player/PlayerStateMachine.h"
 #include "src/Actor/Gun/GunBase.h"
 

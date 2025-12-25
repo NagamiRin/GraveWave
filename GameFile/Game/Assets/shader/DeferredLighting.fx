@@ -285,7 +285,7 @@ float3 CalcSpotLight(
             smooth,
             specColor
         );
-        // 3. 影響率を計算する。影響率は0.0～1.0の範囲で、
+        // 3.影響率を計算する。影響率は0.0～1.0の範囲で、
         //     指定した距離（pointsLights[i].range）を超えたら、影響率は0.0になる
         float affect = pow( 1.0f - min(1.0f, distance / light.spotLight[ligNo].range), light.spotLight[ligNo].rangePow.x);
 
@@ -398,7 +398,8 @@ float4 PSMainCore(PSInput In, uniform int isSoftShadow)
         // 環境光による底上げ
         lig += light.ambientLight * albedoColor;
     }
-   
+    
+      
     float4 finalColor = 1.0f;
     finalColor.xyz = lig;
     return finalColor;

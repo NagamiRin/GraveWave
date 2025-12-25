@@ -51,6 +51,8 @@ namespace nsApp
 				Vector3 m_adjustPosition = Vector3::Zero;
 				/** プレイヤーの位置 */
 				Vector3 m_playerPosition = Vector3::Zero;
+				/** 銃の名前 */
+				std::string m_gunName;
 
 				// @todo for あとでコメント
 				Vector3 m_offsetPosition = Vector3::Zero;
@@ -58,7 +60,6 @@ namespace nsApp
 
 			public:
 				using SuperClass = GunBase;
-
 
 
 			public:
@@ -93,27 +94,6 @@ namespace nsApp
 				void SetDirection(const Vector3& direction) override
 				{
 					m_direction = direction;
-					Quaternion t;
-					t = GetLocalRotation();
-
-					// Y軸回転(横方向)
-					t.SetRotationYFromDirectionXZ(m_direction);
-
-					//// XZ軸回転(縦)
-					//// 軸を求める
-					//Vector3 xz;
-					//xz.Cross(Vector3::Up, Vector3(direction.x, 0.0f, direction.z));
-
-					//Vector3 temp = Vector3::Front;
-					//const float shita = temp.Dot(Vector3(0.0f, direction.y, direction.z));
-					//const float xzRotValue = acosf(shita);
-					//K2_LOG("XRotValue: %f \n", Math::RadToDeg(xzRotValue));
-					//Quaternion xzQ;
-					//xzQ.SetRotation(xz, xzRotValue);
-
-					//t.Multiply(xzQ);
-
-					SetLocalRotation(t);
 				}
 
 
@@ -127,6 +107,8 @@ namespace nsApp
 
 
 			public:
+				/** トランスフォームの親を設定 */
+				inline void SetParent(Transform* t) { m_transform.SetParent(t); }
 				/** 銃装備の状態を取得 */
 				inline bool IsEquipment() const { return m_isEquipment; }
 				/** 銃装備の状態を設定 */
@@ -137,6 +119,12 @@ namespace nsApp
 				inline uint8_t GetRemainingAmmo() { return m_remainingAmmo; }
 				/** 最大弾数を取得 */
 				inline uint8_t GetMaxAmmo() { return m_maxAmmo; }
+				/** 銃の名前を取得 */
+				inline const std::string& GetGunName() const { return m_gunName; }
+				/** リロード時間を取得 */
+				inline float GetReloadTime() { return m_reloadTime; }
+				/** 現在のリロード時間を取得 */
+				inline float GetCurrentReloadTime() { return m_currentReloadTime; }
 			};
 		}
 	}

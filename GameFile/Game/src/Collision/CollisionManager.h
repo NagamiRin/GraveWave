@@ -66,25 +66,31 @@ public:
 	void DeleteCollisionObject(IGameObject* object);
 	/** ゲームオブジェクトのコリジョンが残っているかを確認 */
 	bool CheckCollision(IGameObject* object);
-	/** 弾とゾンビのヒット処理 */
-	void BulletAndZombieHandling();
 
+	/** カプセル状のコリジョンを生成 */
 	CollisionObject* CreateCollisionObject(const uint32_t id, IGameObject* gameObject, const Vector3& position, const Quaternion& rotation, const float radisu, const float height);
+	/** キューブ状のコリジョンを生成 */
 	CollisionObject* CreateCollisionObject(const uint32_t id, IGameObject* gameObject, const Vector3& position, const Quaternion& rotation, const float radisu);
+	/** メッシュ状のコリジョンを生成 */
+	CollisionObject* CreateCollisionObject(const uint32_t id, IGameObject* gameObject, const Vector3& position, const Quaternion& rotation, const Model& model, const Matrix& matrix);
+
+
+public:
+	/** 弾ヒットのフラグを取得 */
+	inline bool IsHit() { return m_isHit; }
+	/** 弾ヒットのフラグをリセット */
+	inline void ResetHit() { m_isHit = false; }
+	
 
 private:
 	void RegisterCollisionObject(const uint32_t id,IGameObject* gameObject, CollisionObject* collisionObject);	
 
 
 private:
+	/** 弾関連のヒット処理 */
 	bool UpdateHitBullet(CollisionPair& pair);
-
-
-public:
-	/** 弾ヒットのフラグを取得 */
-	inline const bool IsHitBullet() { return m_isHit; }
-	/** コリジョンのリストを取得 */
-	inline const std::vector<CollisionInfo>& GetCollisionInfoList() { return m_collisionInfoList; }
+	/** 岩関連のヒット処理 */
+	bool UpdateHitStone(CollisionPair& pair);
 
 
 private:
@@ -103,6 +109,30 @@ private:
 		{
 			return static_cast<T*>(pair.m_right->m_object);
 		}
+		return nullptr;
+	}
+
+
+	// @todo for コメントを
+	std::vector<CollisionInfo*> FindCollisionInfo(const uint32_t id)
+	{
+		std::vector<CollisionInfo*> ret;
+		for (auto& info : m_collisionInfoList) {
+			if (info.m_id == id) {
+				ret.push_back(&info);
+			}
+		}
+		return ret;
+	}
+	CollisionInfo* FindCollisionInfo(const btCollisionObject* btCollision)
+	{
+		for (auto& info : m_collisionInfoList) {
+			auto* targetbtCollision = &info.m_collision->GetbtCollisionObject();
+			if (btCollision == targetbtCollision) {
+				return &info;
+			}
+		}
+		K2_ASSERT(false, "ここに来ることはない");
 		return nullptr;
 	}
 
@@ -141,4 +171,29 @@ public:
 			m_instance = nullptr;
 		}
 	}
+};
+
+
+/** コリジョンマネージャーのゲームオブジェクト */
+class CollisionHitManagerObject :public IGameObject
+{
+private:
+	/** ヒットマネージャーを消してよいか */
+	bool m_canDelete = false;
+
+
+public:
+	CollisionHitManagerObject();
+	~CollisionHitManagerObject();
+
+
+public:
+	bool Start()override { return true; };
+	void Update()override {};
+	void Render(RenderContext& rc)override {};
+
+
+public:
+	/** マネージャー削除のフラグを設定 */
+	inline void SetDelete(const bool isDelete) { m_canDelete = isDelete; }
 };

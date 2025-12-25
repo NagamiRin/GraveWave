@@ -9,26 +9,24 @@
 
 namespace nsApp
 {
+	class ActorStatus;
+
 	namespace nsActor
 	{
 		namespace nsEnemy
 		{
-			/** エネミーの行動状態の種類。 */
-			enum EnEnemyActionVar {
-				enStandby,		//スタンバイ。フィールド上に出現していない状態。
-				enProgress,		//進行。
-				enAttack,		//攻撃。
-				enHit,			//被弾。
-				enDead,			//死亡。
-			};
-
-
 			class EnemyBase :public CharacterBase
 			{
 				using SuperClass = CharacterBase;
 
 
 			protected:
+				/** 被弾したか */
+				bool m_isHit = false;
+				/** 攻撃をしたか */
+				bool m_isAttack = false;
+				/** 攻撃状態か */
+				bool m_isAttackState = false;
 				/** 現在の行動状態。 */
 				int m_currentState = 0;
 				/** 重力量 */
@@ -39,8 +37,6 @@ namespace nsApp
 				Vector3 m_playerPosition = Vector3::Zero;
 				/** 進行方向 */
 				Vector3 m_moveDirection = Vector3::Zero;
-				/** コリジョンオブジェクト */
-				CollisionObject* m_collisionObject = nullptr;
 
 
 			public:
@@ -64,6 +60,18 @@ namespace nsApp
 				inline void UpdatePlayerPosition(const Vector3& position) { m_playerPosition = position; }
 				/** プレイヤーの位置情報を取得 */
 				inline const Vector3& GetPlayerPosition() const { return m_playerPosition; }
+				/** 被弾中のフラグを取得 */
+				inline const bool IsHit() { return m_isHit; }
+				/** 被弾中のフラグを設定 */
+				inline void SetHit(const bool hit) { m_isHit = hit; }			
+				/** 攻撃のフラグを取得 */
+				inline bool IsAttack() { return m_isAttack; }
+				/** 攻撃のフラグを設定 */
+				inline void SetAttack(const bool attack) { m_isAttack = attack; }
+				/** 攻撃状態のフラグを取得 */
+				inline bool IsAttackState() { return m_isAttackState; }
+				/** 攻撃状態のフラグを設定 */
+				inline void SetAttackState(const bool attack) { m_isAttackState = attack; }
 				/** 進行を止める位置を設定 */
 				inline void SetStopPosition(const float position) { m_stopPosition = position; }
 				/** 進行を止める位置を取得 */

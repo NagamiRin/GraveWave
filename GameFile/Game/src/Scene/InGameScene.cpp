@@ -33,7 +33,7 @@ namespace nsApp
         {
             //スカイキューブを生成
             SkyCube* skyCube = NewGO<SkyCube>(enGameObjectPriority_SkyCube, "SkyCube");
-            skyCube->SetType(enSkyCubeType_Day);
+            skyCube->SetType(enSkyCubeType_Sunset);
             skyCube->SetScale(200.0f);
             return true;
         }

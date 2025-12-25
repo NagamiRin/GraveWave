@@ -90,9 +90,6 @@
     <ClCompile Include="src\UI\Crosshair.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="src\Actor\Gun\HandGun.cpp">
-      <Filter>Actor\Gun</Filter>
-    </ClCompile>
     <ClCompile Include="src\Actor\Bullet\NormalBullet.cpp">
       <Filter>Actor\Bullet</Filter>
     </ClCompile>
@@ -142,10 +139,24 @@
     <ClCompile Include="src\UI\LateResultScreen.cpp" />
     <ClCompile Include="src\Actor\Bullet\BulletManager.cpp" />
     <ClCompile Include="src\Battle\Inventory.cpp" />
-    <ClCompile Include="src\Actor\Gun\AssaultRifle.cpp" />
     <ClCompile Include="src\Battle\Shop.cpp" />
     <ClCompile Include="src\UI\ShopUI.cpp" />
     <ClCompile Include="src\Core\ModelLOD.cpp" />
+    <ClCompile Include="src\Actor\Gun\MainWeapon.cpp" />
+    <ClCompile Include="src\Actor\Gun\SubWeapon.cpp" />
+    <ClCompile Include="src\UI\CaveatUI.cpp" />
+    <ClCompile Include="src\Actor\Enemy\Boss\Boss.cpp" />
+    <ClCompile Include="src\Actor\Enemy\Boss\BossState.cpp" />
+    <ClCompile Include="src\Actor\Enemy\Boss\BossStateMachine.cpp" />
+    <ClCompile Include="src\Actor\Enemy\Boss\BossStatus.cpp" />
+    <ClCompile Include="src\Actor\Enemy\Boss\ThrowStone.cpp" />
+    <ClCompile Include="src\Actor\Enemy\Boss\BreakStone.cpp" />
+    <ClCompile Include="src\Camera\CameraShake.cpp" />
+    <ClCompile Include="src\UI\PhaseSwitchUI.cpp" />
+    <ClCompile Include="src\Scene\DebugScene.cpp" />
+    <ClCompile Include="src\UI\ReloadingUI.cpp" />
+    <ClCompile Include="src\UI\PressButtonUI.cpp" />
+    <ClCompile Include="src\UI\BossHPUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -205,9 +216,6 @@
     <ClInclude Include="src\UI\Crosshair.h">
       <Filter>UI</Filter>
     </ClInclude>
-    <ClInclude Include="src\Actor\Gun\HandGun.h">
-      <Filter>Actor\Gun</Filter>
-    </ClInclude>
     <ClInclude Include="src\Actor\Bullet\NormalBullet.h">
       <Filter>Actor\Bullet</Filter>
     </ClInclude>
@@ -260,9 +268,23 @@
     <ClInclude Include="src\UI\LateResultScreen.h" />
     <ClInclude Include="src\Actor\Bullet\BulletManager.h" />
     <ClInclude Include="src\Battle\Inventory.h" />
-    <ClInclude Include="src\Actor\Gun\AssaultRifle.h" />
     <ClInclude Include="src\Battle\Shop.h" />
     <ClInclude Include="src\UI\ShopUI.h" />
     <ClInclude Include="src\Core\ModelLOD.h" />
+    <ClInclude Include="src\Actor\Gun\MainWeapon.h" />
+    <ClInclude Include="src\Actor\Gun\SubWeapon.h" />
+    <ClInclude Include="src\UI\CaveatUI.h" />
+    <ClInclude Include="src\Actor\Enemy\Boss\Boss.h" />
+    <ClInclude Include="src\Actor\Enemy\Boss\BossState.h" />
+    <ClInclude Include="src\Actor\Enemy\Boss\BossStateMachine.h" />
+    <ClInclude Include="src\Actor\Enemy\Boss\BossStatus.h" />
+    <ClInclude Include="src\Actor\Enemy\Boss\ThrowStone.h" />
+    <ClInclude Include="src\Actor\Enemy\Boss\BreakStone.h" />
+    <ClInclude Include="src\Camera\CameraShake.h" />
+    <ClInclude Include="src\UI\PhaseSwitchUI.h" />
+    <ClInclude Include="src\Scene\DebugScene.h" />
+    <ClInclude Include="src\UI\ReloadingUI.h" />
+    <ClInclude Include="src\UI\PressButtonUI.h" />
+    <ClInclude Include="src\UI\BossHPUI.h" />
   </ItemGroup>
 </Project>

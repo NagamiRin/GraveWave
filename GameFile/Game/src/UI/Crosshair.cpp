@@ -46,14 +46,15 @@ namespace nsApp
         void Crosshair::Update()
         {
             //照準が敵にあっているなら色を変える
-            m_crosshairImage->SetMulColor(m_isHit ? Vector4::Red : Vector4::Black);
+            m_crosshairImage->SetMulColor(m_isAiming ? Vector4::Red : Vector4::Black);
 
             m_currentTime -= g_gameTime->GetFrameDeltaTime();
-            if (m_currentTime <= 0.0f)m_currentTime = 0.0f;
+            if (m_currentTime <= 0.0f) m_currentTime = 0.0f;
 
             if (m_isHit) {
                 m_hitEffect->SetIsDraw(true);
                 m_currentTime = 0.5f;
+                m_isHit = false;
             }
             else if (!m_isHit && m_currentTime == 0.0f) {
                 m_hitEffect->SetIsDraw(false);

@@ -1,11 +1,12 @@
 [
     {
         "Commnet": "M4M1用のパラメータ",
+        "GunName" : "M4A1",
         "Damage": 5,
         "MaxAmmo": 30,
         "ReloadTime": 3.0,
         "SwitchTime": 1.0,
-        "BulletSpeed": 300.0,
+        "BulletSpeed": 150.0,
         "FireCoolTime": 0.1,
         "NewPositionX":0.15,
         "NewPositionY":-0.3,

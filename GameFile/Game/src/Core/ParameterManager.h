@@ -32,6 +32,19 @@ struct MasterEnemyStatus : public IMasterParameter
     uint16_t m_hp;
     uint16_t m_attackPower;
     float m_attackFrequency;
+    float m_attackRange;
+    float m_moveSpeed;
+};
+
+//ボスステータス
+struct MasterBossStatus : public IMasterParameter
+{
+    appParameter(MasterBossStatus);
+    //
+    uint16_t m_hp;
+    uint16_t m_attackPower;
+    float m_attackFrequency;
+    float m_attackRange;
     float m_moveSpeed;
 };
 
@@ -41,6 +54,7 @@ struct MasterGunParameter :public IMasterParameter
 {
     appParameter(MasterGunParameter);
     //
+    std::string m_gunName;
     uint8_t m_damage;
     uint8_t m_maxAmmo;
     float m_bulletSpeed;
@@ -52,6 +66,61 @@ struct MasterGunParameter :public IMasterParameter
     float m_newPositionZ;
 };
 
+struct MasterSubWeaponParameter :public IMasterParameter
+{
+    appParameter(MasterSubWeaponParameter);
+    //
+    std::string m_gunName;
+    uint8_t m_damage;
+    uint8_t m_maxAmmo;
+    float m_bulletSpeed;
+    float m_fireCoolTime;
+    float m_reloadTime;
+    float m_switchTime;
+    float m_newPositionX;
+    float m_newPositionY;
+    float m_newPositionZ;
+};
+
+struct MasterShopParameter :public IMasterParameter
+{
+    appParameter(MasterShopParameter);
+    //
+    uint16_t m_GZ75;
+    uint16_t m_R8;
+    uint16_t m_M1911;
+    uint16_t m_TEC9;
+    uint16_t m_ACR;
+    uint16_t m_AK47;
+    uint16_t m_G36;
+    uint16_t m_HAMR;
+    uint16_t m_L86A2;
+    uint16_t m_M4A1;
+    uint16_t m_SCAR;
+};
+
+
+//ボスが投げる岩のステータス
+struct MasterStoneParameter : public IMasterParameter
+{
+    appParameter(MasterStoneParameter);
+    //
+    float m_altitude;
+    float m_landingTime;
+    float m_rotSpeed;
+    uint16_t m_maxDurability;
+    uint8_t m_divisionNum;
+};
+
+//岩の破壊表現ステータス
+struct MasterBreakStoneParameter : public IMasterParameter
+{
+    appParameter(MasterBreakStoneParameter);
+    //
+    float m_altitude;
+    float m_landingTime;
+    float m_rotSpeed;
+};
 
 
 //弾丸のステータス
@@ -97,6 +166,7 @@ struct MasterBattleParameter :public IMasterParameter
     appParameter(MasterBattleParameter);
 
     uint8_t m_maxEnemyNum;
+    uint8_t m_clearWaveNum;
     float m_baseSpawnTime;
     float m_spawnPositionZ;
     float m_besideLimitPosition;
@@ -126,7 +196,7 @@ struct MasterWaveParameter :public IMasterParameter
     uint16_t m_leftCount;
     uint16_t m_centerCount;
     uint16_t m_rightCount;
-    uint8_t m_bossCount;
+    bool m_isBossSpawn;
     float m_spawnInterval;
 };
 

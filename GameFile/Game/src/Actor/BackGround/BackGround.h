@@ -14,12 +14,15 @@ namespace nsApp
 		namespace nsBackGround
 		{
 			/**
-			 *ゲームオブジェクトの基底クラス
+			 * 背景オブジェクト
 			 */
 			class BackGround : public Actor
 			{
+				appGameObject(BackGround);
+
+
 			private:
-				PhysicsStaticObject* m_physicsStaticObject = nullptr;;
+				PhysicsStaticObject* m_physicsStaticObject = nullptr;
 
 			public:
 				/** コンストラクタ */

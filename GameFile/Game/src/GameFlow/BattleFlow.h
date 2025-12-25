@@ -17,19 +17,23 @@ namespace nsApp
 		{
 		private:
 			/** スポナーのリスト */
-			std::array<uint16_t, enSpwnerType_Num> m_spawnCountList;
+			std::array<uint16_t, enSpwnerType_None + 1> m_spawnCountList;
 			/** ウェーブで出現するエネミーの総数 */
 			uint8_t m_waveEnemyNum = 0;
 			/** 出現させる残りのエネミーの数 */
 			uint8_t m_remainingEnemiesNum = 0;
 			/** 出現させるボスの数 */
-			uint8_t m_bossCount = 0;
+			bool m_isBossSpawn = 0;
 			/** 倒したエネミーの数 */
 			uint8_t m_eliminateEnemyNum = 0;
 			/** エネミーの生成間隔 */
 			float m_spawnInterval = 0.0f;
 			/** 現在の生成してからの経過時間 */
 			float m_currentTime = 0.0f;
+			/** ボスを出現させたか */
+			bool m_isSpawnBoss = false;
+			/** ウェーブのタイプ */
+			EnWaveType m_waveType = enWaveType_None;
 
 
 		private:
@@ -56,6 +60,8 @@ namespace nsApp
 			inline void AddEliminateEnemy() { m_eliminateEnemyNum++; }
 			/** エネミーの残数を取得 */
 			inline uint8_t GetRemainingEnemy() { return m_waveEnemyNum - m_eliminateEnemyNum; }
+			/** ウェーブのタイプを取得 */
+			inline EnWaveType GetWaveType() { return m_waveType; }
 
 
 		private:

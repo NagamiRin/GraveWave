@@ -67,10 +67,12 @@ namespace nsApp
 			ModelRender m_model;
 			/** トランスフォーム */
 			Transform m_transform;
-			/** ステータスのポインタ */
-			ActorStatus* m_status = nullptr;
 			/** キャラクターの向いている方向を表すベクトル */
 			Vector3 m_direction = Vector3::Zero;
+			/** コリジョンの位置 */
+			Vector3 m_collisionPosition = Vector3::Zero;
+			/** コリジョンオブジェクト */
+			CollisionObject* m_collisionObject = nullptr;
 
 
 		public:
@@ -111,34 +113,51 @@ namespace nsApp
 			/** スケールを設定 */
 			inline void SetScale(const Vector3& scale) { m_transform.m_scale = scale; }
 			/** アクタの方向を設定 */
-			virtual void SetDirection(const Vector3& direction) { 
+			virtual void SetDirection(const Vector3& direction) {
 				m_direction = direction;
-				Quaternion t;
-				t = GetLocalRotation();
+				//Quaternion t;
+				//t = GetLocalRotation();
+				//// Y軸回転(横方向)
+				//t.SetRotationYFromDirectionXZ(m_direction);
+				{
+					// 1. 前方ベクトル(Z)の正規化
+					Vector3 zAxis = m_direction;
+					zAxis.Normalize();
 
-				// Y軸回転(横方向)
-				t.SetRotationYFromDirectionXZ(m_direction);
+					// 2. 右ベクトル(X)の算出 (Y軸(0,1,0) と Z軸の外積)
+					// 注意: 方向が真上や真下に近いと外積がゼロになり計算不能になるため、
+					// 実戦ではここで「ZとUpが平行でないか」のチェックを入れるのが安全です。
+					Vector3 xAxis = Vector3::Up;
+					xAxis.Cross(m_direction);
+					xAxis.Normalize();
 
-				//// X軸回転(縦)
-				//Vector3 temp = Vector3::Front;
-				//const float shita = temp.Dot(Vector3(0.0f, direction.y, direction.z));
-				//const float xRotValue = acosf(shita);
-				//K2_LOG("XRotValue: %f \n", Math::RadToDeg(xRotValue));
-				//t.AddRotationX(xRotValue);
+					//// ベクトルがゼロに近い場合（特異点）の対策
+					//if (XMVector3LengthSq(xAxis).m128_f32[0] < 0.0001f)
+					//{
+					//	// 仕方がないので別の軸を仮の右ベクトルとするなどの処理が必要
+					//	xAxis = XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
+					//}
+					//xAxis = XMVector3Normalize(xAxis);
 
-				SetLocalRotation(t);
+					// 3. 真の上ベクトル(Y)の算出 (Z軸 と X軸の外積)
+					// 既に直交しているので正規化は理論上不要だが、誤差対策ですることもある
+					Vector3 yAxis = zAxis;
+					yAxis.Cross(xAxis);
 
-				/*float dirX = AngleAboutX(direction);
-				float dirY = AngleAboutY(direction);
+					// 4. 回転行列の構築
+					// DirectXは行優先(Row-Major)か列優先(Column-Major)かによりますが、
+					// XMMATRIXは通常、基底ベクトルを行にセットします。
+					Matrix rotMatrix = Matrix::Identity;
+					memcpy(&rotMatrix.m[0], &xAxis, sizeof(xAxis)); // X軸
+					memcpy(&rotMatrix.m[1], &yAxis, sizeof(yAxis)); // Y軸
+					memcpy(&rotMatrix.m[2], &zAxis, sizeof(zAxis)); // Z軸
 
-				Quaternion rotX;
-				Quaternion rotY;
-				rotX.SetRotationDegX((dirX / 2 * 3.14) * 360);
-				rotY.SetRotationDegY((dirY / 2 * 3.14) * 360);
+					Quaternion t;
+					t.SetRotation(rotMatrix);
+					SetLocalRotation(t);
+				}
 
-				rotX.Multiply(rotY);
-				Quaternion totalRot = rotX;
-				SetLocalRotation(totalRot);*/
+				//SetLocalRotation(t);
 			};
 			/** アクタの方向を取得 */
 			inline const Vector3& GetDirection()const { return m_direction; }

@@ -12,7 +12,8 @@
 #include "src/Actor/Enemy/EnemyPoolManager.h"
 #include "src/Actor/Enemy/EnemySpawner.h"
 #include "src/Actor/Enemy/Zombie.h"
-#include "src/Actor/Gun/HandGun.h"
+#include "src/Actor/Enemy/Boss/Boss.h"
+#include "src/Actor/Gun/GunBase.h"
 #include "src/Battle/Inventory.h"
 #include "src/Battle/Shop.h"
 #include "src/Collision/CollisionManager.h"
@@ -39,9 +40,13 @@ namespace nsApp
                 btScalar addSingleResult(btCollisionWorld::LocalRayResult& rayResult, bool normalInWorldSpace) override
                 {
                     // Enemyじゃない&&Gohstじゃない なら当たらない
-                    if (rayResult.m_collisionObject->getUserIndex() != nsApp::enCollirionEnemy && rayResult.m_collisionObject->getInternalType() != btCollisionObject::CO_GHOST_OBJECT) {
+                    if (rayResult.m_collisionObject->getInternalType() != btCollisionObject::CO_GHOST_OBJECT) {
                         return rayResult.m_hitFraction;
                     }
+                    if (rayResult.m_collisionObject->getUserIndex() != nsApp::enCollision_Enemy && rayResult.m_collisionObject->getUserIndex() != nsApp::enCollision_Stone) {
+                        return rayResult.m_hitFraction;
+                    }
+                    
                     isHit = true;
                     return rayResult.m_hitFraction;
                 }
@@ -56,7 +61,8 @@ namespace nsApp
             //インゲーム共通のパラメーターを読み込み
             ParameterManager::Get().LoadParameter<MasterBattleParameter>("Assets/Parameter/BattleParameter.json", [](const nlohmann::json& j, MasterBattleParameter& p)
                 {
-                    p.m_maxEnemyNum = j["MaxEnemyNum"].get<uint8_t>();                
+                    p.m_maxEnemyNum = j["MaxEnemyNum"].get<uint8_t>();           
+                    p.m_clearWaveNum = j["ClearWaveNum"].get<uint8_t>();
                     p.m_verticalLimitAngle = j["VerticalLimitAngle"].get<float>();
                     p.m_horizontalLimitAngle = j["HorizontalLimitAngle"].get<float>();
                     p.m_gravityAmount = j["GravityAmount"].get<float>();
@@ -85,7 +91,7 @@ namespace nsApp
             }
 
             //ヒット判定のマネージャーを生成
-            CollisionHitManager::Create();
+            m_hitManagerObject = NewGO<CollisionHitManagerObject>(enGameObjectPriority_HitManager, "CollisionHitManagerObject");
 
             //弾管理のマネージャーを生成
 			nsActor::nsBullet::BulletManager::CreateInstance();
@@ -136,7 +142,7 @@ namespace nsApp
             //ゲーム進行のマネージャーを削除
             nsFlow::GameFlowManager::DeleteInstance();
             //ヒット判定のマネージャーを削除
-            CollisionHitManager::Get().Delete();
+            DeleteGO(m_hitManagerObject);
         }
 
 
@@ -149,6 +155,11 @@ namespace nsApp
             nsBattle::Shop::GetInstance().Update();
 			//弾管理マネージャーの更新処理
 			nsActor::nsBullet::BulletManager::GetInstance()->Update();
+            //エネミーのプールの更新処置
+            nsActor::nsEnemy::EnemyPoolManager::GetInstance()->Update();
+
+            //壁への攻撃処理
+            DealingDamage();
 
             UpdateCameraForPlayer();
 
@@ -193,27 +204,51 @@ namespace nsApp
                             return false;
                         });
                     // 赤色にする
-                    crossHairNotify->m_isHit = isHit;   
-                }                
+                    crossHairNotify->m_isAiming = isHit;
+                }
+
+                if (CollisionHitManager::Get().IsHit()) {
+                    crossHairNotify->m_isHit = true;
+                    CollisionHitManager::Get().ResetHit();
+                }
+                else crossHairNotify->m_isHit = false;
 
                 nsUI::InGameUIManager::GetInstance()->AddNotify(crossHairNotify);
+
+                //delete crossHairNotify;
             }
 
             // 弾数
             {
                 const uint8_t remainingAmmo = m_player->GetGun()->GetRemainingAmmo();
                 const uint8_t maxAmmo = m_player->GetGun()->GetMaxAmmo();
+                const std::string& gunName = m_player->GetGun()->GetGunName();
 
                 RemainingBulletsNotify* remainingBulletsNotify = new RemainingBulletsNotify();
                 remainingBulletsNotify->m_remainingNum = remainingAmmo;
                 remainingBulletsNotify->m_maxNum = maxAmmo;
+                remainingBulletsNotify->m_gunName = gunName;                
 
                 nsUI::InGameUIManager::GetInstance()->AddNotify(remainingBulletsNotify);
+
+                //delete remainingBulletsNotify;
+            }
+
+            //リロード
+            {
+                const float reloadTime = m_player->GetGun()->GetReloadTime();
+                const float currentReloadTime = m_player->GetGun()->GetCurrentReloadTime();
+
+                ReloadingNotify* reloadingNotify = new ReloadingNotify();
+                reloadingNotify->m_reloadTime = reloadTime;
+                reloadingNotify->m_currentReloadTime = currentReloadTime;
+
+                nsUI::InGameUIManager::GetInstance()->AddNotify(reloadingNotify);
             }
 
             //スコア
             {
-                const uint16_t score = nsApp::nsFlow::ScoreCounter::GetInstance()->GetScore();
+                const uint16_t score = nsBattle::Inventory::GetInstance().GetMoney();
 
                 ScoreNotify* scoreNotify = new ScoreNotify();
                 scoreNotify->m_score = score;
@@ -223,6 +258,7 @@ namespace nsApp
                 // セーブデータにスコアを設定
                 SaveData::Get().SetScore(score);
 
+                //delete scoreNotify;
             }
 
             //エネミーの残数
@@ -233,6 +269,8 @@ namespace nsApp
                 remainingEnemiesNotify->m_remainingEnemy = remainingEnemy;
 
                 nsUI::InGameUIManager::GetInstance()->AddNotify(remainingEnemiesNotify);
+
+               //delete remainingEnemiesNotify;
             }
 
             // ミニマップ
@@ -245,6 +283,38 @@ namespace nsApp
                         enemiesNotify->m_position = zombie->GetPosition();
 
                         nsUI::InGameUIManager::GetInstance()->AddNotify(enemiesNotify);
+
+                        //delete enemiesNotify;
+                    });              
+
+                {
+                    bool isAlive = nsApp::nsActor::nsEnemy::EnemyPoolManager::GetInstance()->IsBossAlive();
+                    Vector3 pos = nsApp::nsActor::nsEnemy::EnemyPoolManager::GetInstance()->GetBoss()->GetLocalPosition();
+
+                    BossNotify* bossNotify = new BossNotify();
+                    bossNotify->m_alive = isAlive;
+                    bossNotify->m_position = pos;
+
+                    nsUI::InGameUIManager::GetInstance()->AddNotify(bossNotify);
+                }
+
+            }
+
+            //警告表示
+            {
+                nsApp::nsActor::nsEnemy::EnemyPoolManager::GetInstance()->ForEachUsedEnemy([&](nsActor::nsEnemy::Zombie* zombie)
+                    {
+                        CaveatNotify* caveatNotify = new CaveatNotify();
+                        //todo for test
+                        if (zombie->GetLocalPosition().z <= 300.0f) {
+                            caveatNotify->m_caveatId = reinterpret_cast<uintptr_t>(zombie);// ポインタのアドレスを uint64_t に変換
+                            caveatNotify->m_id = zombie->ID();
+                            caveatNotify->m_position = zombie->GetPosition();
+
+                            nsUI::InGameUIManager::GetInstance()->AddNotify(caveatNotify);
+                        }
+                        
+                        //delete enemiesNotify;
                     });
             }
 
@@ -258,6 +328,25 @@ namespace nsApp
                 wallHPNotify->m_wallHP = wallHP;
 
                 nsUI::InGameUIManager::GetInstance()->AddNotify(wallHPNotify);
+
+                //delete wallHPNotify;
+            }
+
+            //ボスのHP
+            {
+                const uint16_t maxHP = nsActor::nsEnemy::EnemyPoolManager::GetInstance()->GetBoss()->GetStatus()->GetMaxHP();
+                const uint16_t HP= nsActor::nsEnemy::EnemyPoolManager::GetInstance()->GetBoss()->GetStatus()->GetHP();
+                const bool isAlive = nsActor::nsEnemy::EnemyPoolManager::GetInstance()->IsBossAlive();
+                const Vector3 pos = nsActor::nsEnemy::EnemyPoolManager::GetInstance()->GetBoss()->GetLocalPosition();
+
+                BossHPNotify* bossHPNotify = new BossHPNotify();
+
+                bossHPNotify->m_maxBossHP = maxHP;
+                bossHPNotify->m_BossHP = HP;
+                bossHPNotify->m_isAlive = isAlive;
+                bossHPNotify->m_bossPosition = pos;
+
+                nsUI::InGameUIManager::GetInstance()->AddNotify(bossHPNotify);
             }
 
             //カウントダウン            
@@ -272,6 +361,8 @@ namespace nsApp
                 countdownNotify->m_isDrawCount = isDrawCount;
 
                 nsUI::InGameUIManager::GetInstance()->AddNotify(countdownNotify);
+
+                //delete countdownNotify;
             }
 
             //ショップ
@@ -285,6 +376,18 @@ namespace nsApp
 
                 nsUI::InGameUIManager::GetInstance()->AddNotify(shopNotify);
             }
+
+            //フェーズ切り替えのメッセージ
+            {
+                const uint8_t currentPhase = nsFlow::GameFlowManager::GetInstance()->GetGameFlow();
+
+                PhaseSwitchNotify* phaseSwitchNotify = new PhaseSwitchNotify();
+                phaseSwitchNotify->m_currentPhase = nsFlow::GameFlowManager::GetInstance()->GetGameFlow();
+                phaseSwitchNotify->m_waveNum = nsFlow::GameFlowManager::GetInstance()->GetWaveCount();
+
+                nsUI::InGameUIManager::GetInstance()->AddNotify(phaseSwitchNotify);
+            }
+
         }
 
         
@@ -297,9 +400,35 @@ namespace nsApp
         }
 
 
-        void BattleManager::DeleteZombie(nsApp::nsActor::nsEnemy::Zombie* zombie)
+        void BattleManager::DeleteBoss()
         {
-            nsApp::nsActor::nsEnemy::EnemyPoolManager::GetInstance()->Restore(zombie);
+            nsApp::nsActor::nsEnemy::EnemyPoolManager::GetInstance()->RestoreBoss();
+        }
+
+
+        void BattleManager::ReportEliminateZombie()
+        {
+            //倒した敵を加算
+            nsApp::nsFlow::BattleFlow::GetInstance()->AddEliminateEnemy();
+            //スコア加算
+            nsApp::nsFlow::ScoreCounter::GetInstance()->AddScore(enScoreType_EliminateZombie);
+        }
+
+        void BattleManager::AddMoney(const uint16_t money)
+        {
+            nsBattle::Inventory::GetInstance().AddMoney(money);
+        }
+
+
+        void BattleManager::ReduceMoney(const uint16_t money)
+        {
+            nsBattle::Inventory::GetInstance().ReduceMoney(money);
+        }
+
+
+        uint16_t BattleManager::GetMoney()
+        {
+            return nsBattle::Inventory::GetInstance().GetMoney();
         }
 
 
@@ -327,6 +456,14 @@ namespace nsApp
         }
 
 
+        bool BattleManager::IsBossAlive()
+        {
+            nsActor::nsEnemy::EnemyPoolManager::GetInstance()->IsBossAlive();
+
+            return false;
+        }
+
+
         float BattleManager::GetEnemyStopPosition()
         {
             auto* param = ParameterManager::Get().GetParameter<MasterBattleParameter>();
@@ -334,9 +471,15 @@ namespace nsApp
         }
 
 
-        void BattleManager::DealingDamage(const uint16_t damage)
+        void BattleManager::DealingDamage()
         {
-            m_wall->ReduceDurability(damage);
+            const auto& enemyList = nsActor::nsEnemy::EnemyPoolManager::GetInstance()->GetUsedEnemyList();
+            for (auto* enemy : enemyList) {
+                if (enemy->IsAttack()) {
+                    m_wall->ReduceDurability(enemy->GetStatus()->GetAttackPower());
+                    enemy->SetAttack(false);
+                }
+            }
         }
 
 

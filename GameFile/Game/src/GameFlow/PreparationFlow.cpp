@@ -41,7 +41,7 @@ namespace nsApp
             if (nsFlow::GameFlowManager::GetInstance()->m_currentPhase != enPreparation)return;
 
             m_currentCount -= g_gameTime->GetFrameDeltaTime();
-            if (m_currentCount <= 0.0f)m_currentCount = 0.0f;
+            if (m_currentCount <= 0.0f) m_currentCount = 0.0f;
 
             ChangeNextPhase();
         }

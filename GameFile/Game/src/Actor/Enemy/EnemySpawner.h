@@ -14,6 +14,7 @@ namespace nsApp
 		namespace nsEnemy
 		{
 			class Zombie;
+			class Boss;
 
 
 			/**
@@ -29,7 +30,7 @@ namespace nsApp
 				/** リスポーン位置（X値の最小値） */
 				float m_minPos = 0.0f;
 				/** リスポーン位置 */
-				Vector3 m_spawnPosition = Vector3::Zero;
+				Vector3 m_baseSpawnPosition = Vector3::Zero;
 
 
 			private:
@@ -43,7 +44,9 @@ namespace nsApp
 
 			public:
 				/** ゾンビの生成(プールから取得してくる) */
-				Zombie* Create();			
+				void ZombieCreate();
+				/** ボスの生成 */
+				void BossCreate();
 			};
 		}
 	}

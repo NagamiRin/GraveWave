@@ -5,6 +5,7 @@
  */
 #include "stdafx.h"
 #include "src/Actor/CharacterBase.h"
+#include "src/Actor/StateMachine.h"
 
 
 namespace nsApp

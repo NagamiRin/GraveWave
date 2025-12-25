@@ -1,6 +1,7 @@
 [
     {
         "Commnet": "ハンドガン用のパラメータ",
+        "GunName" : "GZ75",
         "Damage": 5,
         "MaxAmmo": 15,
         "ReloadTime": 1.5,
@@ -8,7 +9,7 @@
         "BulletSpeed": 30.0,
         "FireCoolTime": 0.3,
         "NewPositionX":1.0,
-        "NewPositionY":-3.0,
-        "NewPositionZ":5.0
+        "NewPositionY":-1.0,
+        "NewPositionZ":2.0
     }
 ]

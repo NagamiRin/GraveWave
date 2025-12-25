@@ -20,6 +20,10 @@ namespace nsApp
 		private:
 			/** キャンバス */
 			std::unique_ptr<UICanvas> m_uiCanvas;
+			/** 文字 */
+			ImageUI* m_string = nullptr;
+			/** 現在の点滅時間 */
+			float m_currentTime = 0.0f;
 			
 
 		public:

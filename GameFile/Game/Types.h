@@ -8,12 +8,14 @@ enum EnGameObjectPriority
 	enGameObjectPriority_Bullet,
 	enGameObjectPriority_Camera,
 	enGameObjectPriority_Enemy,
+	enGameObjectPriority_Stone,
 	enGameObjectPriority_Gun,
 	enGameObjectPriority_Player,
 	enGameObjectPriority_Wall,
 	enGameObjectPriority_UI,
 	enGameObjectPriority_SceneManager,
 	enGameObjectPriority_EffectManager,
+	enGameObjectPriority_HitManager,
 	enGameObjectPriority_SkyCube,
 };
 
@@ -23,7 +25,42 @@ enum EnSpwnerType
 	enSpwnerType_Left = 0,
 	enSpwnerType_Center,
 	enSpwnerType_Right,
-	enSpwnerType_Num
+	enSpwnerType_None = enSpwnerType_Right ,
+};
+
+enum EnProductType
+{
+	enProductType_None = 0,
+
+	enProductType_GZ75,
+	enProductType_R8,
+	enProductType_M1911,
+	enProductType_TEC9,
+	enProductType_SubWeaponMax,
+
+	enProductType_ACR,
+	enProductType_AK47,
+	enProductType_G36,
+	enProductType_HAMR,
+	enProductType_L86A2,
+	enProductType_M4A1,
+	enProductType_SCAR,
+	enProductType_MainWeaponMax,
+
+	enProductType_NormalAmmo,
+	enProductType_AmmoMax
+};
+
+enum EnScoreType
+{
+	enScoreType_EliminateZombie = 0,
+	enScoreType_None,
+};
+
+enum EnWaveType {
+	enWaveType_Normal,
+	enWaveType_Boss,
+	enWaveType_None,
 };
 
 
@@ -39,9 +76,11 @@ namespace nsApp
 {
 	enum EnCollisionAttr
 	{
-		enCollirionEnemy = enCollisionAttr_User,
+		enCollision_Enemy = enCollisionAttr_User,
 		// ここに追加していく
-		enCollisionMax,
+		enCollision_Stone,
+		enCollision_Wall,
+		enCollision_Max,
 	};
 }
 

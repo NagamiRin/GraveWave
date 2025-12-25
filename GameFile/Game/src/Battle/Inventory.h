@@ -47,10 +47,20 @@ namespace nsApp
 
 
 		public:
+			/** サブ武器のIDをセット */
 			inline void SetSubWeaponID(const uint32_t id) { m_subWeaponIDList.push_back(id); }
 			inline const std::vector<uint32_t>& GetSubWeaponID() const { return m_subWeaponIDList; }
+			/** メイン武器のIDをセット */
 			inline void SetMainWeaponID(const uint32_t id) { m_mainWeaponIDList.push_back(id); }
 			inline const std::vector<uint32_t>& GetMainWeaponID() const { return m_mainWeaponIDList; }
+
+			/** 所持金を加算 */
+			inline void AddMoney(const uint16_t money) { m_money += money; }
+			/** 所持金を減らす */
+			inline void ReduceMoney(const uint16_t money) { m_money -= money; }
+			/** 所持金を取得 */
+			inline uint16_t GetMoney() { return m_money; }
+			
 
 			
 		private:

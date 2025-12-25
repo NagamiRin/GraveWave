@@ -28,11 +28,16 @@ namespace nsApp
 		enNotifyType_CrossHair,
 		enNotifyType_Countdown,
 		enNotifyType_RemainingBullets,
+		enNotifyType_Reloading,
 		enNotifyType_RemainingEnemies,
 		enNotifyType_Enemies,
+		enNotifyType_Boss,
+		enNotifyType_Caveat,
 		enNotifyType_Score,
 		enNotifyType_Shop,
+		enNotifyType_SwitchPhase,
 		enNotifyType_WallHP,
+		enNotifyType_BossHP,
 		enNotifyType_None,
 	};
 
@@ -46,6 +51,7 @@ namespace nsApp
 
 	struct CrossHairNotify : public INotify
 	{
+		bool m_isAiming;
 		bool m_isHit;
 		//
 		CrossHairNotify()
@@ -58,9 +64,21 @@ namespace nsApp
 	{
 		uint8_t m_remainingNum;
 		uint8_t m_maxNum;
+		std::string m_gunName;
 		//
 		RemainingBulletsNotify()
 			: INotify(enNotifyType_RemainingBullets)
+		{
+		}
+	};
+
+	struct ReloadingNotify : public INotify
+	{
+		float m_reloadTime;
+		float m_currentReloadTime;
+		//
+		ReloadingNotify()
+			: INotify(enNotifyType_Reloading)
 		{
 		}
 	};
@@ -87,6 +105,29 @@ namespace nsApp
 		}
 	};
 
+	struct BossNotify :public INotify
+	{
+		Vector3 m_position;
+		bool m_alive;
+		//
+		BossNotify()
+			: INotify(enNotifyType_Boss)
+		{
+		}
+	};
+
+	struct CaveatNotify :public INotify
+	{
+		uint64_t m_caveatId;
+		uint32_t m_id;
+		Vector3 m_position;
+		//
+		CaveatNotify()
+			: INotify(enNotifyType_Caveat)
+		{
+		}
+	};
+
 	struct WallHPNotify :public INotify
 	{
 		uint16_t m_maxWallHP;
@@ -94,6 +135,19 @@ namespace nsApp
 		//
 		WallHPNotify()
 			: INotify(enNotifyType_WallHP)
+		{
+		}
+	};
+
+	struct BossHPNotify :public INotify
+	{
+		uint16_t m_maxBossHP;
+		uint16_t m_BossHP;
+		Vector3 m_bossPosition;
+		bool m_isAlive;
+		//
+		BossHPNotify()
+			: INotify(enNotifyType_BossHP)
 		{
 		}
 	};
@@ -131,7 +185,18 @@ namespace nsApp
 		}
 	};
 
+	struct PhaseSwitchNotify :public INotify
+	{
+		uint8_t m_currentPhase;
+		uint8_t m_waveNum;
+		//
+		PhaseSwitchNotify()
+			:INotify(enNotifyType_SwitchPhase)
+		{
+		}
+	};
 
+	
 	namespace nsUI
 	{
 		class Crosshair;
@@ -142,6 +207,10 @@ namespace nsApp
 		class CountdownUI;
 		class MiniMapUI;
 		class ShopUI;
+		class CaveatUI;
+		class PhaseSwitchUI;
+		class ReloadingUI;
+		class BossHPUI;
 
 
 		class InGameUIManager
@@ -159,10 +228,19 @@ namespace nsApp
 			RemainingEnemyUI* m_remainingEnemyUI = nullptr;
 			/** 防壁のHP */
 			WallHPUI* m_wallHPUI = nullptr;
+			/** ボスのHPバー */
+			BossHPUI* m_bossHPUI;
 			/** ミニマップ */
 			MiniMapUI* m_miniMapUI = nullptr;
 			/** ショップUI */
 			ShopUI* m_shopUI = nullptr;
+			/** 警告UI */
+			CaveatUI* m_caveatUI = nullptr;
+			/** フェーズ切り替えのメッセージUI */
+			PhaseSwitchUI* m_phaseSwitch = nullptr;
+			/** リロード時間UI */
+			ReloadingUI* m_reloadingUI = nullptr;
+
 
 			std::vector<INotify*> m_notifyList;
 

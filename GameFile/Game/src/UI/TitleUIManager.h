@@ -25,6 +25,7 @@ namespace nsApp
 	namespace nsUI
 	{
 		class TitleScreen;
+		class PressButtonUI;
 
 
 		class TitleUIManager
@@ -32,6 +33,8 @@ namespace nsApp
 		private:
 			/** タイトル画面 */
 			TitleScreen* m_titleScreen = nullptr;
+			/** PressButtonのUI */
+			PressButtonUI* m_pressButton = nullptr;
 
 			std::vector<INotify*> m_notifyList;
 

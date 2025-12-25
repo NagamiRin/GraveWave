@@ -1,0 +1,10 @@
+[
+    {
+        "Comment": "ボスが投げる岩のパラメータ",
+        "Altitude": 200.0,
+        "LandingTime": 10.0,
+        "MaxDurability": 100,
+        "RotSpeed": 50.0,
+        "DivisionNum": 10
+        } 
+]

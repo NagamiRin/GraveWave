@@ -11,6 +11,7 @@ namespace nsApp
 {
 	namespace nsActor
 	{
+		class StateMachine;
 		/**
 		 * キャラクターの基底クラス
 		 */
@@ -20,8 +21,11 @@ namespace nsApp
 
 
 		protected:
-			/** コリジョンの位置 */
-			Vector3 m_collisionPosition = Vector3::Zero;
+			/** ステータスのポインタ */
+			ActorStatus* m_status = nullptr;
+			/** ステートマシンのポインタ */
+			std::unique_ptr<StateMachine> m_stateMachine;
+
 
 		public:
 			/** コンストラクタ */
