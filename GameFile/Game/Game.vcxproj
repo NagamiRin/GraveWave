@@ -270,9 +270,11 @@
     <ClCompile Include="src\GameFlow\GameFlowManager.cpp" />
     <ClCompile Include="src\GameFlow\PreparationFlow.cpp" />
     <ClCompile Include="src\GameFlow\ScoreCounter.cpp" />
+    <ClCompile Include="src\RecoilSystem.cpp" />
     <ClCompile Include="src\Scene\DebugScene.cpp" />
     <ClCompile Include="src\Scene\InGameScene.cpp" />
     <ClCompile Include="src\Scene\IScene.cpp" />
+    <ClCompile Include="src\Scene\LoadingScreen.cpp" />
     <ClCompile Include="src\Scene\ResultScene.cpp" />
     <ClCompile Include="src\Scene\SceneManager.cpp" />
     <ClCompile Include="src\Scene\TitleScene.cpp" />
@@ -353,9 +355,11 @@
     <ClInclude Include="src\GameFlow\GameFlowManager.h" />
     <ClInclude Include="src\GameFlow\PreparationFlow.h" />
     <ClInclude Include="src\GameFlow\ScoreCounter.h" />
+    <ClInclude Include="src\RecoilSystem.h" />
     <ClInclude Include="src\Scene\DebugScene.h" />
     <ClInclude Include="src\Scene\InGameScene.h" />
     <ClInclude Include="src\Scene\IScene.h" />
+    <ClInclude Include="src\Scene\LoadingScreen.h" />
     <ClInclude Include="src\Scene\ResultScene.h" />
     <ClInclude Include="src\Scene\SceneManager.h" />
     <ClInclude Include="src\Scene\TitleScene.h" />

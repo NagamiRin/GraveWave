@@ -35,7 +35,7 @@ namespace nsApp
         BattleFlow::~BattleFlow()
         {
             //パラメーター削除
-            ParameterManager::Get().UnloadParameter< MasterWaveParameter>();
+            ParameterManager::Get().UnloadParameter<MasterWaveParameter>();
         }
 
 
