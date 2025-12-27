@@ -59,11 +59,20 @@ namespace nsApp
 
 				nsBullet::NormalBullet* bullet = nullptr;
 				// 弾を生成
-				nsBullet::BulletManager::GetInstance()->CreatBullet<nsBullet::NormalBullet>(m_transform.m_position, m_injectionDirection, m_bulletSpeed, m_damage);			
+
+				// @todo for test
+				Vector3 injectionDirection = g_camera3D->GetTarget() - m_transform.m_position;
+				injectionDirection.Normalize();
+				nsBullet::BulletManager::GetInstance()->CreatBullet<nsBullet::NormalBullet>(m_transform.m_position, injectionDirection, m_bulletSpeed, m_damage);
+
+				//反動を加算
+				m_recoilSystem->AddRecoil();
 
 				//効果音、エフェクト
 				SoundManager::Get().PlaySE(enSoundKind_HandGun_Fire);
-				EffectManager::Get().PlayEffect(enEffectKind_Fire, GetPosition() + (GetDirection() * 30.0f), GetRotation(), Vector3::One);
+
+				Vector3 effectPosition = /*GetPosition() + */SearchMuzzlePos();
+				EffectManager::Get().PlayEffect(enEffectKind_Fire, effectPosition, GetRotation(), Vector3::One * 0.1f);
 
 				//クールタイムをセット
 				m_currentCoolTime = m_fireCoolTime;
@@ -143,6 +152,31 @@ namespace nsApp
 					m_currentGunAnimTime = 0.0f;
 					m_isEquipment = true;
 				}
+			}
+
+
+			Vector3 GunBase::SearchMuzzlePos()
+			{
+				const auto& meshPartsList = m_model.GetModel().GetTkmFile().GetMeshParts();
+				auto& meshParts = meshPartsList[meshPartsList.size() - 1];
+
+				Transform tempTransform;
+				tempTransform.SetParent(&m_transform);
+
+				Vector3 pos = meshParts.vertexBuffer[0].pos;
+				{
+					float temp = pos.y;
+					pos.y = pos.z;
+					pos.z = temp * -1.0f;
+				}
+				if (m_isADS) {
+					pos.y += 0.05f;
+				}
+
+				tempTransform.m_localPosition = pos;
+				tempTransform.UpdateTransform();
+
+				return tempTransform.m_position;
 			}
 
 

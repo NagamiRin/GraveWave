@@ -88,6 +88,8 @@ namespace nsApp
 				void PutGun();
 				/** 銃を出す */
 				void TakeOutGun();
+				/** 銃口の位置を更新 */
+				Vector3 SearchMuzzlePos();
 
 
 			public:
