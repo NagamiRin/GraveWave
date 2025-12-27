@@ -393,6 +393,11 @@ namespace nsApp
         
         void BattleManager::UpdateCameraForPlayer()
         {
+            //ADSの入力を伝える
+            UpdateInputADS();
+            //反動を伝える
+            m_camera->SetTargetOffset(Vector2(m_player->GetGun()->GetRecoil()));    
+
             //カメラ座標を設定
             m_camera->SetCameraPos(m_player->GetPosition());
             //カメラの向きを設定
@@ -445,6 +450,17 @@ namespace nsApp
             auto* parameter = ParameterManager::Get().GetParameter<MasterBattleParameter>();
 
             return parameter->m_horizontalLimitAngle;
+        }
+
+
+        void BattleManager::UpdateInputADS()
+        {
+            float viewAngle = 60.0f;
+            if (m_player->GetInputADS()) {
+                viewAngle = 40.0f;
+            }
+
+            m_camera->SetViewAngle(Math::DegToRad(viewAngle));
         }
 
 

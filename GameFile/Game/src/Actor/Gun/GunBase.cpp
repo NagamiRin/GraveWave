@@ -9,6 +9,13 @@
 #include "src/Actor/Bullet/NormalBullet.h"
 #include "src/Effect/EffectManager.h"
 #include "src/Sound/SoundManager.h"
+#include "src/RecoilSystem.h"
+
+
+namespace {
+	const Vector3 ADS_POS = Vector3(0.0f, 10.0f, 10.0f);
+	//const Vector3 ADS_DIR = Vector3(0.0f, 10.0f, 10.0f);
+}
 
 
 namespace nsApp
@@ -19,11 +26,15 @@ namespace nsApp
 		{
 			GunBase::GunBase()
 			{
+				//反動処理クラスを生成
+				m_recoilSystem = new RecoilSystem();
 			}
 
 
 			GunBase::~GunBase()
 			{
+				//反動処理クラスを削除
+				delete m_recoilSystem;
 			}
 
 
@@ -240,6 +251,12 @@ namespace nsApp
 			void GunBase::Render(RenderContext& rc) 
 			{
 				m_model.Draw(rc);				
+			}
+
+
+			Vector2 GunBase::GetRecoil()
+			{
+				return m_recoilSystem->GetRecoil();
 			}
 		}
 	}

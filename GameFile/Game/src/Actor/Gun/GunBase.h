@@ -9,6 +9,9 @@
 
 namespace nsApp
 {
+	class RecoilSystem;
+
+
 	namespace nsActor
 	{
 		namespace nsGun
@@ -19,10 +22,15 @@ namespace nsApp
 			class GunBase : public Actor
 			{
 			protected:
+				/** 反動処理クラスのインスタンス */
+				RecoilSystem* m_recoilSystem = nullptr;
+
 				/** リロード中か */
 				bool m_isReloading = false;
 				/** 銃を装備中か */
 				bool m_isEquipment = false;
+				/** ADS中か */
+				bool m_isADS = false;
 				/** ダメージ量 */
 				uint8_t m_damage = 0;
 				/** 最大弾数 */
@@ -45,10 +53,20 @@ namespace nsApp
 				float m_currentGunAnimTime = 0.0f;
 				/** 現在のリロード時間 */
 				float m_currentReloadTime = 0.0f;
+				/** 銃の拡大倍率 */
+				float m_zoomAngle = Math::DegToRad(60.0f);
+				/** ADS移行速度 */
+				float m_ADSSpeed = 0.0f;
 				/** 弾丸の射出方向 */
 				Vector3 m_injectionDirection = Vector3::Zero;
+				/** 腰だめ撃ちの銃の位置 */
+				Vector3 m_hipFirePosition = Vector3::Zero;
+				/** ADSの銃の位置 */
+				Vector3 m_ADSFirePosition = Vector3::Zero;
 				/** 計算後の銃の位置 */
 				Vector3 m_adjustPosition = Vector3::Zero;
+				/** 反動の位置 */
+				Vector3 m_recoilPosition = Vector3::Zero;
 				/** プレイヤーの位置 */
 				Vector3 m_playerPosition = Vector3::Zero;
 				/** 銃の名前 */
@@ -56,6 +74,11 @@ namespace nsApp
 
 				// @todo for あとでコメント
 				Vector3 m_offsetPosition = Vector3::Zero;
+				Vector3 m_prevPosition = Vector3::Zero;
+
+				/** ADSの経過時間 */
+				float m_currentADSTime = 0.0f;
+
 
 
 			public:
@@ -63,9 +86,7 @@ namespace nsApp
 
 
 			public:
-				/** コンストラクタ */
 				GunBase();
-				/** デストラクタ */
 				virtual ~GunBase();
 
 
@@ -76,6 +97,8 @@ namespace nsApp
 
 
 			public:
+				/** ADSの処理 */
+				void OnADS();
 				/** 弾発射 */
 				void OnFire();
 				/** リロード */
@@ -127,6 +150,15 @@ namespace nsApp
 				inline float GetReloadTime() { return m_reloadTime; }
 				/** 現在のリロード時間を取得 */
 				inline float GetCurrentReloadTime() { return m_currentReloadTime; }
+				/** ADSかを設定 */
+				inline void SetADS(const bool ads)
+				{
+					m_isADS = ads;
+					m_currentADSTime = 0.0f;
+					m_prevPosition = m_offsetPosition;
+				}
+				/** 反動位置を取得 */
+				Vector2 GetRecoil();
 			};
 		}
 	}
