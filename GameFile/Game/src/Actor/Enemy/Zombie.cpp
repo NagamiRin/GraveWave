@@ -109,7 +109,10 @@ namespace nsApp
                 m_collisionPosition = m_transform.m_position + Vector3(0.0f, 25.0f, 0.0f);
                 m_collisionObject->SetPosition(m_collisionPosition);
                 m_collisionObject->Update();
-                m_collisionObject->GetbtCollisionObject().setUserIndex(nsApp::enCollision_Enemy);
+
+                m_collisionPosition = m_transform.m_position + Vector3(0.0f, 40.0f, 0.0f);
+                m_headCollision->SetPosition(m_collisionPosition);
+                m_headCollision->Update();
 
                 //LODのいろいろ更新
                 m_modelLOD->SetPosition(m_transform.m_localPosition);
@@ -133,6 +136,9 @@ namespace nsApp
             {
                 GetStatus()->ResetHP();
                 SetLocalPosition(initializePosition);                
+
+                m_headCollision = CollisionHitManager::Get().CreateCollisionObject(ID(), this, m_collisionPosition, GetRotation(), 20.0f);
+                m_headCollision->GetbtCollisionObject().setUserIndex(nsApp::enCollision_Head);
 
                 m_collisionObject = CollisionHitManager::Get().CreateCollisionObject(ID(), this, m_collisionPosition, GetRotation(), 10.0f, 30.0f);
                 m_collisionObject->GetbtCollisionObject().setUserIndex(nsApp::enCollision_Enemy);

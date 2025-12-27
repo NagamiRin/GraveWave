@@ -46,8 +46,8 @@ namespace nsApp
 				std::unique_ptr<PlayerStateMachine> m_stateMachine;
 				/** RLスティックの入力量 */
 				Vector2 m_inputRStick = Vector2::Zero;
-				/** 右トリガーの入力情報 */
-				bool m_isInputRTrigger = false;
+				/** 左トリガーの入力情報 */
+				bool m_isInputADS = false;
 				/** 上下方向の限界値 */
 				float m_verticalLimitAngle = 0.0f;
 				/** 左右方向の限界値 */
@@ -80,6 +80,8 @@ namespace nsApp
 				void UpdateInputLStick();
 				/** Rトリガーの入力情報を更新 */
 				void JudgOnFire();
+				/** プレイヤーの左トリガーの入力情報を取得 */
+				void OnInputADS();
 				/** Xボタンの入力を更新 */
 				void JudgeToReload();
 				/** 装備する銃をリクエスト */
@@ -90,9 +92,9 @@ namespace nsApp
 				/** プレイヤーのステータスをキャスト */
 				inline PlayerStatus* GetStatus() { return dynamic_cast<PlayerStatus*>(m_status); }
 				/** プレイヤーのLスティックの入力量を取得 */
-				inline Vector2 GetInputRStick() const { return m_inputRStick; };
-				/** プレイヤーの右トリガーの入力情報を取得 */
-				inline bool GetInputRTrigger() const { return m_isInputRTrigger; }				
+				inline Vector2 GetInputRStick() const { return m_inputRStick; };		
+				/** ADSボタンの入力情報 */
+				inline bool GetInputADS() const { return m_isInputADS; }
 				/** 装備している銃を取得 */
 				inline nsGun::GunBase* GetGun() const { return m_gun; }
 				/** 装備する銃を切り替え */

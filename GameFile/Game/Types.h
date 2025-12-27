@@ -17,6 +17,7 @@ enum EnGameObjectPriority
 	enGameObjectPriority_EffectManager,
 	enGameObjectPriority_HitManager,
 	enGameObjectPriority_SkyCube,
+	enGameObjectPriority_Loading = 250,
 };
 
 
@@ -77,7 +78,7 @@ namespace nsApp
 	enum EnCollisionAttr
 	{
 		enCollision_Enemy = enCollisionAttr_User,
-		// ここに追加していく
+		enCollision_Head,
 		enCollision_Stone,
 		enCollision_Wall,
 		enCollision_Max,

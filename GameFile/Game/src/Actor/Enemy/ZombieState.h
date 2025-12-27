@@ -158,6 +158,11 @@ namespace nsApp
 				appState(ZombieWalkState);
 
 
+			private:
+				/** エフェクト生成の経過時間 */
+				float m_elapsedTime = 0.0f;
+
+
 			public:
 				/** コンストラクタ */
 				ZombieWalkState(ZombieStateMachine* owner);

@@ -44,7 +44,11 @@ namespace nsApp
 				m_bulletSpeed = parameter->m_bulletSpeed;
 				m_fireCoolTime = parameter->m_fireCoolTime;
 
-				m_offsetPosition = Vector3(parameter->m_newPositionX, parameter->m_newPositionY, parameter->m_newPositionZ);
+				m_hipFirePosition = Vector3(parameter->m_newPositionX, parameter->m_newPositionY, parameter->m_newPositionZ);
+
+				//todo for test
+				m_ADSFirePosition = Vector3(0.0f, -0.15f, 0.35);
+				m_ADSSpeed = 0.1f;
 
 				m_remainingAmmo = m_maxAmmo;
 			}
