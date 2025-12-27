@@ -12,6 +12,7 @@
 #include "src/Core/BattleManager.h"
 #include "src/GameFlow/BattleFlow.h"
 #include "src/GameFlow/ScoreCounter.h"
+#include "src/Effect/EffectManager.h"
 
 
 namespace
@@ -26,14 +27,16 @@ namespace
 
 		btScalar	addSingleResult(btCollisionWorld::LocalConvexResult& convexResult, bool normalInWorldSpace) override
 		{
-			//自分自身を弾く
-			//if (&m_me->GetbtCollisionObject() == convexResult.m_hitCollisionObject) return 0.0f;
-
 			//エネミー以外かつゴーストオブジェクトではない時
 			const int collisionAttr = convexResult.m_hitCollisionObject->getUserIndex();
-			if ((collisionAttr != nsApp::enCollision_Enemy
-				&& collisionAttr != nsApp::enCollision_Stone)
-				|| convexResult.m_hitCollisionObject->getInternalType() != btCollisionObject::CO_GHOST_OBJECT) {
+
+			const bool isEnemy = (collisionAttr == nsApp::enCollision_Enemy || collisionAttr == nsApp::enCollision_Head);
+			const bool isStone = collisionAttr == nsApp::enCollision_Stone;
+
+			const bool isHitBulletTarget = isEnemy || isStone;
+
+			const bool isGhostObject = convexResult.m_hitCollisionObject->getInternalType() == btCollisionObject::CO_GHOST_OBJECT;
+			if (!isHitBulletTarget || !isGhostObject) {
 				return convexResult.m_hitFraction;
 			}
 
@@ -146,19 +149,24 @@ void CollisionHitManager::Update()
 
 void CollisionHitManager::DeleteCollisionObject(IGameObject* object)
 {
-	CollisionObject* targetCollision = nullptr;
-	for(auto it = m_collisionInfoList.begin(); it != m_collisionInfoList.end(); ++it)
+	std::vector<CollisionObject*> targetCollisionList;
+	for(auto it = m_collisionInfoList.begin(); it != m_collisionInfoList.end();)
 	{
-		if(it->m_object == object)
+		if (it->m_object == object)
 		{
-			targetCollision = it->m_collision;
-			m_collisionInfoList.erase(it);
-			break;
+			targetCollisionList.push_back(it->m_collision);
+			it = m_collisionInfoList.erase(it);
+		}
+		else
+		{
+			// 削除しない場合のみイテレータを進める
+			++it;
 		}
 	}
-	if (targetCollision) {
-		delete targetCollision;
-		targetCollision = nullptr;
+	if (targetCollisionList.size() > 0) {
+		for (int i = 0; i < targetCollisionList.size(); ++i) {
+			delete targetCollisionList[i];
+		}
 	}
 }
 
@@ -231,13 +239,26 @@ bool CollisionHitManager::UpdateHitBullet(CollisionPair& pair)
 	if (!normalBullet) return false;
 	if (!zombie && !boss && !throwStone) return false;
 
+	bool isHitHead = false;
+	if (pair.m_left->m_collision->GetbtCollisionObject().getUserIndex() == nsApp::enCollision_Head) {
+		isHitHead = true;
+	}
+	if (pair.m_right->m_collision->GetbtCollisionObject().getUserIndex() == nsApp::enCollision_Head) {
+		isHitHead = true;
+	}
+
+	//エフェクト生成
+	nsApp::EffectManager::Get().PlayEffect(enEffectKind_Hit, normalBullet->GetPosition(), Quaternion::Identity, Vector3::One*2.0f);
+
 	//弾の削除
 	m_isHit = true;
 	nsApp::nsActor::nsBullet::BulletManager::GetInstance()->DeleteBullet(normalBullet);
 
+
+
 	//ゾンビに当たった場合
 	if (zombie) {
-		zombie->ReduceHP(normalBullet->GetDamage());
+		zombie->ReduceHP(m_isHit ? zombie->GetStatus()->GetHP() : normalBullet->GetDamage());
 		zombie->SetHit(true);
 	}
 
