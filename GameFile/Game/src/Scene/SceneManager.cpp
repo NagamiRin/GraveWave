@@ -9,10 +9,16 @@
 #include "src/Scene/TitleScene.h"
 #include "src/Scene/InGameScene.h"
 #include "src/Scene/ResultScene.h"
+#include "src/Scene/LoadingScreen.h"
 
 #ifdef K2_DEBUG
 #include "src/Scene/DebugScene.h"
 #endif
+
+
+namespace {
+    constexpr float SWITCH_SCENE_TIME = 0.1f;
+}
 
 
 namespace nsApp
@@ -24,6 +30,9 @@ namespace nsApp
 
         SceneManager::SceneManager()
         {
+            //ロード画面生成
+            m_loadingScreen = NewGO<LoadingScreen>(enGameObjectPriority_Loading, "LoadingScreen");
+
             //各シーン追加
             AddSceneMap<TitleScene>();
             AddSceneMap<InGameScene>();
@@ -36,17 +45,42 @@ namespace nsApp
 
         SceneManager::~SceneManager()
         {           
+            //ロード画面削除
+            DeleteGO(m_loadingScreen);
         }
 
 
         void SceneManager::Update()
-        {           
-            if (m_currentScene) {
-                uint32_t nextSceneId;
+        {
+            if (m_currentScene) {  
                 m_currentScene->Update();
-                if (m_currentScene->RequestScene(nextSceneId)) {
+                if (m_currentScene->RequestScene(m_requestSceneID)) {
+                    //ロード画面描画
+                    m_loadingScreen->SetDraw(true);
+
+                    //シーン切り替えのフラグを立てる
+                    m_isSwitchScene = true;                   
+                }
+            }
+
+            if (m_isSwitchScene) {
+                //次のシーン生成にディレイをかける
+                //NOTO:そのままだと、ロード画面が描画される前に、シーンの生成処理が走ってしまう
+                m_elapsedTime += g_gameTime->GetFrameDeltaTime();
+
+                if (m_elapsedTime >= SWITCH_SCENE_TIME) {
+                    //次のシーンへ
                     delete m_currentScene;
-                    CreateScene(nextSceneId);
+                    CreateScene(m_requestSceneID);
+
+                    //ロード画面を消す
+                    m_loadingScreen->SetDraw(false);
+
+                    //経過時間リセット
+                    m_elapsedTime = 0.0f;
+
+                    //シーン切り替えのフラグをさげる
+                    m_isSwitchScene = false;                    
                 }
             }
         }

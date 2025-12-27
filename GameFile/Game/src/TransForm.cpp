@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "k2EnginePreCompile.h"
 #include "Transform.h"
 
@@ -92,9 +92,7 @@ namespace nsK2Engine {
 			//子トランスフォームからの紐づけを外す
 			(*it)->m_parent = nullptr;
 			//子トランスフォームへの紐づけを外す
-			m_children.erase(it);
-			//イテレータを進める
-			++it;
+			it = m_children.erase(it);
 		}
 		//念のため？vectorの要素を全削除
 		m_children.clear();

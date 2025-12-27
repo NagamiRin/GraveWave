@@ -9,6 +9,13 @@
 #include "src/Actor/Bullet/NormalBullet.h"
 #include "src/Effect/EffectManager.h"
 #include "src/Sound/SoundManager.h"
+#include "src/RecoilSystem.h"
+
+
+namespace {
+	const Vector3 ADS_POS = Vector3(0.0f, 10.0f, 10.0f);
+	//const Vector3 ADS_DIR = Vector3(0.0f, 10.0f, 10.0f);
+}
 
 
 namespace nsApp
@@ -19,11 +26,15 @@ namespace nsApp
 		{
 			GunBase::GunBase()
 			{
+				//反動処理クラスを生成
+				m_recoilSystem = new RecoilSystem();
 			}
 
 
 			GunBase::~GunBase()
 			{
+				//反動処理クラスを削除
+				delete m_recoilSystem;
 			}
 
 
@@ -43,7 +54,47 @@ namespace nsApp
 
 				if (m_currentReloadTime >= 0.0f && m_isReloading)ReloadAnimation();
 
+				OnADS();
+				m_recoilSystem->Update();
+
 				m_transform.m_localPosition = m_offsetPosition + m_adjustPosition;
+
+				// @todo for test
+				// 銃を反動に応じて上に向かせたい
+				{
+					Quaternion t = Quaternion::Identity;
+					//Vector3 recoilDirection = Vector3(m_recoilSystem->GetRecoil().x, m_recoilSystem->GetRecoil().y, 0.0f);
+					//if (recoilDirection.Length() > 0.001f) {
+					//	recoilDirection *= 0.1f;
+					//	recoilDirection += m_direction;
+					//	// 1. 前方ベクトル(Z)の正規化
+					//	Vector3 zAxis = recoilDirection;
+					//	zAxis.Normalize();
+
+					//	// 2. 右ベクトル(X)の算出 (Y軸(0,1,0) と Z軸の外積)
+					//	// 注意: 方向が真上や真下に近いと外積がゼロになり計算不能になるため、
+					//	// 実戦ではここで「ZとUpが平行でないか」のチェックを入れるのが安全です。
+					//	Vector3 xAxis = Vector3::Up;
+					//	xAxis.Cross(recoilDirection);
+					//	xAxis.Normalize();
+					//	// 3. 真の上ベクトル(Y)の算出 (Z軸 と X軸の外積)
+					//	// 既に直交しているので正規化は理論上不要だが、誤差対策ですることもある
+					//	Vector3 yAxis = zAxis;
+					//	yAxis.Cross(xAxis);
+
+					//	// 4. 回転行列の構築
+					//	// DirectXは行優先(Row-Major)か列優先(Column-Major)かによりますが、
+					//	// XMMATRIXは通常、基底ベクトルを行にセットします。
+					//	Matrix rotMatrix = Matrix::Identity;
+					//	memcpy(&rotMatrix.m[0], &xAxis, sizeof(xAxis)); // X軸
+					//	memcpy(&rotMatrix.m[1], &yAxis, sizeof(yAxis)); // Y軸
+					//	memcpy(&rotMatrix.m[2], &zAxis, sizeof(zAxis)); // Z軸
+
+					//	t.SetRotation(rotMatrix);
+					//}
+					m_transform.m_localRotation = t;
+				}
+
 				m_transform.UpdateTransform();
 
 				m_model.SetPosition(m_transform.m_position);
@@ -53,17 +104,43 @@ namespace nsApp
 			}
 
 
+			void GunBase::OnADS()
+			{
+				m_currentADSTime += g_gameTime->GetFrameDeltaTime();
+
+				float t = m_currentADSTime / m_ADSSpeed;
+
+				if (t >= 1.0f) {
+					t = 0.0f;
+				}
+
+				// 目的位置
+				Vector3 targetPos = m_isADS ? m_ADSFirePosition : m_hipFirePosition;
+
+				m_offsetPosition = Math::Lerp<Vector3>(t, m_prevPosition, targetPos);
+			}
+
+
 			void GunBase::OnFire()
 			{
 				if (m_currentCoolTime > 0.0f || m_remainingAmmo <= 0 || m_isReloading)return;
 
 				nsBullet::NormalBullet* bullet = nullptr;
 				// 弾を生成
-				nsBullet::BulletManager::GetInstance()->CreatBullet<nsBullet::NormalBullet>(m_transform.m_position, m_injectionDirection, m_bulletSpeed, m_damage);			
+
+				// @todo for test
+				Vector3 injectionDirection = g_camera3D->GetTarget() - m_transform.m_position;
+				injectionDirection.Normalize();
+				nsBullet::BulletManager::GetInstance()->CreatBullet<nsBullet::NormalBullet>(m_transform.m_position, injectionDirection, m_bulletSpeed, m_damage);
+
+				//反動を加算
+				m_recoilSystem->AddRecoil();
 
 				//効果音、エフェクト
 				SoundManager::Get().PlaySE(enSoundKind_HandGun_Fire);
-				EffectManager::Get().PlayEffect(enEffectKind_Fire, GetPosition() + (GetDirection() * 30.0f), GetRotation(), Vector3::One);
+
+				Vector3 effectPosition = /*GetPosition() + */SearchMuzzlePos();
+				EffectManager::Get().PlayEffect(enEffectKind_Fire, effectPosition, GetRotation(), Vector3::One * 0.1f);
 
 				//クールタイムをセット
 				m_currentCoolTime = m_fireCoolTime;
@@ -146,9 +223,40 @@ namespace nsApp
 			}
 
 
+			Vector3 GunBase::SearchMuzzlePos()
+			{
+				const auto& meshPartsList = m_model.GetModel().GetTkmFile().GetMeshParts();
+				auto& meshParts = meshPartsList[meshPartsList.size() - 1];
+
+				Transform tempTransform;
+				tempTransform.SetParent(&m_transform);
+
+				Vector3 pos = meshParts.vertexBuffer[0].pos;
+				{
+					float temp = pos.y;
+					pos.y = pos.z;
+					pos.z = temp * -1.0f;
+				}
+				if (m_isADS) {
+					pos.y += 0.05f;
+				}
+
+				tempTransform.m_localPosition = pos;
+				tempTransform.UpdateTransform();
+
+				return tempTransform.m_position;
+			}
+
+
 			void GunBase::Render(RenderContext& rc) 
 			{
 				m_model.Draw(rc);				
+			}
+
+
+			Vector2 GunBase::GetRecoil()
+			{
+				return m_recoilSystem->GetRecoil();
 			}
 		}
 	}

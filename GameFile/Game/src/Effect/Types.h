@@ -11,6 +11,8 @@ enum enEffectKind
 {
 	enEffectKind= 0,
 	enEffectKind_Fire = enEffectKind,
+	enEffectKind_DustCloud,
+	enEffectKind_Hit,
 	enEffectKind_Max,
 	enEffectKind_None = enEffectKind_Max,
 };
@@ -29,5 +31,7 @@ struct EffectInformation
 static EffectInformation effectInformation[enEffectKind_Max] =
 {
 	EffectInformation(u"Assets/Effects/Fire/Fire.efk"),
+	EffectInformation(u"Assets/Effects/DustCloud/DustCloud.efk"),
+	EffectInformation(u"Assets/Effects/Impact/Impact.efk")
 };
 

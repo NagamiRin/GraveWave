@@ -13,7 +13,7 @@ namespace nsApp {
 		Game::Game()
 		{
 			//当たり判定描画
-			//PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
+			PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 		}
 
 

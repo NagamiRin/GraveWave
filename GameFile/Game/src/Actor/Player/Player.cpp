@@ -50,7 +50,7 @@ namespace nsApp
 				SetDirection(Vector3::Front);
 
 				//初期装備
-				m_gun = NewGO<nsGun::SubWeapon>(enGameObjectPriority_Gun, "HandGun");
+				m_gun = NewGO<nsGun::MainWeapon>(enGameObjectPriority_Gun, "HandGun");
 				m_gun->SetIsEquipment(true);
 				m_gun->SetParent(&m_transform);				
 
@@ -70,6 +70,9 @@ namespace nsApp
 
 				//銃にプレイヤーの位置を教える
 				m_gun->InformationUpdate(m_transform.m_position, m_direction);
+
+				OnInputADS();
+				m_gun->SetADS(m_isInputADS);
 			}
 
 
@@ -127,6 +130,12 @@ namespace nsApp
 			}
 
 
+			void Player::OnInputADS()
+			{
+				m_isInputADS = g_pad[0]->IsPress(enButtonLB2);
+			}
+
+
 			void Player::JudgeToReload()
 			{
 				if (g_pad[0]->IsTrigger(enButtonX)) {
@@ -139,8 +148,7 @@ namespace nsApp
 			{
 				
 				m_requestGunID = gunID;
-				m_stateMachine->SetSwitchingWeapon(true);
-				
+				m_stateMachine->SetSwitchingWeapon(true);				
 			}
 
 

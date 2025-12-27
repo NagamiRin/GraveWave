@@ -9,6 +9,7 @@
 #include "src/Actor/Enemy/ZombieStateMachine.h"
 #include "src/Core/BattleManager.h"
 #include "src/Core/ModelLOD.h"
+#include "src/Effect/EffectManager.h"
 
 
 namespace nsApp
@@ -274,6 +275,20 @@ namespace nsApp
 					if (isHit) {
 						owner->SetAttackState(true);
 					}
+
+
+					//土煙のエフェクト
+					m_elapsedTime += g_gameTime->GetFrameDeltaTime();
+
+					//一定時間おきに生成
+					if (m_elapsedTime >= 0.2f) {
+						EffectManager::Get().PlayEffect(enEffectKind_DustCloud, owner->GetPosition(), owner->GetLocalRotation(), Vector3::One * 5.0f);
+
+						m_elapsedTime = 0.0f;
+					}
+
+
+					
 				}
 			}
 

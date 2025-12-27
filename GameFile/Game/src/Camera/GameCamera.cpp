@@ -83,10 +83,21 @@ namespace nsApp
 
         void GameCamera::CameraUpdate()
         {
+            // TOOD: 線形補完時間調整予定
+            //画角設定
+            m_currentViewAngleTime += g_gameTime->GetFrameDeltaTime();
+            float rate = m_currentViewAngleTime / 0.1f;
+            if (rate >= 1.0f) {
+                rate = 0.0f;
+            }
+            m_cameraViewAngle = Math::Lerp<float>(rate, m_prevCameraViewAngle, m_requestCameraViewAngle);
+
+            g_camera3D->SetViewAngle(m_cameraViewAngle);
+
             /** カメラ座標を更新 */
             g_camera3D->SetPosition(m_cameraPos);
             //* 注視点を更新 */
-            g_camera3D->SetTarget(m_targetPos);
+            g_camera3D->SetTarget(m_targetPos + m_targetOffsetPos);
             /** カメラを更新 */
             g_camera3D->Update();
         }

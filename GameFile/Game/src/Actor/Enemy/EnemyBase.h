@@ -21,6 +21,8 @@ namespace nsApp
 
 
 			protected:
+				/** ヘッドショットのコリジョン */
+				CollisionObject* m_headCollision = nullptr;
 				/** 被弾したか */
 				bool m_isHit = false;
 				/** 攻撃をしたか */

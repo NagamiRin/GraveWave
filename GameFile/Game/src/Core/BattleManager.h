@@ -156,6 +156,8 @@ namespace nsApp
 			float GetVerLimitAngle();
 			/** 垂直方向の限界値を取得 */
 			float GetHorLimitAngle();
+			/** 左トリガーの入力をカメラに伝える */
+			void UpdateInputADS();
 			/** 重力量を取得 */
 			float GetGravityAmount();
 			/** ボスの生存状態を取得 */

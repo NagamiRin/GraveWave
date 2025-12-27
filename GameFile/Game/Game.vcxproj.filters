@@ -157,6 +157,8 @@
     <ClCompile Include="src\UI\ReloadingUI.cpp" />
     <ClCompile Include="src\UI\PressButtonUI.cpp" />
     <ClCompile Include="src\UI\BossHPUI.cpp" />
+    <ClCompile Include="src\RecoilSystem.cpp" />
+    <ClCompile Include="src\Scene\LoadingScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -286,5 +288,7 @@
     <ClInclude Include="src\UI\ReloadingUI.h" />
     <ClInclude Include="src\UI\PressButtonUI.h" />
     <ClInclude Include="src\UI\BossHPUI.h" />
+    <ClInclude Include="src\RecoilSystem.h" />
+    <ClInclude Include="src\Scene\LoadingScreen.h" />
   </ItemGroup>
 </Project>

@@ -14,6 +14,7 @@ namespace nsApp
 	namespace nsScene
 	{
 		class IScene;
+		class LoadingScreen;
 #ifdef K2_DEBUG
 		class DebugScene;
 #endif
@@ -29,6 +30,14 @@ namespace nsApp
 
 
 		private:
+			/** ロード画面 */
+			LoadingScreen* m_loadingScreen = nullptr;
+			/** シーン切り替えの経過時間 */
+			float m_elapsedTime = 0.0f;
+			/** シーン切り替えのフラグ */
+			bool m_isSwitchScene = false;
+			/** 切り替えたいシーンのID */
+			uint32_t m_requestSceneID = 0;
 			/** 現在のシーン */
 			IScene* m_currentScene = nullptr;
 			/** シーンのマップ */

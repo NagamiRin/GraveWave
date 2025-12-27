@@ -32,6 +32,8 @@ namespace nsApp
 			nsCamera::CameraShake m_cameraShake;
 			/** カメラ座標 */
 			Vector3 m_cameraPos = Vector3::Zero;
+			/** カメラの調整位置 */
+			Vector3 m_targetOffsetPos = Vector3::Zero;
 			/** 注視点 */
 			Vector3 m_targetPos = Vector3::Zero;
 			/** カメラの向き */
@@ -57,7 +59,11 @@ namespace nsApp
 			float m_horizontalLimitAngle = 0.0f;
 			/** カメラ感度 */
 			float m_cameraSensitivity = 0.0f;
-
+			/** カメラの画角 */
+			float m_requestCameraViewAngle = Math::DegToRad(60.0f);
+			float m_prevCameraViewAngle = Math::DegToRad(60.0f);
+			float m_cameraViewAngle = Math::DegToRad(60.0f);
+			float m_currentViewAngleTime = 0.0f;
 
 		public:
 			/**
@@ -86,15 +92,27 @@ namespace nsApp
 
 		public:
 			/** カメラ座標を設定 */
-			const void SetCameraPos(const Vector3& pos) { m_cameraPos = pos; };
+			void SetCameraPos(const Vector3& pos) { m_cameraPos = pos; };
 			/** カメラ座標を取得 */
 			inline Vector3 GetCameraPos()const { return m_cameraPos; }
 			/** カメラ注視点を設定 */
-			const void SetTargetPos(const Vector3& pos) { m_targetPos = pos; };
+			void SetTargetPos(const Vector3& pos) { m_targetPos = pos; };
+			/** カメラの注視点の調整位置を設定 */
+			inline void SetTargetOffset(const Vector2& pos) { 
+				m_targetOffsetPos.x = pos.x;
+				m_targetOffsetPos.y = pos.y;
+			};
 			/** カメラの向きを設定 */
-			const void SetCameraDir(const Vector3& dir) { m_cameraDir = dir; };
+			void SetCameraDir(const Vector3& dir) { m_cameraDir = dir; };
 			/** カメラの向きを取得 */
 			inline Vector3 GetCameraDir()const { return m_cameraDir; }
+			/** カメラの画角を設定 */
+			inline void SetViewAngle(const float angle)
+			{
+				m_prevCameraViewAngle = m_cameraViewAngle;
+				m_requestCameraViewAngle = angle;
+				m_currentViewAngleTime = 0.0f;
+			}
 		};
 	}
 }
