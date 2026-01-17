@@ -152,6 +152,10 @@ namespace nsApp
 			void ReduceMoney(const uint16_t money);
 			/** 所持金を取得 */
 			uint16_t GetMoney();
+			/** 弾をリロード */
+			void LoadAmmo(uint16_t loadAmount);
+			/** 予備弾数を取得 */
+			uint16_t GetSpareAmmo();
 			/** 水平方向の限界値を取得 */
 			float GetVerLimitAngle();
 			/** 垂直方向の限界値を取得 */

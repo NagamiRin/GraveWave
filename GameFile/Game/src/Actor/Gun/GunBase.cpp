@@ -4,17 +4,19 @@
  * 銃の基底クラス
  */
 #include "stdafx.h"
-#include "src/Actor/Gun/GunBase.h"
 #include "src/Actor/Bullet/BulletManager.h"
 #include "src/Actor/Bullet/NormalBullet.h"
+#include "src/Actor/Gun/GunBase.h"
+#include "src/Core/BattleManager.h"
 #include "src/Effect/EffectManager.h"
-#include "src/Sound/SoundManager.h"
 #include "src/RecoilSystem.h"
+#include "src/Sound/SoundManager.h"
 
 
 namespace {
 	const Vector3 ADS_POS = Vector3(0.0f, 10.0f, 10.0f);
-	//const Vector3 ADS_DIR = Vector3(0.0f, 10.0f, 10.0f);
+	constexpr float RELOAD_GUN_YPOSITION = -20.0f;
+	constexpr float GUN_PUT_YPOSITION = -30.0f;
 }
 
 
@@ -46,57 +48,34 @@ namespace nsApp
 
 			void GunBase::Update()
 			{
-				m_currentCoolTime -= g_gameTime->GetFrameDeltaTime();
-				if (m_currentCoolTime <= 0.0f) m_currentCoolTime = 0.0f;
+				//発砲のクールタイムを数える
+				m_currentFireCoolTime -= g_gameTime->GetFrameDeltaTime();
+				if (m_currentFireCoolTime <= 0.0f) m_currentFireCoolTime = 0.0f;
 
+				//リロードの経過時間を数える
 				m_currentReloadTime -= g_gameTime->GetFrameDeltaTime();
 				if (m_currentReloadTime <= 0.0f) m_currentReloadTime = 0.0f;
 
-				if (m_currentReloadTime >= 0.0f && m_isReloading)ReloadAnimation();
+				//リロードアニメーション
+				if (m_currentReloadTime >= 0.0f && m_isReloading) ReloadAnimation();
 
+				//ADSの銃の位置を計算
 				OnADS();
+
+				//反動処理の更新
 				m_recoilSystem->Update();
 
+				//位置更新
 				m_transform.m_localPosition = m_offsetPosition + m_adjustPosition;
 
-				// @todo for test
-				// 銃を反動に応じて上に向かせたい
-				{
-					Quaternion t = Quaternion::Identity;
-					//Vector3 recoilDirection = Vector3(m_recoilSystem->GetRecoil().x, m_recoilSystem->GetRecoil().y, 0.0f);
-					//if (recoilDirection.Length() > 0.001f) {
-					//	recoilDirection *= 0.1f;
-					//	recoilDirection += m_direction;
-					//	// 1. 前方ベクトル(Z)の正規化
-					//	Vector3 zAxis = recoilDirection;
-					//	zAxis.Normalize();
+				//銃の向きを更新
+				Quaternion t = Quaternion::Identity;
+				m_transform.m_localRotation = t;					
 
-					//	// 2. 右ベクトル(X)の算出 (Y軸(0,1,0) と Z軸の外積)
-					//	// 注意: 方向が真上や真下に近いと外積がゼロになり計算不能になるため、
-					//	// 実戦ではここで「ZとUpが平行でないか」のチェックを入れるのが安全です。
-					//	Vector3 xAxis = Vector3::Up;
-					//	xAxis.Cross(recoilDirection);
-					//	xAxis.Normalize();
-					//	// 3. 真の上ベクトル(Y)の算出 (Z軸 と X軸の外積)
-					//	// 既に直交しているので正規化は理論上不要だが、誤差対策ですることもある
-					//	Vector3 yAxis = zAxis;
-					//	yAxis.Cross(xAxis);
-
-					//	// 4. 回転行列の構築
-					//	// DirectXは行優先(Row-Major)か列優先(Column-Major)かによりますが、
-					//	// XMMATRIXは通常、基底ベクトルを行にセットします。
-					//	Matrix rotMatrix = Matrix::Identity;
-					//	memcpy(&rotMatrix.m[0], &xAxis, sizeof(xAxis)); // X軸
-					//	memcpy(&rotMatrix.m[1], &yAxis, sizeof(yAxis)); // Y軸
-					//	memcpy(&rotMatrix.m[2], &zAxis, sizeof(zAxis)); // Z軸
-
-					//	t.SetRotation(rotMatrix);
-					//}
-					m_transform.m_localRotation = t;
-				}
-
+				//transformの更新
 				m_transform.UpdateTransform();
 
+				//モデルの更新
 				m_model.SetPosition(m_transform.m_position);
 				m_model.SetRotation(m_transform.m_rotation);
 				m_model.SetScale(m_transform.m_localScale);
@@ -106,29 +85,34 @@ namespace nsApp
 
 			void GunBase::OnADS()
 			{
-				m_currentADSTime += g_gameTime->GetFrameDeltaTime();
+				float t = 1.0f;
 
-				float t = m_currentADSTime / m_ADSSpeed;
+				//ADS移行の補完率を求める
+				if (m_currentADSTime < m_ADSTime) {
+					m_currentADSTime += g_gameTime->GetFrameDeltaTime();
 
-				if (t >= 1.0f) {
-					t = 0.0f;
-				}
+					t = m_currentADSTime / m_ADSTime;
 
-				// 目的位置
+					if (t >= 1.0f) {
+						t = 0.0f;
+					}
+				}				
+
+				//ADSの目標位置
 				Vector3 targetPos = m_isADS ? m_ADSFirePosition : m_hipFirePosition;
 
+				//銃の調整位置を、現在のADSの移行具合で変える
 				m_offsetPosition = Math::Lerp<Vector3>(t, m_prevPosition, targetPos);
 			}
 
 
 			void GunBase::OnFire()
 			{
-				if (m_currentCoolTime > 0.0f || m_remainingAmmo <= 0 || m_isReloading)return;
+				//発砲クールタイムが終わった、弾がまだある、リロード中でないなら
+				if (m_currentFireCoolTime > 0.0f || m_remainingAmmo <= 0 || m_isReloading)return;
 
+				//弾を生成
 				nsBullet::NormalBullet* bullet = nullptr;
-				// 弾を生成
-
-				// @todo for test
 				Vector3 injectionDirection = g_camera3D->GetTarget() - m_transform.m_position;
 				injectionDirection.Normalize();
 				nsBullet::BulletManager::GetInstance()->CreatBullet<nsBullet::NormalBullet>(m_transform.m_position, injectionDirection, m_bulletSpeed, m_damage);
@@ -138,12 +122,11 @@ namespace nsApp
 
 				//効果音、エフェクト
 				SoundManager::Get().PlaySE(enSoundKind_HandGun_Fire);
-
-				Vector3 effectPosition = /*GetPosition() + */SearchMuzzlePos();
+				Vector3 effectPosition = SearchMuzzlePos();
 				EffectManager::Get().PlayEffect(enEffectKind_Fire, effectPosition, GetRotation(), Vector3::One * 0.1f);
 
 				//クールタイムをセット
-				m_currentCoolTime = m_fireCoolTime;
+				m_currentFireCoolTime = m_fireCoolTime;
 
 				//残弾数を減らす
 				if (m_remainingAmmo > 0)m_remainingAmmo--;
@@ -152,8 +135,13 @@ namespace nsApp
 
 			void GunBase::Reload()
 			{
-				if (m_isReloading || m_currentReloadTime < 0.0f || m_remainingAmmo == m_maxAmmo)return;
+				//リロード中でない、予備弾がまだある、残弾がmaxでないなら
+				if (m_isReloading || 
+					m_currentReloadTime < 0.0f ||
+					(nsCore::BattleManager::GetInstance()->GetSpareAmmo() <= 0) ||
+					m_remainingAmmo == m_maxAmmo)return;
 
+				//リロード中にする
 				m_isReloading = true;
 				m_currentReloadTime = m_reloadTime;		
 
@@ -164,7 +152,19 @@ namespace nsApp
 
 			void GunBase::ReloadCompletion()
 			{
-				m_remainingAmmo = m_maxAmmo;
+				//インベントリの弾数を減らす
+				//予備弾数が不足しているなら,ある分だけ装填
+				const MagazineValue shotAmount = m_maxAmmo - m_remainingAmmo;
+				const uint16_t spareAmmo = nsCore::BattleManager::GetInstance()->GetSpareAmmo();
+				if (shotAmount >= spareAmmo) {
+					m_remainingAmmo += spareAmmo;
+				}
+				else {
+					m_remainingAmmo = m_maxAmmo;
+				}
+
+				nsCore::BattleManager::GetInstance()->LoadAmmo(shotAmount);
+
 				m_isReloading = false;
 			}
 
@@ -173,6 +173,8 @@ namespace nsApp
 			{
 				float t = 0.0f;
 
+				//リロード時間の補完率を求める
+				//リロード時間が半分を過ぎているなら補完率を反転
 				if (m_currentReloadTime >= m_reloadTime / 2) {
 					t = m_currentReloadTime / m_reloadTime;
 					t = 1.0f - t;
@@ -181,24 +183,26 @@ namespace nsApp
 					t = m_currentReloadTime / (m_reloadTime / 2);
 				}
 
-				m_adjustPosition.y = -20.0f * t;
-				//m_transform.m_localPosition += Vector3(0.0f, adjustPosition, 0.0f);
+				//銃のY位置を設定
+				m_adjustPosition.y = RELOAD_GUN_YPOSITION * t;
 				
+				//リロードが終わったなら完了処理へ
 				if (m_currentReloadTime <= 0.0f)ReloadCompletion();
 			}
 
 
 			void GunBase::PutGun()
 			{
+				//銃をしまう処理
 				m_currentGunAnimTime += g_gameTime->GetFrameDeltaTime();
-				const float targetPos = -30.0f;
+				const float targetPos = GUN_PUT_YPOSITION;
 				float t = m_currentGunAnimTime / m_switchTime;
 				if (t >= 1.0f) t = 1.0f;
 				const float currentPos = targetPos * t;
 
 				m_adjustPosition = Vector3(0.0f, currentPos, 0.0f);
 
-				if (t == 1.0f) {
+				if (t >= 1.0f) {
 					m_currentGunAnimTime = 0.0f;
 					m_isEquipment = false;
 				}
@@ -207,8 +211,9 @@ namespace nsApp
 
 			void GunBase::TakeOutGun()
 			{
+				//銃を取り出す処理
 				m_currentGunAnimTime += g_gameTime->GetFrameDeltaTime();
-				const float startPos = -30.0f;
+				const float startPos = GUN_PUT_YPOSITION;
 				float t = m_currentGunAnimTime / m_switchTime;
 				if (t >= 1.0f) t = 1.0f;
 				const float currentPos = startPos * (1 - t);
@@ -225,6 +230,10 @@ namespace nsApp
 
 			Vector3 GunBase::SearchMuzzlePos()
 			{
+				//銃モデルの銃口の位置を探す
+				//銃口の位置にメッシュパーツを設置している
+				//銃口のメッシュパーツはリストの最後にある
+				//銃口の位置を取得して返す
 				const auto& meshPartsList = m_model.GetModel().GetTkmFile().GetMeshParts();
 				auto& meshParts = meshPartsList[meshPartsList.size() - 1];
 
@@ -250,7 +259,10 @@ namespace nsApp
 
 			void GunBase::Render(RenderContext& rc) 
 			{
-				m_model.Draw(rc);				
+				//装備なら描画
+				if (m_isEquipment) {
+					m_model.Draw(rc);
+				}
 			}
 
 

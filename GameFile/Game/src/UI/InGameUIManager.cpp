@@ -95,6 +95,7 @@ namespace nsApp
                         m_remainingBulletsUI->SetSpareAmmo(remainingNotify->m_maxNum);
                         m_remainingBulletsUI->SetAmmo(remainingNotify->m_remainingNum);
                         m_remainingBulletsUI->SetGunName(remainingNotify->m_gunName);
+                        m_remainingBulletsUI->SetEquipType(remainingNotify->m_equipType);
 
                         break;
                     }

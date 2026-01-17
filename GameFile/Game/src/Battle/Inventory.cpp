@@ -15,6 +15,8 @@ namespace nsApp
 
         Inventory::Inventory()
         {
+            //todo for test
+            m_mainWeaponAmmo = 500;
         }
 
         

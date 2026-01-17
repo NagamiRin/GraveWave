@@ -11,6 +11,7 @@
 
 namespace {
     constexpr float GRAVITY_AMOUNT = 9.8f;
+    const Vector3 NEW_SCALE = Vector3{ 0.2f,0.2f,0.2f };
 }
 
 
@@ -47,7 +48,7 @@ namespace nsApp
             {
                 m_model.Init("Assets/ModelData/Zombie/Boss/Stone.tkm");
 
-                m_transform.m_localScale = Vector3(0.2f, 0.2f, 0.2f);
+                m_transform.m_localScale = Vector3(NEW_SCALE);
 
                 Quaternion q;
                 q.SetRotationX(static_cast<float>(GetRand() % 360));

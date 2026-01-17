@@ -6,7 +6,6 @@
 #pragma once
 
 
-
 namespace nsApp
 {
 	namespace nsActor
@@ -37,7 +36,7 @@ namespace nsApp
 			private:
 				/** エネミーの配列 */
 				std::vector<PoolInformation<Zombie>> m_zombiePool;
-				/** ボスのインスタンス */
+				/** ボスの構造体 */
 				PoolInformation<Boss> m_boss;
 				/** 現在出現しているエネミーのリスト */
 				std::vector<Zombie*> m_usedEnemyList;
@@ -64,10 +63,8 @@ namespace nsApp
 			public:
 				/** 初期化 */
 				void SetUp(uint16_t maxEnemyNum);
-
 				/** 使える人渡す */
 				Zombie* FindUse();
-
 				/** HPがなくなったゾンビ探してを戻す */
 				void Restore();
 				/** HPがなくなったボスを撤収 */
@@ -96,16 +93,14 @@ namespace nsApp
 				/** EnemyPoolManagerクラスのインスタンスを作成 */
 				static void CreateInstance()
 				{
-					if (m_instance == nullptr)
-					{
+					if (!m_instance) {
 						m_instance = new EnemyPoolManager();
 					}
 				}
 				/** EnemyPoolManagerクラスのインスタンスを削除 */
 				static void DeleteInstance()
 				{
-					if (m_instance != nullptr)
-					{
+					if (m_instance)	{
 						delete m_instance;
 						m_instance = nullptr;
 					}

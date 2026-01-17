@@ -32,7 +32,7 @@ namespace nsApp
 			{
 				auto* playerStateMachine = GetOwner<PlayerStateMachine>();
 				playerStateMachine->SetSwitchingWeapon(true);
-				m_gun = playerStateMachine->GetOwner()->GetGun();
+				m_equipmentGun = playerStateMachine->GetOwner()->GetGun();
 				m_currentSwitchTime = 0.0f;
 				m_step = enSwitchStep_Out;
 			}
@@ -44,9 +44,9 @@ namespace nsApp
 					case enSwitchStep_Out:
 					{
 						// 仕舞うアニメーション再生
-						if (m_gun->IsEquipment()) {
-							m_gun->PutGun();
-						} 
+						if (m_equipmentGun->IsEquipment()) {
+							m_equipmentGun->PutGun();
+						}
 						else {
 							m_step = enSwitchStep_Change;
 						}
@@ -54,16 +54,16 @@ namespace nsApp
 					}
 					case enSwitchStep_Change:
 					{
-						// 新しい銃の生成(中で破棄もしてる)
-						m_gun = GetOwner<PlayerStateMachine>()->GetOwner()->ChangeGun();
+						// 装備する銃の入れ替え
+						m_equipmentGun = GetOwner<PlayerStateMachine>()->GetOwner()->ChangeGun();
 						// 銃を持つアニメーション再生開始
 						m_step = enSwitchStep_In;
 						break;
 					}
 					case enSwitchStep_In:
 					{
-						if (!m_gun->IsEquipment()) {
-							m_gun->TakeOutGun();
+						if (!m_equipmentGun->IsEquipment()) {
+							m_equipmentGun->TakeOutGun();
 						}
 						else {
 							auto* playerStateMachine = GetOwner<PlayerStateMachine>();

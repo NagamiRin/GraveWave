@@ -16,6 +16,7 @@ namespace nsApp
 		{
 			ZombieStatus::ZombieStatus()
 			{
+				//外部からステータスを読み込む
 				ParameterManager::Get().LoadParameter<MasterEnemyStatus>("Assets/Status/Enemy/ZombieStatus.json", [](const nlohmann::json& j, MasterEnemyStatus& p)
 					{
 						p.m_moveSpeed = j["MoveSpeed"].get<float>();
@@ -25,6 +26,8 @@ namespace nsApp
 						p.m_attackRange = j["AttackRange"].get<float>();
 					});
 
+
+				//各パラメーターをセット
 				auto* parameter = ParameterManager::Get().GetParameter<MasterEnemyStatus>();
 				m_moveSpeed = parameter->m_moveSpeed;
 				m_hp = parameter->m_hp;
@@ -37,6 +40,7 @@ namespace nsApp
 
 			ZombieStatus::~ZombieStatus()
 			{
+				//パラメーターを削除
 				ParameterManager::Get().UnloadParameter<MasterEnemyStatus>();
 			}			
 		}

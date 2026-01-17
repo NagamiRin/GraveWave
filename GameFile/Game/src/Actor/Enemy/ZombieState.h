@@ -25,14 +25,12 @@ namespace nsApp
 
 
 			private:
-				/** 現在時間 */
+				/** 経過時間 */
 				float m_currentTime = 0.0f;
 
 
 			public:
-				/** コンストラクタ */
 				ZombieAttackState(ZombieStateMachine* owner);
-				/** デストラクタ */
 				~ZombieAttackState();
 
 
@@ -55,7 +53,7 @@ namespace nsApp
 
 
 			private:
-				/** 現在の時間 */
+				/** 経過時間 */
 				float m_currentTime = 0.0f;
 
 
@@ -106,7 +104,7 @@ namespace nsApp
 
 
 			private:
-				/** 現在の時間 */
+				/** 経過時間 */
 				float m_currentTime = 0.0f;
 
 
@@ -134,9 +132,7 @@ namespace nsApp
 
 
 			public:
-				/** コンストラクタ */
 				ZombieIdleState(ZombieStateMachine* owner);
-				/** デストラクタ */
 				~ZombieIdleState();
 
 
@@ -164,9 +160,7 @@ namespace nsApp
 
 
 			public:
-				/** コンストラクタ */
 				ZombieWalkState(ZombieStateMachine* owner);
-				/** デストラクタ */
 				~ZombieWalkState();
 
 

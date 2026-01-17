@@ -2,17 +2,17 @@
     {
         "Comment": "ゾンビ出現のウェーブ情報1",
         "LeftCount": 10,
-        "CenterCount": 10,
+        "CenterCount": 20,
         "RightCount": 10,
-        "BossSpawn": false,
-        "SpawnInterval": 1.0
+        "BossSpawn": true,
+        "SpawnInterval": 0.8
     },
     {
         "Comment": "ゾンビ出現のウェーブ情報2",
-        "LeftCount": 0,
-        "CenterCount": 0,
-        "RightCount": 0,
-        "BossSpawn": true,
-        "SpawnInterval": 5.0
+        "LeftCount": 20,
+        "CenterCount": 50,
+        "RightCount": 30,
+        "BossSpawn": false,
+        "SpawnInterval": 0.5
     }
 ]

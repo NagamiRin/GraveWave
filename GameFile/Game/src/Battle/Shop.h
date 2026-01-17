@@ -26,6 +26,9 @@ namespace nsApp
 			bool m_isOpenMenu = false;
 			/** 商品の価格 */
 			std::map<EnProductType, uint16_t> m_priceVar;
+			/** 商品番号 */
+			std::map<int8_t, EnProductType> m_productVar;
+
 
 		public:
 			Shop();

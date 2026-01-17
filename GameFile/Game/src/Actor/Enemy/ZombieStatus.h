@@ -19,9 +19,7 @@ namespace nsApp
 			class ZombieStatus : public EnemyStatus
 			{
 			public:
-				/** コンストラクタ */
 				ZombieStatus();
-				/** デストラクタ */
 				~ZombieStatus();
 			};
 		}

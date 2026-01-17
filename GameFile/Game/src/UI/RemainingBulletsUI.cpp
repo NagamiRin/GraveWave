@@ -57,6 +57,10 @@ namespace nsApp
             m_spareAmmoUI = m_uiCanvas->CreateUI<NumberUI>();
             m_spareAmmoUI->Initialize("Assets/UI/Numbers/Classic", 10, 15.0f, 25.0f, Vector3(80.0f, 75.0f, 0.0f), Vector3::One, Quaternion::Identity);
 
+            //∞マーク
+            m_infiniteMark = m_uiCanvas->CreateUI<ImageUI>();
+            m_infiniteMark->Initialize("Assets/UI/RemainingBulletsUI/InfiniteMark.DDS", 70.0f, 25.0f, Vector3(80.0f, 75.0f, 0.0f), Vector3::One, Quaternion::Identity);
+
             //銃のアイコン
             m_gunIcon = m_uiCanvas->CreateUI<ImageUI>();
             m_gunIcon->Initialize("Assets/UI/ItemIcon/GZ75.dds", IconWideSize, IconVerticalSize, Vector3::Zero, Vector3::One, Quaternion::Identity);
@@ -77,7 +81,16 @@ namespace nsApp
             //残弾数の更新
             m_ammoUI->NumberUpdate("Assets/UI/Numbers/Classic", m_remainingAmmo, 30.0f, 50.0f);
 
-            //todo 予備弾の更新をしようね
+            if (m_equipType != enWeaponType_Sub) {
+                //予備弾数の更新
+                m_spareAmmoUI->NumberUpdate("Assets/UI/Numbers/Classic", m_spareAmmo, 15.0f, 25.0f);
+                m_spareAmmoUI->SetDraw(true);
+                m_infiniteMark->SetIsDraw(false);
+            }
+            else {
+                m_spareAmmoUI->SetDraw(false);
+                m_infiniteMark->SetIsDraw(true);
+            }
 
             m_uiCanvas->Update();
         }

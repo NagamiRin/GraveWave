@@ -40,7 +40,6 @@ namespace nsApp
 			 * ステートマシンのポインタを渡す
 			 */
 			IState(StateMachine* owner) : m_owner(owner) {}
-			/** デストラクタ */
 			virtual ~IState() {}
 
 

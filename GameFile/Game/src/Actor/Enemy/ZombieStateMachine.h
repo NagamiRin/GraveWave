@@ -23,10 +23,11 @@ namespace nsApp
 
 			class ZombieStateMachine : public StateMachine
 			{
-			private:
 				/** StateMachineを親クラスとする */
 				using SuperClass = StateMachine;
 
+
+			private:
 				/** オーナー(ゾンビ) */
 				Zombie* m_owner = nullptr;
 				/** オーナーのステータス */
@@ -36,13 +37,10 @@ namespace nsApp
 
 
 			public:
-				/** コンストラクタ */
 				ZombieStateMachine();
-				/** デストラクタ */
 				~ZombieStateMachine();
 
-				/** 更新処理 */
-				virtual void Update() override;
+				void Update() override;
 
 
 			public:

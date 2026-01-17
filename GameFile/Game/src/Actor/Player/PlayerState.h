@@ -46,7 +46,7 @@ namespace nsApp
 
 			private:
 				/** 銃のポインタ */
-				nsGun::GunBase* m_gun = nullptr;
+				nsGun::GunBase* m_equipmentGun = nullptr;
 				/** 現在の切り替え時間 */
 				float m_currentSwitchTime = 0.0f;		
 				/** 武器の切り替え中か */

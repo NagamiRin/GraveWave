@@ -10,6 +10,12 @@
 #include "src/Collision/CollisionManager.h"
 
 
+namespace{
+    const Vector3 NEW_DIRECTION = Vector3{ 0.0f,0.0f,-1.0f };
+    constexpr float COLLISION_YPOSITION = 100.0f;
+    constexpr float COLLISION_RADISU = 20.0f;
+    constexpr float COLLISION_HEIGHT = 100.0f;
+}
 namespace nsApp
 {
     namespace nsActor
@@ -43,7 +49,7 @@ namespace nsApp
 
             bool Boss::Start()
             {
-                SetDirection(Vector3(0.0f, 0.0f, -1.0f));
+                SetDirection(NEW_DIRECTION);
 
                 // アニメーションの初期化
                 {
@@ -76,7 +82,7 @@ namespace nsApp
             {
                 m_transform.UpdateTransform();
 
-                m_collisionPosition = m_transform.m_position + Vector3(0.0f, 100.0f, 0.0f);
+                m_collisionPosition = m_transform.m_position + Vector3(0.0f, COLLISION_YPOSITION, 0.0f);
                 if (m_collisionObject) {
                     m_collisionObject->SetPosition(m_collisionPosition);
                     m_collisionObject->Update();
@@ -102,7 +108,7 @@ namespace nsApp
                 GetStatus()->ResetHP();
                 SetLocalPosition(initializePosition);                
 
-                m_collisionObject = CollisionHitManager::Get().CreateCollisionObject(ID(), this, m_collisionPosition, GetRotation(), 20.0f, 100.0f);
+                m_collisionObject = CollisionHitManager::Get().CreateCollisionObject(ID(), this, m_collisionPosition, GetRotation(), COLLISION_RADISU, COLLISION_HEIGHT);
                 m_collisionObject->GetbtCollisionObject().setUserIndex(nsApp::enCollision_Enemy);
             }
 

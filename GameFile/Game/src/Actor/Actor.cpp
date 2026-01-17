@@ -29,6 +29,7 @@ namespace nsApp
         
         void Actor::Update()
         {
+            //モデルの更新
             m_model.SetPosition(m_transform.m_localPosition);
             m_model.SetRotation(m_transform.m_localRotation);
             m_model.SetScale(m_transform.m_localScale);

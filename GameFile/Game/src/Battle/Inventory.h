@@ -6,6 +6,12 @@
 #pragma once
 
 
+namespace {
+	constexpr uint16_t AMMO_LIMIT = 9999;
+	constexpr uint16_t MONEY_LIMIT = 99999;
+}
+
+
 namespace nsApp
 {
 	namespace nsBattle
@@ -55,12 +61,32 @@ namespace nsApp
 			inline const std::vector<uint32_t>& GetMainWeaponID() const { return m_mainWeaponIDList; }
 
 			/** 所持金を加算 */
-			inline void AddMoney(const uint16_t money) { m_money += money; }
+			inline void AddMoney(const uint16_t money) { 
+				if (m_money + money >= MONEY_LIMIT)	m_money = MONEY_LIMIT;
+				else m_money += money; 
+			}
 			/** 所持金を減らす */
-			inline void ReduceMoney(const uint16_t money) { m_money -= money; }
+			inline void ReduceMoney(const uint16_t money) { 
+				if (m_money >= money) m_money -= money;
+				m_money = 0;
+			}
 			/** 所持金を取得 */
 			inline uint16_t GetMoney() { return m_money; }
-			
+
+			/** 弾数を追加 */
+			inline void AddAmmo(AmmoValue quantity) {
+				if (m_mainWeaponAmmo + quantity >= AMMO_LIMIT) {
+					m_mainWeaponAmmo = AMMO_LIMIT;
+				}
+				else m_mainWeaponAmmo += quantity;				
+			}
+			/** 弾数を減らす */
+			inline void ReduceAmmo(AmmoValue quantity) {
+				if (m_mainWeaponAmmo >= quantity) m_mainWeaponAmmo -= quantity;
+				else m_mainWeaponAmmo = 0;
+			}
+			/** 弾数を取得 */
+			inline AmmoValue GetSpareAmmo() { return m_mainWeaponAmmo; }			
 
 			
 		private:

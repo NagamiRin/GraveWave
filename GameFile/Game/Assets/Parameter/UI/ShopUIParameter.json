@@ -1,28 +1,13 @@
 [
     {
-        "Comment" : "ショップUIのパラメーター：GZ75",
-        "BackWidth" : 350.0,
-        "BackHeight" : 200.0,
-        "IconWidth" : 150.0,
-        "IconHeight" : 80.0,
-        "PositionX" : -600.0,
-        "PositionY" : 150.0,
-        "StringPositionX" : -120.0,
-        "StringPositionY" : -60.0,
-        "Price" : 555,
-        "WeaponName" : "GZ75"
-    },
-    {
-        "Comment" : "ショップUIのパラメーター：M4A1",
-         "BackWidth" : 350.0,
-        "BackHeight" : 200.0,
-        "IconWidth" : 300.0,
-        "IconHeight" : 80.0,
-        "PositionX" : -230.0,
-        "PositionY" : 150.0,
-        "StringPositionX" : -120.0,
-        "StringPositionY" : -60.0,
-        "Price" : 555,
-        "WeaponName" : "M4A1"
+        "Comment" : "ショップUIのパラメーター",
+        "SubWeaponPositionX" : -600.0,
+        "SubWeaponPositionY" : -280.0,
+        "SubWeaponWidth" : 200.0,
+        "SubWeaponHeight" : 30.0,
+        "MainWeaponPositionX" : -230.0,
+        "MainWeaponPositionY" : 280.0,
+        "MainWeaponWidth" : 350.0,
+        "MainWeaponHeight" : 30.0
     }
 ]

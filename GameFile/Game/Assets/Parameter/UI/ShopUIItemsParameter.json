@@ -1,0 +1,167 @@
+[
+    {
+        "Comment" : "ショップUIのパラメーター：GZ75",
+        "ColumnPositionX" : -600.0,
+        "ColumnPositionY" : 150.0,
+        "ColumnWidth" : 350.0,
+        "ColumnHeight" : 200.0,
+        "PricePositionX" : -120.0,
+        "PricePositionY" : -60.0,
+        "Price" : 555,
+        "ItemName": "GZ75"
+    },
+    {
+        "Comment" : "ショップUIのパラメーター：M4A1",
+        "ColumnPositionX" : -600.0,
+        "ColumnPositionY" : 150.0,
+        "ColumnWidth" : 350.0,
+        "ColumnHeight" : 200.0,
+        "PricePositionX" : -120.0,
+        "PricePositionY" : -60.0,
+        "Price" : 555,
+        "ItemName": "M4A1"
+    },
+    {
+        "Comment" : "ショップUIのパラメーター：通常弾",
+        "ColumnPositionX" : -600.0,
+        "ColumnPositionY" : 150.0,
+        "ColumnWidth" : 350.0,
+        "ColumnHeight" : 200.0,
+        "PricePositionX" : -120.0,
+        "PricePositionY" : -60.0,
+        "Price" : 555,
+        "ItemName": "通常弾"
+    },
+    {
+        "Comment" : "ショップUIのパラメーター：TEC-9",
+        "ColumnPositionX" : -600.0,
+        "ColumnPositionY" : 150.0,
+        "ColumnWidth" : 350.0,
+        "ColumnHeight" : 200.0,
+        "PricePositionX" : -120.0,
+        "PricePositionY" : -60.0,
+        "Price" : 555,
+        "ItemName": "TEC-9"
+    },
+    {
+        "Comment" : "ショップUIのパラメーター：AK-47",
+        "ColumnPositionX" : -600.0,
+        "ColumnPositionY" : 150.0,
+        "ColumnWidth" : 350.0,
+        "ColumnHeight" : 200.0,
+        "PricePositionX" : -120.0,
+        "PricePositionY" : -60.0,
+        "Price" : 555,
+        "ItemName": "AK-47"
+    },
+    {
+        "Comment" : "ショップUIのパラメーター：G36",
+        "ColumnPositionX" : -600.0,
+        "ColumnPositionY" : 150.0,
+        "ColumnWidth" : 350.0,
+        "ColumnHeight" : 200.0,
+        "PricePositionX" : -120.0,
+        "PricePositionY" : -60.0,
+        "Price" : 555,
+        "ItemName": "G36"
+    },
+    {
+        "Comment" : "ショップUIのパラメーター：榴弾",
+        "ColumnPositionX" : -600.0,
+        "ColumnPositionY" : 150.0,
+        "ColumnWidth" : 350.0,
+        "ColumnHeight" : 200.0,
+        "PricePositionX" : -120.0,
+        "PricePositionY" : -60.0,
+        "Price" : 555,
+        "ItemName": "榴弾"
+    },
+    {
+        "Comment" : "ショップUIのパラメーター：M1911",
+        "ColumnPositionX" : -600.0,
+        "ColumnPositionY" : 150.0,
+        "ColumnWidth" : 350.0,
+        "ColumnHeight" : 200.0,
+        "PricePositionX" : -120.0,
+        "PricePositionY" : -60.0,
+        "Price" : 555,
+        "ItemName": "M1911"
+    },
+    {
+        "Comment" : "ショップUIのパラメーター：ACR",
+        "ColumnPositionX" : -600.0,
+        "ColumnPositionY" : 150.0,
+        "ColumnWidth" : 350.0,
+        "ColumnHeight" : 200.0,
+        "PricePositionX" : -120.0,
+        "PricePositionY" : -60.0,
+        "Price" : 555,
+        "ItemName": "ACR"
+    },
+    {
+        "Comment" : "ショップUIのパラメーター：L86A2",
+        "ColumnPositionX" : -600.0,
+        "ColumnPositionY" : 150.0,
+        "ColumnWidth" : 350.0,
+        "ColumnHeight" : 200.0,
+        "PricePositionX" : -120.0,
+        "PricePositionY" : -60.0,
+        "Price" : 555,
+        "ItemName": "L86A2"
+    },
+    {
+        "Comment" : "ショップUIのパラメーター：修復小",
+        "ColumnPositionX" : -600.0,
+        "ColumnPositionY" : 150.0,
+        "ColumnWidth" : 350.0,
+        "ColumnHeight" : 200.0,
+        "PricePositionX" : -120.0,
+        "PricePositionY" : -60.0,
+        "Price" : 555,
+        "ItemName": "修復小"
+    },
+    {
+        "Comment" : "ショップUIのパラメーター：M&P R8",
+        "ColumnPositionX" : -600.0,
+        "ColumnPositionY" : 150.0,
+        "ColumnWidth" : 350.0,
+        "ColumnHeight" : 200.0,
+        "PricePositionX" : -120.0,
+        "PricePositionY" : -60.0,
+        "Price" : 555,
+        "ItemName": "M&P R8"
+    },
+    {
+        "Comment" : "ショップUIのパラメーター：SCAR",
+        "ColumnPositionX" : -600.0,
+        "ColumnPositionY" : 150.0,
+        "ColumnWidth" : 350.0,
+        "ColumnHeight" : 200.0,
+        "PricePositionX" : -120.0,
+        "PricePositionY" : -60.0,
+        "Price" : 555,
+        "ItemName": "SCAR"
+    },
+    {
+        "Comment" : "ショップUIのパラメーター：RPG-7",
+        "ColumnPositionX" : -600.0,
+        "ColumnPositionY" : 150.0,
+        "ColumnWidth" : 350.0,
+        "ColumnHeight" : 200.0,
+        "PricePositionX" : -120.0,
+        "PricePositionY" : -60.0,
+        "Price" : 555,
+        "ItemName": "RPG-7"
+    },
+    {
+        "Comment" : "ショップUIのパラメーター：修復大",
+        "ColumnPositionX" : -600.0,
+        "ColumnPositionY" : 150.0,
+        "ColumnWidth" : 350.0,
+        "ColumnHeight" : 200.0,
+        "PricePositionX" : -120.0,
+        "PricePositionY" : -60.0,
+        "Price" : 555,
+        "ItemName": "修復大"
+    }
+]

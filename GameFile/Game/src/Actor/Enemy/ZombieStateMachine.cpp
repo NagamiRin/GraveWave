@@ -5,10 +5,11 @@
  */
 #include "stdafx.h"
 #include "ZombieStateMachine.h"
-#include "src/Actor/StateMachine.h"
 #include "src/Actor/Enemy/Zombie.h"
-#include "src/Actor/Enemy/ZombieStatus.h"
 #include "src/Actor/Enemy/ZombieState.h"
+#include "src/Actor/Enemy/ZombieStatus.h"
+#include "src/Actor/StateMachine.h"
+
 
 
 namespace nsApp
@@ -19,6 +20,7 @@ namespace nsApp
         {
             ZombieStateMachine::ZombieStateMachine()
             {
+                //各状態のID、インスタンスをセット
                 m_stateMap.emplace(ZombieAttackState::ID(), new ZombieAttackState(this));
                 m_stateMap.emplace(ZombieDeathState::ID(),  new ZombieDeathState(this));
                 m_stateMap.emplace(ZombieGetUpState::ID(),  new ZombieGetUpState(this));
@@ -35,35 +37,40 @@ namespace nsApp
 
             void ZombieStateMachine::Update()
             {
+                //状態切り替え
                 ChangeState();
 
+                //親クラスの更新
                 SuperClass::Update();
             }
 
 
             void ZombieStateMachine::ChangeState()
             {
-                if (CanChangeToDeath()) {
+                //各状態に遷移していく
+                //優先順位が高いものから
+
+                if (CanChangeToDeath()) {           //死亡状態
                     m_requestStateId = ZombieDeathState::ID();
                     return;
                 }
-                else if (CanChangeToHit()) {
+                else if (CanChangeToHit()) {        //被弾状態
                     m_requestStateId = ZombieHitState::ID();
                     return;
                 }
-                else if (CanChangeToGetUp()) {
+                else if (CanChangeToGetUp()) {      //起き上がり状態
                     m_requestStateId = ZombieGetUpState::ID();
                     return;
                 }
-                else if (CanChangeToAttack()) {
+                else if (CanChangeToAttack()) {     //攻撃状態
                     m_requestStateId = ZombieAttackState::ID();
                     return;
                 }
-                else if (CanChangeToWalk()) {
+                else if (CanChangeToWalk()) {       //歩行状態
                     m_requestStateId = ZombieWalkState::ID();
                     return;
                 }
-                else {
+                else {                              //待機状態
 					m_requestStateId = ZombieIdleState::ID();
                 }
             }
@@ -71,6 +78,7 @@ namespace nsApp
 
             bool ZombieStateMachine::CanChangeToDeath() const
             {
+                //HPが全損したなら
                 if (m_ownerStatus->GetHP() <= 0) {
                     return true;
                 }
@@ -81,6 +89,7 @@ namespace nsApp
 
             bool ZombieStateMachine::CanChangeToHit() const
             {
+                //オーナー（ゾンビ）が被弾したなら
                 if (m_owner->IsHit()) {
                     return true;
                 }
@@ -91,7 +100,6 @@ namespace nsApp
 
             bool ZombieStateMachine::CanChangeToGetUp() const
             {
-                //TODO:起き上がり状態を作る必要が出たらかく
                 if (m_isStanding) return true;
 
                 return false;
@@ -100,6 +108,7 @@ namespace nsApp
 
             bool ZombieStateMachine::CanChangeToAttack()const
             {
+                //攻撃フラグがたっているなら
                 if (m_owner->IsAttackState()) return true;
 
                return false;
@@ -108,6 +117,7 @@ namespace nsApp
 
             bool ZombieStateMachine::CanChangeToWalk() const
             {
+                //壁との距離が一定以上離れているなら
                 const float wallDistance = m_owner->GetPosition().z - m_owner->GetPlayerPosition().z;
                 if (wallDistance >= 0.0f)return true;
                 else return false;
@@ -116,6 +126,7 @@ namespace nsApp
 
             void ZombieStateMachine::Setup(Zombie* owner, ZombieStatus* ownerStatus)
             {
+                //持ち主（ゾンビ）と持ち主のステータスをセット
 				m_owner = owner;
                 m_ownerStatus = ownerStatus;
             }

@@ -1,6 +1,6 @@
 [
     {
-        "Commnet": "ハンドガン用のパラメータ",
+        "Commnet": "GZ75のパラメータ",
         "GunName" : "GZ75",
         "Damage": 5,
         "MaxAmmo": 15,

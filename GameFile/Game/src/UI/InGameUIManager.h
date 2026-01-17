@@ -62,9 +62,10 @@ namespace nsApp
 
 	struct RemainingBulletsNotify : public INotify
 	{
-		uint8_t m_remainingNum;
-		uint8_t m_maxNum;
+		uint16_t m_remainingNum;
+		uint16_t m_maxNum;
 		std::string m_gunName;
+		EnWeaponType m_equipType;
 		//
 		RemainingBulletsNotify()
 			: INotify(enNotifyType_RemainingBullets)

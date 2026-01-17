@@ -48,7 +48,7 @@ namespace nsApp
 
 		void ModelLOD::Render(RenderContext& rc)
 		{
-			if (m_currentModel == nullptr) return;
+			if (!m_currentModel) return;
 			m_currentModel->Draw(rc);
 		}
 

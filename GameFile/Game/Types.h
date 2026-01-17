@@ -52,8 +52,38 @@ enum EnProductType
 	enProductType_AmmoMax
 };
 
-enum EnScoreType
-{
+enum EnMainWeaponVar {
+	enMainWeaponVar_M4A1,
+	enMainWeaponVar_AK47,
+	enMainWeaponVar_ACR,
+	enMainWeaponVar_SCAR,
+	enMainWeaponVar_HAMR,
+	enMainWeaponVar_G36,
+	enMainWeaponVar_L86A2,
+	enMainWeaponVar_None
+};
+
+enum EnSubWeaponVar {
+	enSubWeaponVar_GZ75,
+	enSubWeaponVar_TEC9,
+	enSubWeaponVar_M1911,
+	enSubWeaponVar_R8,
+	enSubWeaponVar_None
+};
+
+enum EnWeaponType {
+	enWeaponType_Main,
+	enWeaponType_Sub,
+	enWeaponType_Special,
+	enWeaponType_None
+};
+
+enum EnBulletType {
+	EnBulletType_Normal,
+	EnBulletType_Rocket
+};
+
+enum EnScoreType {
 	enScoreType_EliminateZombie = 0,
 	enScoreType_None,
 };
@@ -84,7 +114,6 @@ namespace nsApp
 		enCollision_Max,
 	};
 }
-
 
 
 /** ゲームオブジェクトにIDを割り振る */

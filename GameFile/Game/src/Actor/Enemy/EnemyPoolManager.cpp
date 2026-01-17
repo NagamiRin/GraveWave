@@ -5,8 +5,8 @@
  */
 #include "stdafx.h"
 #include "EnemyPoolManager.h"
-#include "src/Actor/Enemy/Zombie.h"
 #include "src/Actor/Enemy/Boss/Boss.h"
+#include "src/Actor/Enemy/Zombie.h"
 #include "src/Core/BattleManager.h"
 
 
@@ -26,29 +26,35 @@ namespace nsApp
 
             EnemyPoolManager::~EnemyPoolManager()
             {
+                //プールのゾンビを走査
                 for (auto& info : m_zombiePool) {
-                    if (info.m_enemy != nullptr) {
+                    if (info.m_enemy) {
 
-                        //フィールドに出ているエネミーのコリジョンを削除する
+                        //コリジョンを削除
                         CleaningUp();
 
+                        //エネミー削除
                         DeleteGO(info.m_enemy);                        
                     }
                 }
 
+                //ボス削除
                 DeleteGO(m_boss.m_enemy);
             }
 
 
             void EnemyPoolManager::Update()
             {
+                //HPがなくなったゾンビをプールに戻す
                 Restore();
+                //HPがなくなったボスをプールに戻す
                 ReturnBoss();
             }
 
 
             void EnemyPoolManager::CleaningUp()
             {
+                //ゾンビの破棄処理
                 for (auto& search : m_zombiePool) {
                     search.m_enemy->Destruction();
                 }
@@ -57,7 +63,10 @@ namespace nsApp
 
             void EnemyPoolManager::ReturnBoss()
             {
+                //ボスのHP
                 const float bossHp = m_boss.m_enemy->GetStatus()->GetHP();
+
+                //ボスの破棄処理
                 if (bossHp <= 0.0f && !m_boss.m_canUse) {
                     RestoreBoss();
                 }
@@ -66,14 +75,21 @@ namespace nsApp
 
             void EnemyPoolManager::SetUp(uint16_t maxEnemyNum)
             {
-                // ゾンビたちをnew
+                //ゾンビの最大数分、メモリを確保
                 m_zombiePool.reserve(maxEnemyNum);
+
+                //ゾンビたちをnew
                 for (int i = 0; i < maxEnemyNum; ++i) {
                     PoolInformation<Zombie> info;
                     info.m_enemy = NewGO<Zombie>(enGameObjectPriority_Enemy, "Zombie");
-                    info.m_enemy->SetStopPosition(nsCore::BattleManager::GetInstance()->GetEnemyStopPosition());
-                    info.m_enemy->Deactivate();   // プールに溜めるだけなのでアクティブではない状態にしておく
+
+                    // プールに溜めるだけなのでアクティブではない状態にしておく
+                    info.m_enemy->Deactivate();   
+
+                    //使用可能にする
                     info.m_canUse = true;
+
+                    //プールの配列に追加
                     m_zombiePool.push_back(info);
                 }
 
@@ -86,6 +102,7 @@ namespace nsApp
 
             EnemyPoolManager::PoolInformation<Zombie>* EnemyPoolManager::FindInformation()
             {
+                //使用可能なゾンビをプールから走査する
                 for (auto& search : m_zombiePool) {
                     if (search.m_canUse) {
                         return &search;
@@ -97,47 +114,31 @@ namespace nsApp
 
             Zombie* EnemyPoolManager::FindUse()
             {
+                //使用可能なゾンビを取得
                 auto* targetInformation = FindInformation();
+
+                //ポインタがnullなら実行しない（一応）
                 if (targetInformation == nullptr) {
                     return nullptr;
                 }
+
+                //使用不可にする
                 targetInformation->m_canUse = false;
 
-                // 使ってるエネミー一覧に追加
+                //使ってるエネミー一覧に追加
                 m_usedEnemyList.push_back(targetInformation->m_enemy);
 
+                //利用可能なエネミーのポインタを返す
                 return targetInformation->m_enemy;
-            }
-
-
-    //        void EnemyPoolManager::Restore(Zombie* target)
-    //        {
-    //            PoolInformation<Zombie>* info = nullptr;
-    //            for (auto& search : m_zombiePool) {
-    //                if (search.m_enemy = target) {
-    //                    info = &search;
-    //                    break;
-    //                }
-    //            }
-
-				//// 使っているエネミー一覧から削除
-    //            for(auto it = m_usedEnemyList.begin(); it != m_usedEnemyList.end(); ++it) {
-    //                if (*it == target) {
-    //                    m_usedEnemyList.erase(it);
-    //                    break;
-    //                }
-				//}
-
-    //            info->m_canUse = true;
-    //            target->Destruction();
-    //            info->m_enemy->Deactivate();
-    //        }
+            }    
 
 
             void EnemyPoolManager::Restore()
             {
+                //ゾンビの構造体
                 PoolInformation<Zombie>* info = nullptr;
-                //HPがなくなっているゾンビを探す
+
+                //HPがなくなっているゾンビを走査
                 for (auto& search : m_zombiePool) {
                     if (search.m_enemy->CanRestore()) {
                         info = &search;
@@ -145,6 +146,7 @@ namespace nsApp
                     }                    
                 }                
 
+                //ポインタがnullなら実行しない
                 if (!info) return;
 
                 // 使っているエネミー一覧から削除
@@ -155,22 +157,33 @@ namespace nsApp
                     }
                 }
 
+                //使用可能に
                 info->m_canUse = true;
+
+                //破棄処理
                 info->m_enemy->Destruction();
+
+                //オブジェクトを非アクティブに
                 info->m_enemy->Deactivate();
+
+                //プール帰還のフラグを戻す
                 info->m_enemy->SetRestore(false);
+
+                //ゾンビを倒した報告
                 nsCore::BattleManager::GetInstance()->ReportEliminateZombie();
             }
 
 
             void EnemyPoolManager::RestoreBoss()
             {
+                //使用可能に
                 m_boss.m_canUse = true;
             }
 
 
             void EnemyPoolManager::ForEachUsedEnemy(const std::function<void(Zombie*)>& func)
             {
+                //使用中のエネミーから走査
                 for (auto* enemy : m_usedEnemyList) {
                     func(enemy);
                 }

@@ -52,6 +52,12 @@ namespace nsApp
             m_priceVar.emplace(enProductType_SCAR, param->m_SCAR);
 
 
+            //インデックスごとの商品を設定
+            {
+                
+            }
+
+
             //todo for test
             m_menuIndex = 0;
             m_menuIndexMax = 1;
