@@ -75,8 +75,8 @@ namespace nsApp
             //スポナーのパラメーターを読み込み
             ParameterManager::Get().LoadParameter<MasterSpawnerParameter>("Assets/Parameter/SpawnerParameter.json", [](const nlohmann::json& j, MasterSpawnerParameter& p)
                 {
-                    p.m_minPos = j["MinPos"].get<float>();
-                    p.m_maxPos = j["MaxPos"].get<float>();
+                    p.m_minXPosition = j["MinPos"].get<float>();
+                    p.m_maxXPosition = j["MaxPos"].get<float>();
                     p.m_spawnPositionZ = j["SpawnPositionZ"].get<float>();
                 });            
 
@@ -149,6 +149,8 @@ namespace nsApp
         void BattleManager::Update()
         {
             CollisionHitManager::Get().Update();
+            //パラメーター管理クラスの更新処理
+            ParameterManager::Get().Update();
             //ゲーム進行のマネージャーの更新処理
             nsFlow::GameFlowManager::GetInstance()->Update();
             //ショップの更新処理
@@ -220,14 +222,16 @@ namespace nsApp
 
             // 弾数
             {
-                const uint8_t remainingAmmo = m_player->GetGun()->GetRemainingAmmo();
-                const uint8_t maxAmmo = m_player->GetGun()->GetMaxAmmo();
+                const uint16_t remainingAmmo = m_player->GetGun()->GetRemainingAmmo();
+                const EnWeaponType equipType = m_player->GetEquipType();
+                const uint16_t spareAmmo = nsBattle::Inventory::GetInstance().GetSpareAmmo();
                 const std::string& gunName = m_player->GetGun()->GetGunName();
 
                 RemainingBulletsNotify* remainingBulletsNotify = new RemainingBulletsNotify();
                 remainingBulletsNotify->m_remainingNum = remainingAmmo;
-                remainingBulletsNotify->m_maxNum = maxAmmo;
+                remainingBulletsNotify->m_maxNum = spareAmmo;
                 remainingBulletsNotify->m_gunName = gunName;                
+                remainingBulletsNotify->m_equipType = equipType;
 
                 nsUI::InGameUIManager::GetInstance()->AddNotify(remainingBulletsNotify);
 
@@ -434,6 +438,18 @@ namespace nsApp
         uint16_t BattleManager::GetMoney()
         {
             return nsBattle::Inventory::GetInstance().GetMoney();
+        }
+
+
+        void BattleManager::LoadAmmo(uint16_t loadAmount)
+        {
+            nsBattle::Inventory::GetInstance().ReduceAmmo(loadAmount);
+        }
+
+
+        uint16_t BattleManager::GetSpareAmmo()
+        {
+            return nsBattle::Inventory::GetInstance().GetSpareAmmo();
         }
 
 

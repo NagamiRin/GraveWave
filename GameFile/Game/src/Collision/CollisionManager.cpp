@@ -82,7 +82,7 @@ void CollisionHitManager::Update()
 	{
 		// 弾
 		{
-			auto bulletInfoList = FindCollisionInfo(nsApp::nsActor::nsBullet::NormalBullet::ID());
+			auto bulletInfoList = FindBulletCollisionInfo(nsApp::nsActor::nsBullet::NormalBullet::ID());
 
 			for (auto* bulletInfo : bulletInfoList) {
 				auto* bullet = dynamic_cast<nsApp::nsActor::nsBullet::NormalBullet*>(bulletInfo->m_object);
@@ -94,7 +94,7 @@ void CollisionHitManager::Update()
 				BulletCallback cb;
 				PhysicsWorld::GetInstance()->ConvexSweepTest(collisionShape, start, end, cb);
 				if (cb.isHit) {
-					auto* targetInfo = FindCollisionInfo(cb.m_you);
+					auto* targetInfo = FindBulletCollisionInfo(cb.m_you);
 					if (targetInfo) {
 						m_collisionPairList.push_back(CollisionPair(bulletInfo, targetInfo));
 					}
@@ -150,15 +150,25 @@ void CollisionHitManager::Update()
 void CollisionHitManager::DeleteCollisionObject(IGameObject* object)
 {
 	std::vector<CollisionObject*> targetCollisionList;
+	for (auto it = m_collisionBulletInfoList.begin(); it != m_collisionBulletInfoList.end();)
+	{
+		if (it->m_object == object)
+		{
+			targetCollisionList.push_back(it->m_collision);
+			it = m_collisionBulletInfoList.erase(it);
+		}
+		else {
+			// 削除しない場合のみイテレータを進める
+			++it;
+		}
+	}
 	for(auto it = m_collisionInfoList.begin(); it != m_collisionInfoList.end();)
 	{
 		if (it->m_object == object)
 		{
 			targetCollisionList.push_back(it->m_collision);
 			it = m_collisionInfoList.erase(it);
-		}
-		else
-		{
+		} else {
 			// 削除しない場合のみイテレータを進める
 			++it;
 		}
@@ -174,6 +184,15 @@ void CollisionHitManager::DeleteCollisionObject(IGameObject* object)
 bool CollisionHitManager::CheckCollision(IGameObject* object)
 {
 	CollisionObject* targetCollision = nullptr;
+	for (auto it = m_collisionBulletInfoList.begin(); it != m_collisionBulletInfoList.end(); ++it)
+	{
+		if (it->m_object == object)
+		{
+			targetCollision = it->m_collision;
+			return true;
+			break;
+		}
+	}
 	for (auto it = m_collisionInfoList.begin(); it != m_collisionInfoList.end(); ++it)
 	{
 		if (it->m_object == object)
@@ -224,6 +243,16 @@ CollisionObject* CollisionHitManager::CreateCollisionObject(const uint32_t id, I
 void CollisionHitManager::RegisterCollisionObject(const uint32_t id, IGameObject* gameObject, CollisionObject* collisionObject)
 {
 	CollisionInfo info(id, gameObject, collisionObject);
+
+	// 弾関連か
+	bool isBullet = false;
+	if (id == nsApp::nsActor::nsEnemy::Zombie::ID()) isBullet = true;
+	if (id == nsApp::nsActor::nsEnemy::Boss::ID()) isBullet = true;
+	if (id == nsApp::nsActor::nsBullet::NormalBullet::ID()) isBullet = true;
+	if (isBullet) {
+		m_collisionBulletInfoList.push_back(std::move(info));
+		return;
+	}
 	m_collisionInfoList.push_back(std::move(info));
 }
 

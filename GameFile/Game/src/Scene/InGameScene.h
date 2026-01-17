@@ -25,6 +25,7 @@ namespace nsApp
 		public:
 			appScene(InGameScene);
 
+			ModelRender test;
 
 		public:
 			InGameScene();

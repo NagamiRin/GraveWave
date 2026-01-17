@@ -6,6 +6,7 @@
 #pragma once
 #include "src/Actor/Gun/GunBase.h"
 
+
 namespace nsApp
 {
 	namespace nsActor

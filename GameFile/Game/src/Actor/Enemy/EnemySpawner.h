@@ -6,17 +6,12 @@
 #pragma once
 
 
-
 namespace nsApp
 {
 	namespace nsActor
 	{
 		namespace nsEnemy
 		{
-			class Zombie;
-			class Boss;
-
-
 			/**
 			 * エネミースポナー
 			 */
@@ -26,16 +21,12 @@ namespace nsApp
 				/** リスポーン位置(Z値) */
 				float m_spawnPositionZ = 0.0f;
 				/** リスポーン位置（X値の最大値） */
-				float m_maxPos = 0.0f;
+				float m_maxXPosition = 0.0f;
 				/** リスポーン位置（X値の最小値） */
-				float m_minPos = 0.0f;
-				/** リスポーン位置 */
+				float m_minXPosition = 0.0f;
+				/** ベースのリスポーン位置 */
 				Vector3 m_baseSpawnPosition = Vector3::Zero;
 
-
-			private:
-				/** 敵のリスポーン位置を決める */
-				Vector3 DecideSpawnPosition();
 
 			public:
 				EnemySpawner(EnSpwnerType type);
@@ -47,6 +38,11 @@ namespace nsApp
 				void ZombieCreate();
 				/** ボスの生成 */
 				void BossCreate();
+
+
+			private:
+				/** 敵のリスポーン位置を決める */
+				Vector3 DecideSpawnPosition();
 			};
 		}
 	}

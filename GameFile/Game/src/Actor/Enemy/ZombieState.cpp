@@ -12,6 +12,14 @@
 #include "src/Effect/EffectManager.h"
 
 
+namespace {
+	constexpr float DEATH_ANIM_TIME = 4.0f;
+	constexpr float HIT_ANIM_TIME = 2.0f;
+	constexpr float DUSTCLOUD_FREQUENCY = 0.2f;
+	constexpr float DUSTCLOUD_SCALE = 5.0f;
+}
+
+
 namespace nsApp
 {
 	namespace nsActor
@@ -22,6 +30,7 @@ namespace nsApp
 			{
 				struct ZombieCallback : public btCollisionWorld::RayResultCallback
 				{
+					//ヒットフラグ
 					bool isHit = false;
 					btScalar addSingleResult(btCollisionWorld::LocalRayResult& rayResult, bool normalInWorldSpace) override
 					{
@@ -38,6 +47,7 @@ namespace nsApp
 			ZombieAttackState::ZombieAttackState(ZombieStateMachine* owner)
 				: IState(owner)
 			{
+				//持ち主（ステートマシン）取得
 				m_owner = GetOwner<ZombieStateMachine>();
 			}
 
@@ -57,10 +67,17 @@ namespace nsApp
 				auto* owner = GetOwner<ZombieStateMachine>()->GetOwner();
 				float frequency = owner->GetStatus()->GetAttackFrequency();
 
+				//一定時間ごとに攻撃
 				m_currentTime += g_gameTime->GetFrameDeltaTime();
 				if (m_currentTime >= frequency) {
+
+					//攻撃可能に
 					owner->SetAttack(true);
+
+					//攻撃アニメーション再生
 					owner->GetModel()->PlayAnimation(Zombie::EnAnimationVar_Attack);
+
+					//時間リセット
 					m_currentTime = 0.0f;
 				}
 
@@ -73,7 +90,6 @@ namespace nsApp
 
 			void ZombieAttackState::Exit()
 			{
-				auto* stateMachine = GetOwner<ZombieStateMachine>();
 			}
 
 
@@ -94,6 +110,7 @@ namespace nsApp
 
 			void ZombieDeathState::Enter()
 			{
+				//死亡アニメーション再生
 				auto* owner = GetOwner<ZombieStateMachine>()->GetOwner();
 				owner->GetModel()->PlayAnimation(Zombie::EnAnimationVar_Death);
 			}
@@ -103,9 +120,11 @@ namespace nsApp
 			{
 				auto* owner = GetOwner<ZombieStateMachine>()->GetOwner();
 
+				//時間を数える
 				m_currentTime += g_gameTime->GetFrameDeltaTime();
-				//todo 後で定数
-				if (m_currentTime >= 4.0f) owner->SetRestore(true);
+
+				//アニメーション再生から一定時間経ったらプールに戻す
+				if (m_currentTime >= DEATH_ANIM_TIME) owner->SetRestore(true);
 			}
 
 
@@ -131,6 +150,7 @@ namespace nsApp
 
 			void ZombieGetUpState::Enter()
 			{
+				//起き上がりアニメーションを再生
 				auto* owner = GetOwner<ZombieStateMachine>()->GetOwner();
 				owner->GetModel()->PlayAnimation(Zombie::EnAnimationVar_GetUp);
 			}
@@ -143,7 +163,6 @@ namespace nsApp
 
 			void ZombieGetUpState::Exit()
 			{
-				auto* owner = GetOwner<ZombieStateMachine>()->GetOwner();
 			}
 
 
@@ -164,6 +183,7 @@ namespace nsApp
 
 			void ZombieHitState::Enter()
 			{
+				//被弾アニメーション再生
 				auto* owner = GetOwner<ZombieStateMachine>()->GetOwner();
 				owner->GetModel()->PlayAnimation(Zombie::EnAnimationVar_Hit);
 			}
@@ -172,10 +192,12 @@ namespace nsApp
 			void ZombieHitState::Update()
 			{
 				auto* owner = GetOwner<ZombieStateMachine>()->GetOwner();
+
+				//時間数える
 				m_currentTime += g_gameTime->GetFrameDeltaTime();
 
-				//todo 後で定数に
-				if (m_currentTime >= 2.0f) {
+				//一定時間後に被弾状態を戻す
+				if (m_currentTime >= HIT_ANIM_TIME) {
 					owner->SetHit(false);
 				}
 			}
@@ -207,6 +229,7 @@ namespace nsApp
 
 			void ZombieIdleState::Enter()
 			{
+				//待機アニメーションを再生
 				auto* owner = GetOwner<ZombieStateMachine>()->GetOwner();
 				owner->GetModel()->PlayAnimation(Zombie::EnAnimationVar_Idle);
 			}
@@ -240,9 +263,12 @@ namespace nsApp
 			void ZombieWalkState::Enter()
 			{
 				ZombieStateMachine* stateMachine = GetOwner<ZombieStateMachine>();
+
+				//モデルの向き、移動方向を壁側に
 				stateMachine->SetMoveDirection(Vector3::Back);
 				stateMachine->SetDirection(Vector3::Back);
 
+				//歩行アニメーションを再生
 				auto* owner = GetOwner<ZombieStateMachine>()->GetOwner();
 				owner->GetModel()->PlayAnimation(Zombie::EnAnimationVar_Walk);
 			}
@@ -254,15 +280,24 @@ namespace nsApp
 				auto* owner = GetOwner<ZombieStateMachine>()->GetOwner();
 				auto* ownerStatus = owner->GetStatus();
 
+				//1フレームの移動量を計算
 				const Vector3 moveAmount = stateMachine->GetMoveDirection() * stateMachine->GetMoveSpeed();
 
+				//位置をセット
 				stateMachine->SetPosition(stateMachine->GetPosition() + moveAmount);
 
 				//レイを飛ばして、壁に当たったら攻撃状態に移行させる
 				{
+					//レイの始点
 					Vector3 startPos = owner->GetLocalPosition();
-					Vector3 endPos = owner->GetLocalPosition() + (owner->GetDirection() * ownerStatus->GetMoveSpeed());
+
+					//レイの終点
+					//始点 + (移動方向 * 移動速度)
+					Vector3 endPos = startPos + (owner->GetDirection() * ownerStatus->GetMoveSpeed());
+
 					ZombieCallback cb;
+
+					//壁に当たったか判定
 					bool isHit = PhysicsWorld::GetInstance()->RayTest(startPos, endPos, cb, [](const btCollisionWorld::RayResultCallback* result)
 						{
 							const auto* resultCB = dynamic_cast<const ZombieCallback*>(result);
@@ -271,34 +306,28 @@ namespace nsApp
 							}
 							return false;
 						});
-					// 攻撃させる
+
+					// 壁にたどり着いたら攻撃させる
 					if (isHit) {
 						owner->SetAttackState(true);
 					}
 
-
-					//土煙のエフェクト
+					//一定時間おきに土煙のエフェクトを再生
 					m_elapsedTime += g_gameTime->GetFrameDeltaTime();
-
-					//一定時間おきに生成
-					if (m_elapsedTime >= 0.2f) {
-						EffectManager::Get().PlayEffect(enEffectKind_DustCloud, owner->GetPosition(), owner->GetLocalRotation(), Vector3::One * 5.0f);
+					if (m_elapsedTime >= DUSTCLOUD_FREQUENCY) {
+						//EffectManager::Get().PlayEffect(enEffectKind_DustCloud, owner->GetPosition(), owner->GetLocalRotation(), Vector3::One * DUSTCLOUD_SCALE);
 
 						m_elapsedTime = 0.0f;
-					}
-
-
-					
+					}				
 				}
 			}
 
 
 			void ZombieWalkState::Exit()
 			{
+				//移動方向をリセット
 				auto* stateMachine = GetOwner<ZombieStateMachine>();
 				stateMachine->SetMoveDirection(Vector3::Zero);
-
-				auto* owner = GetOwner<ZombieStateMachine>()->GetOwner();				
 			}			
 		}
 	}

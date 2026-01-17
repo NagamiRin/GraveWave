@@ -50,8 +50,6 @@ namespace nsApp
 				std::array<AnimationClip, EnAnimationVar_Max> m_animationClipList;
 				/** ゾンビのステートマシンのポインタ */
 				std::unique_ptr<BossStateMachine> m_stateMachine;
-				/** LODモデル */
-				nsCore::ModelLOD* m_modelLOD = nullptr;
 				/** 投石の岩 */
 				nsEnemy::ThrowStone* m_throwStone = nullptr;
 

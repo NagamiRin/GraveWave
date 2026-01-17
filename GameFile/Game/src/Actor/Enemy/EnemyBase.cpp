@@ -36,8 +36,10 @@ namespace nsApp
 				//進行できる範囲に制限を設ける
 				if (m_transform.m_localPosition.z <= m_stopPosition) m_transform.m_localPosition.z = m_stopPosition;
 
+				//重力を持たせる
 				ApplyGravity();
 
+				//基底クラスの更新
 				SuperClass::Update();
 			}
 

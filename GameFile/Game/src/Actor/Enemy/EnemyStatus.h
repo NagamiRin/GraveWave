@@ -36,6 +36,16 @@ namespace nsApp
 
 
 			public:
+				EnemyStatus();
+				~EnemyStatus();
+
+
+			public:
+				/** セットアップ */
+				void Setup() override;
+
+
+			public:
 				/** エネミーの最大HPを取得 */
 				inline float GetMaxHP()const { return m_maxHp; }
 				/** エネミーのHPを取得 */
@@ -51,23 +61,12 @@ namespace nsApp
 				/** 攻撃範囲を取得 */
 				inline float GetAttackRange() const { return m_attackRange; }
 				/** エネミーの移動速度を取得 */
-				inline float GetMoveSpeed() { return m_moveSpeed; }
+				inline float GetMoveSpeed() const { return m_moveSpeed; }
 				/** 移動速度を適応 */
 				inline void ApplySpeed(Vector3& position) {
 					m_moveDirection.Normalize();
 					position = m_moveDirection * m_moveSpeed;
-				}
-
-
-			public:
-				/** コンストラクタ */
-				EnemyStatus();
-				/** デストラクタ */
-				~EnemyStatus();
-
-
-				/** セットアップ */
-				void Setup() override;
+				}			
 			};
 		}
 	}

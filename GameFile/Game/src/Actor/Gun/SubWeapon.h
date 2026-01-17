@@ -6,6 +6,7 @@
 #pragma once
 #include "src/Actor/Gun/GunBase.h"
 
+
 namespace nsApp
 {
 	namespace nsActor
@@ -41,6 +42,11 @@ namespace nsApp
 				virtual bool Start()override;
 				virtual void Update()override;
 				virtual void Render(RenderContext& rc)override;
+
+
+			private:
+				/** リロード完了 */
+				void ReloadCompletion()override;
 			};
 		}
 	}

@@ -4,21 +4,51 @@
 #include <fstream>
 
 
+#ifdef K2_DEBUG
+#define APP_PARAM_HOT_RELOAD
+#endif
+
+
 /**
  * NOTE: すべてのパラメーターに付ける
  */
+#ifdef APP_PARAM_HOT_RELOAD
+
 #define appParameter(name)\
 public:\
- static constexpr uint32_t ID() { return appHash32(#name); }
+static constexpr uint32_t ID() {return appHash32(#name);}\
+std::function<void(const nlohmann::json& j, name& p)> load;
+
+#else 
+
+#define appParameter(name)\
+public:\
+static constexpr uint32_t ID() {return appHash32(#name);}
+
+#endif 
 
 
  /** 基底クラス。必ず継承すること！ */
-struct IMasterParameter {};
+struct IMasterParameter
+{
+#ifdef APP_PARAM_HOT_RELOAD
+    virtual void Load(const nlohmann::json& j) {};
+    std::string m_path;         // パラメーターのファイルパス（ホットリロード用）
+    time_t m_lastWriteTime;     // 最終更新時刻
+#endif // APP_PARAM_HOT_RELOAD
+};
 
 /** プレイヤーのステータス */
 struct MasterPlayerStatus : public IMasterParameter
 {
     appParameter(MasterPlayerStatus);
+
+#ifdef APP_PARAM_HOT_RELOAD
+    void Load(const nlohmann::json& j) override
+    {
+        load(j, *this);
+    }
+#endif // APP_PARAM_HOT_RELOAD
     //
     float m_moveSpeed;
 };
@@ -28,6 +58,13 @@ struct MasterPlayerStatus : public IMasterParameter
 struct MasterEnemyStatus : public IMasterParameter
 {
     appParameter(MasterEnemyStatus);
+
+#ifdef APP_PARAM_HOT_RELOAD
+    void Load(const nlohmann::json& j) override
+    {
+        load(j, *this);
+    }
+#endif // APP_PARAM_HOT_RELOAD
     //
     uint16_t m_hp;
     uint16_t m_attackPower;
@@ -40,6 +77,13 @@ struct MasterEnemyStatus : public IMasterParameter
 struct MasterBossStatus : public IMasterParameter
 {
     appParameter(MasterBossStatus);
+
+#ifdef APP_PARAM_HOT_RELOAD
+    void Load(const nlohmann::json& j) override
+    {
+        load(j, *this);
+    }
+#endif // APP_PARAM_HOT_RELOAD
     //
     uint16_t m_hp;
     uint16_t m_attackPower;
@@ -53,12 +97,19 @@ struct MasterBossStatus : public IMasterParameter
 struct MasterGunParameter :public IMasterParameter
 {
     appParameter(MasterGunParameter);
+
+#ifdef APP_PARAM_HOT_RELOAD
+    void Load(const nlohmann::json& j) override
+    {
+        load(j, *this);
+    }
+#endif // APP_PARAM_HOT_RELOAD
     //
     std::string m_gunName;
     uint8_t m_damage;
     uint8_t m_maxAmmo;
     float m_bulletSpeed;
-    float m_fireCoolTime;
+    float m_currentFireCoolTime;
     float m_reloadTime;
     float m_switchTime;
     float m_newPositionX;
@@ -69,6 +120,13 @@ struct MasterGunParameter :public IMasterParameter
 struct MasterSubWeaponParameter :public IMasterParameter
 {
     appParameter(MasterSubWeaponParameter);
+
+#ifdef APP_PARAM_HOT_RELOAD
+    void Load(const nlohmann::json& j) override
+    {
+        load(j, *this);
+    }
+#endif // APP_PARAM_HOT_RELOAD
     //
     std::string m_gunName;
     uint8_t m_damage;
@@ -85,6 +143,13 @@ struct MasterSubWeaponParameter :public IMasterParameter
 struct MasterShopParameter :public IMasterParameter
 {
     appParameter(MasterShopParameter);
+
+#ifdef APP_PARAM_HOT_RELOAD
+    void Load(const nlohmann::json& j) override
+    {
+        load(j, *this);
+    }
+#endif // APP_PARAM_HOT_RELOAD
     //
     uint16_t m_GZ75;
     uint16_t m_R8;
@@ -104,6 +169,13 @@ struct MasterShopParameter :public IMasterParameter
 struct MasterStoneParameter : public IMasterParameter
 {
     appParameter(MasterStoneParameter);
+
+#ifdef APP_PARAM_HOT_RELOAD
+    void Load(const nlohmann::json& j) override
+    {
+        load(j, *this);
+    }
+#endif // APP_PARAM_HOT_RELOAD
     //
     float m_altitude;
     float m_landingTime;
@@ -116,6 +188,13 @@ struct MasterStoneParameter : public IMasterParameter
 struct MasterBreakStoneParameter : public IMasterParameter
 {
     appParameter(MasterBreakStoneParameter);
+
+#ifdef APP_PARAM_HOT_RELOAD
+    void Load(const nlohmann::json& j) override
+    {
+        load(j, *this);
+    }
+#endif // APP_PARAM_HOT_RELOAD
     //
     float m_altitude;
     float m_landingTime;
@@ -127,6 +206,13 @@ struct MasterBreakStoneParameter : public IMasterParameter
 struct MasterBulletStatus : public IMasterParameter
 {
     appParameter(MasterBulletStatus);
+
+#ifdef APP_PARAM_HOT_RELOAD
+    void Load(const nlohmann::json& j) override
+    {
+        load(j, *this);
+    }
+#endif // APP_PARAM_HOT_RELOAD
     //
     int m_damage;
     int m_maxAmmo;
@@ -138,6 +224,13 @@ struct MasterBulletStatus : public IMasterParameter
 struct MasterWallParameter : public IMasterParameter
 {
     appParameter(MasterWallParameter);
+
+#ifdef APP_PARAM_HOT_RELOAD
+    void Load(const nlohmann::json& j) override
+    {
+        load(j, *this);
+    }
+#endif // APP_PARAM_HOT_RELOAD
     //
     uint16_t m_maxDurability;
 };
@@ -147,6 +240,13 @@ struct MasterWallParameter : public IMasterParameter
 struct MasterCameraParameter :public IMasterParameter
 {
     appParameter(MasterCameraParameter);
+
+#ifdef APP_PARAM_HOT_RELOAD
+    void Load(const nlohmann::json& j) override
+    {
+        load(j, *this);
+    }
+#endif // APP_PARAM_HOT_RELOAD
     //
     float m_cameraNear;
     float m_cameraFar;
@@ -165,6 +265,13 @@ struct MasterBattleParameter :public IMasterParameter
 {
     appParameter(MasterBattleParameter);
 
+#ifdef APP_PARAM_HOT_RELOAD
+    void Load(const nlohmann::json& j) override
+    {
+        load(j, *this);
+    }
+#endif // APP_PARAM_HOT_RELOAD
+
     uint8_t m_maxEnemyNum;
     uint8_t m_clearWaveNum;
     float m_baseSpawnTime;
@@ -182,9 +289,16 @@ struct MasterSpawnerParameter :public IMasterParameter
 {
     appParameter(MasterSpawnerParameter);
 
+#ifdef APP_PARAM_HOT_RELOAD
+    void Load(const nlohmann::json& j) override
+    {
+        load(j, *this);
+    }
+#endif // APP_PARAM_HOT_RELOAD
+
     float m_spawnPositionZ;
-    float m_minPos;
-    float m_maxPos;
+    float m_minXPosition;
+    float m_maxXPosition;
 };
 
 
@@ -192,6 +306,13 @@ struct MasterSpawnerParameter :public IMasterParameter
 struct MasterWaveParameter :public IMasterParameter
 {
     appParameter(MasterWaveParameter);
+
+#ifdef APP_PARAM_HOT_RELOAD
+    void Load(const nlohmann::json& j) override
+    {
+        load(j, *this);
+    }
+#endif // APP_PARAM_HOT_RELOAD
 
     uint16_t m_leftCount;
     uint16_t m_centerCount;
@@ -206,6 +327,13 @@ struct MasterPreparationParameter :public IMasterParameter
 {
     appParameter(MasterPreparationParameter);
 
+#ifdef APP_PARAM_HOT_RELOAD
+    void Load(const nlohmann::json& j) override
+    {
+        load(j, *this);
+    }
+#endif // APP_PARAM_HOT_RELOAD
+
     float m_toCountDownTime;
     float m_specifiedSeconds;
 };
@@ -216,6 +344,13 @@ struct MasterScoreParameter :public IMasterParameter
 {
     appParameter(MasterScoreParameter);
 
+#ifdef APP_PARAM_HOT_RELOAD
+    void Load(const nlohmann::json& j) override
+    {
+        load(j, *this);
+    }
+#endif // APP_PARAM_HOT_RELOAD
+
     uint8_t m_eliminateZombieScore;
 };
 
@@ -225,16 +360,44 @@ struct MasterShopUIParameter :public IMasterParameter
 {
     appParameter(MasterShopUIParameter);
 
-    float m_backWidth;
-    float m_backHeight;
-    float m_iconWidth;
-    float m_iconHeight;
-    float m_positionX;
-    float m_positionY;
-    float m_stringPositionX;
-    float m_stringPositionY;
+#ifdef APP_PARAM_HOT_RELOAD
+    void Load(const nlohmann::json& j) override
+    {
+        load(j, *this);
+    }
+#endif
+
+    float m_subWeaponPositionX;
+    float m_subWeaponPositionY;
+    float m_subWeaponWidth;
+    float m_subWeaponHeight;
+    float m_mainWeaponPositionX;
+    float m_mainWeaponPositionY;
+    float m_mainWeaponWidth;
+    float m_mainWeaponHeight;
+};
+
+
+//ショップUIのアイテムごとのパラメーター
+struct MasterShopColumnUIParameter :public IMasterParameter
+{
+    appParameter(MasterShopColumnUIParameter);
+
+#ifdef APP_PARAM_HOT_RELOAD
+    void Load(const nlohmann::json& j) override
+    {
+        load(j, *this);
+    }
+#endif
+
+    float m_columnPositionX;
+    float m_columnPositionY;
+    float m_columnWidth;
+    float m_columnHeight;
+    float m_pricePositionX;
+    float m_pricePositionY;
     uint16_t m_price;
-    std::string m_weaponName;
+    std::string m_itemName;
 };
 
 
@@ -262,6 +425,37 @@ private:
     ~ParameterManager();
 
 public:
+    void Update()
+    {
+#ifdef APP_PARAM_HOT_RELOAD
+        for (auto paramPair : m_parameterMap)
+        {
+            for (auto param : paramPair.second)
+            {
+                if (CheckFileModified(param))
+                {
+                    std::ifstream file(param->m_path);
+                    if (!file.is_open())
+                    {
+                        return;
+                    }
+
+                    nlohmann::json jsonRoot;
+                    file >> jsonRoot;
+
+                    ParameterVector parameters;
+
+                    for (const auto& j : jsonRoot)
+                    {
+                        param->m_lastWriteTime = GetFileLastWriteTime(param->m_path.c_str());
+                        param->Load(j);
+                    }
+                }
+            }
+        }
+#endif
+    }
+
     /// <summary>
     /// パラメーター読み込み
     /// NOTE: Unloadも呼ぶことを忘れないように
@@ -281,6 +475,11 @@ public:
         std::vector<IMasterParameter*> parameters;
         for (const auto& j : jsonRoot) {
             T* parameter = new T();
+#ifdef APP_PARAM_HOT_RELOAD
+            parameter->m_path = std::string(path);
+            parameter->m_lastWriteTime = GetFileLastWriteTime(path);
+            parameter->load = func;
+#endif
             func(j, *parameter);
             parameters.push_back(static_cast<IMasterParameter*>(parameter));
         }
@@ -343,7 +542,34 @@ public:
         }
     }
 
+#ifdef APP_PARAM_HOT_RELOAD
+    /**
+     * ファイル更新日時取得
+     */
+    static time_t GetFileLastWriteTime(const char* path)
+    {
+        struct stat result;
+        // stat関数でファイル情報を取得 (0なら成功)
+        if (stat(path, &result) == 0) {
+            return result.st_mtime;
+        }
+        return 0;
+    }
 
+
+    /**
+     * ファイル更新チェック
+     */
+    static bool CheckFileModified(const IMasterParameter* param)
+    {
+        if (GetFileLastWriteTime(param->m_path.c_str()) > param->m_lastWriteTime)
+        {
+            return true;
+        }
+        return false;
+    }
+
+#endif // APP_PARAM_HOT_RELOAD
 
 
     /**
@@ -384,4 +610,3 @@ public:
 private:
     static ParameterManager* m_instance; //シングルトンインスタンス
 };
-

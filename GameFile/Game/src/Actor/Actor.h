@@ -5,50 +5,6 @@
  */
 #pragma once
 
-namespace
-{
-	//float AngleAboutX(Vector3 dirVec3)
-	//{
-	//	//2次元に移す。
-	//	Vector3 dirVec2 = Vector3(dirVec3.x, 0, dirVec3.z);
-	//	//基準のベクトル
-	//	Vector3 baseVec = Vector3(1, 0, 0);
-	//	//内積
-	//	float dotVec = dirVec3.Dot(baseVec);
-
-	//	//外積
-	//	Vector3 CrossVec1;
-	//	CrossVec1.Cross(baseVec, dirVec2);
-
-	//	//内積の値を角度に変換。
-	//	float dir = acos(dotVec);
-
-	//	if (CrossVec1.z < 0)dir * -1;
-
-	//	return dir;
-	//};
-
-	//float AngleAboutY(Vector3 dirVec3)
-	//{
-	//	//2次元に移す。
-	//	Vector3 dirVec2 = Vector3(dirVec3.x, dirVec3.y, 0);
-	//	//基準のベクトル
-	//	Vector3 baseVec = Vector3(1, 0, 0);
-	//	//内積
-	//	float dotVec = dirVec3.Dot(baseVec);
-
-	//	//外積
-	//	Vector3 CrossVec1;
-	//	CrossVec1.Cross(baseVec, dirVec2);
-
-	//	//内積の値を角度に変換。
-	//	float dir = acos(dotVec);
-
-	//	if (CrossVec1.z < 0)dotVec * -1;
-
-	//	return dir;
-	//};
-}
 
 namespace nsApp
 {
@@ -76,9 +32,7 @@ namespace nsApp
 
 
 		public:
-			/** コンストラクタ */
 			Actor();
-			/** デストラクタ */
 			virtual ~Actor();
 
 
@@ -115,10 +69,6 @@ namespace nsApp
 			/** アクタの方向を設定 */
 			virtual void SetDirection(const Vector3& direction) {
 				m_direction = direction;
-				//Quaternion t;
-				//t = GetLocalRotation();
-				//// Y軸回転(横方向)
-				//t.SetRotationYFromDirectionXZ(m_direction);
 				{
 					// 1. 前方ベクトル(Z)の正規化
 					Vector3 zAxis = m_direction;
@@ -157,7 +107,6 @@ namespace nsApp
 					SetLocalRotation(t);
 				}
 
-				//SetLocalRotation(t);
 			};
 			/** アクタの方向を取得 */
 			inline const Vector3& GetDirection()const { return m_direction; }

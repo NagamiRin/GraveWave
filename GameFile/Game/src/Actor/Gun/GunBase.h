@@ -21,22 +21,27 @@ namespace nsApp
 			 */
 			class GunBase : public Actor
 			{
+				/** 残段数の可変領域 */
+				using MagazineValue = uint16_t;
+
+
 			protected:
 				/** 反動処理クラスのインスタンス */
 				RecoilSystem* m_recoilSystem = nullptr;
-
 				/** リロード中か */
 				bool m_isReloading = false;
 				/** 銃を装備中か */
 				bool m_isEquipment = false;
+				/** この種類の銃を所持しているか */
+				bool m_isPossession = false;
 				/** ADS中か */
 				bool m_isADS = false;
 				/** ダメージ量 */
 				uint8_t m_damage = 0;
 				/** 最大弾数 */
-				uint8_t m_maxAmmo = 0;
+				MagazineValue m_maxAmmo = 0;
 				/** 残弾数 */
-				uint8_t m_remainingAmmo = 0;
+				MagazineValue m_remainingAmmo = 0;
 				/** 高さの初期値 */
 				float m_initialHeight = 0.0f;
 				/** 発射初速 */
@@ -44,7 +49,9 @@ namespace nsApp
 				/** 発射クールタイム */
 				float m_fireCoolTime = 0.0f;
 				/** 残りの発射クールタイム(秒) */
-				float m_currentCoolTime = 0.0f;
+				float m_currentFireCoolTime = 0.0f;
+				/** ADSの経過時間 */
+				float m_currentADSTime = 0.0f;
 				/** リロード時間 */
 				float m_reloadTime = 0.0f;
 				/** 武器切り替え時間 */
@@ -55,8 +62,8 @@ namespace nsApp
 				float m_currentReloadTime = 0.0f;
 				/** 銃の拡大倍率 */
 				float m_zoomAngle = Math::DegToRad(60.0f);
-				/** ADS移行速度 */
-				float m_ADSSpeed = 0.0f;
+				/** ADS移行時間 */
+				float m_ADSTime = 0.0f;
 				/** 弾丸の射出方向 */
 				Vector3 m_injectionDirection = Vector3::Zero;
 				/** 腰だめ撃ちの銃の位置 */
@@ -69,16 +76,12 @@ namespace nsApp
 				Vector3 m_recoilPosition = Vector3::Zero;
 				/** プレイヤーの位置 */
 				Vector3 m_playerPosition = Vector3::Zero;
+				// 銃の調整位置
+				Vector3 m_offsetPosition = Vector3::Zero;
+				//
+				Vector3 m_prevPosition = Vector3::Zero;
 				/** 銃の名前 */
 				std::string m_gunName;
-
-				// @todo for あとでコメント
-				Vector3 m_offsetPosition = Vector3::Zero;
-				Vector3 m_prevPosition = Vector3::Zero;
-
-				/** ADSの経過時間 */
-				float m_currentADSTime = 0.0f;
-
 
 
 			public:
@@ -104,7 +107,7 @@ namespace nsApp
 				/** リロード */
 				void Reload();
 				/** リロード完了 */
-				void ReloadCompletion();
+				virtual void ReloadCompletion();
 				/** リロードアニメーション */
 				void ReloadAnimation();
 				/** 武器をしまう */
@@ -116,6 +119,7 @@ namespace nsApp
 
 
 			public:
+				//銃の向きを設定
 				void SetDirection(const Vector3& direction) override
 				{
 					m_direction = direction;
@@ -123,7 +127,7 @@ namespace nsApp
 
 
 			public:
-				/** 情報を更新 */
+				/** 情報をいろいろ更新 */
 				void InformationUpdate(const Vector3& position, const Vector3& direction) {
 					m_playerPosition = position;
 					m_injectionDirection = direction;
@@ -139,7 +143,7 @@ namespace nsApp
 				/** 銃装備の状態を設定 */
 				inline void SetIsEquipment(const bool equipment) { m_isEquipment = equipment; }
 				/** 発射クールタイムを取得 */
-				inline float GetFireCoolTime() { return m_currentCoolTime; }
+				inline float GetFireCoolTime() { return m_currentFireCoolTime; }
 				/** 現在の弾数を取得 */
 				inline uint8_t GetRemainingAmmo() { return m_remainingAmmo; }
 				/** 最大弾数を取得 */
@@ -159,6 +163,12 @@ namespace nsApp
 				}
 				/** 反動位置を取得 */
 				Vector2 GetRecoil();
+				/** 武器所持のフラグを設定 */
+				inline void SetPossession(const bool possession) {
+					m_isPossession = possession;						
+				}
+				/** 武器所持のフラグを取得 */
+				inline bool IsPossession() const { return m_isPossession; }
 			};
 		}
 	}

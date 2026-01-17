@@ -74,10 +74,6 @@ namespace nsApp
 				inline bool IsAttackState() { return m_isAttackState; }
 				/** 攻撃状態のフラグを設定 */
 				inline void SetAttackState(const bool attack) { m_isAttackState = attack; }
-				/** 進行を止める位置を設定 */
-				inline void SetStopPosition(const float position) { m_stopPosition = position; }
-				/** 進行を止める位置を取得 */
-				inline float GetStopPosition()const { return m_stopPosition; }
 				/** 移動方向を設定 */
 				inline void SetMoveDirection(const Vector3& direction) { m_moveDirection = direction; }
 				/** 移動方向を取得 */

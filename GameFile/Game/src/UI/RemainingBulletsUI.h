@@ -26,14 +26,18 @@ namespace nsApp
 			NumberUI* m_spareAmmoUI = nullptr;
 			/** 銃のアイコン */
 			ImageUI* m_gunIcon = nullptr;
+			/** ∞マーク */
+			ImageUI* m_infiniteMark = nullptr;
 			/** 残弾数 */
-			uint8_t m_remainingAmmo = 0;
+			uint16_t m_remainingAmmo = 0;
 			/** 予備弾数 */
-			uint8_t m_spareAmmo = 0;
+			uint16_t m_spareAmmo = 0;
 			/** 現在装備している銃の名前 */
 			std::string m_gunName;
 			/** 切り替えたい銃の名前 */
 			std::string m_changeGunName;
+			/** 装備中の武器種 */
+			EnWeaponType m_equipType = enWeaponType_None;
 
 
 		public:
@@ -54,11 +58,13 @@ namespace nsApp
 
 		public:
 			/** 現在の弾数を設定 */
-			inline void SetAmmo(const uint8_t ammo) { m_remainingAmmo = ammo; }
-			/** 最大弾数を取得 */
-			inline void SetSpareAmmo(const uint8_t ammo) { m_spareAmmo = ammo; }
+			inline void SetAmmo(const uint16_t ammo) { m_remainingAmmo = ammo; }
+			/** 予備弾数を設定 */
+			inline void SetSpareAmmo(const uint16_t ammo) { m_spareAmmo = ammo; }
 			/** 銃の名前を設定 */
 			inline void SetGunName(const std::string& name) { m_changeGunName = name; }
+			/** 装備中の武器種を設定 */
+			inline void SetEquipType(const EnWeaponType type) { m_equipType = type; }
 		};
 	}
 }

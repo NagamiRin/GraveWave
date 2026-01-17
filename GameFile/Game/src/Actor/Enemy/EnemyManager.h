@@ -1,10 +1,9 @@
 ﻿/**
- * EnemySpawner.h
+ * EnemyManager.h
  *
  * エネミーの管理を行うクラス
  */
 #pragma once
-
 
 
 namespace nsApp
@@ -22,9 +21,7 @@ namespace nsApp
 			class EnemyManager
 			{
 			public:
-				/** コンストラクタ */
 				EnemyManager();
-				/** デストラクタ */
 				~EnemyManager();
 			
 
@@ -37,16 +34,14 @@ namespace nsApp
 				/** EnemyManagerクラスのインスタンスを作成 */
 				static void CreateInstance()
 				{
-					if (m_instance == nullptr)
-					{
+					if (!m_instance) {
 						m_instance = new EnemyManager();
 					}
 				}
 				/** EnemyManagerクラスのインスタンスを削除 */
 				static void DeleteInstance()
 				{
-					if (m_instance != nullptr)
-					{
+					if (m_instance) {
 						delete m_instance;
 						m_instance = nullptr;
 					}

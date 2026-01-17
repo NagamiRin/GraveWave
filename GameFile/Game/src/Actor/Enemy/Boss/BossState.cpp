@@ -41,7 +41,7 @@ namespace nsApp
 
 				owner->PlayAnimation(EnAnimationVar_Throw, ANIMATION_COMPLEMENT);
 
-				stateMachine->GetOwner()->ThrowStone(stateMachine->GetPosition(), Vector3(0.0f, 100.0f, 500.0f));
+				stateMachine->GetOwner()->ThrowStone(stateMachine->GetPosition(), Vector3::Zero);
 			}
 
 

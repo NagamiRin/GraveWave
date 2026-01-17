@@ -46,6 +46,8 @@ class CollisionHitManager
 private:
 	/** 当たり判定オブジェクトのリスト */
 	std::vector<CollisionInfo> m_collisionInfoList;
+	/** 弾関連の当たり判定オブジェクトのリスト */
+	std::vector<CollisionInfo> m_collisionBulletInfoList;
 	/** 当たり判定のペア */
 	std::vector<CollisionPair> m_collisionPairList;
 	/** 弾がヒットしたか */
@@ -113,20 +115,20 @@ private:
 	}
 
 
-	// @todo for コメントを
-	std::vector<CollisionInfo*> FindCollisionInfo(const uint32_t id)
+	/** 弾関連の情報取得 */
+	std::vector<CollisionInfo*> FindBulletCollisionInfo(const uint32_t id)
 	{
 		std::vector<CollisionInfo*> ret;
-		for (auto& info : m_collisionInfoList) {
+		for (auto& info : m_collisionBulletInfoList) {
 			if (info.m_id == id) {
 				ret.push_back(&info);
 			}
 		}
 		return ret;
 	}
-	CollisionInfo* FindCollisionInfo(const btCollisionObject* btCollision)
+	CollisionInfo* FindBulletCollisionInfo(const btCollisionObject* btCollision)
 	{
-		for (auto& info : m_collisionInfoList) {
+		for (auto& info : m_collisionBulletInfoList) {
 			auto* targetbtCollision = &info.m_collision->GetbtCollisionObject();
 			if (btCollision == targetbtCollision) {
 				return &info;
@@ -144,10 +146,7 @@ private:
 public:
 	static void Create()
 	{
-		if (m_instance == nullptr)
-		{
-			m_instance = new CollisionHitManager();
-		}
+		if (!m_instance) m_instance = new CollisionHitManager();
 	}
 
 
